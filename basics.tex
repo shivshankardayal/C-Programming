@@ -72,8 +72,9 @@ allows to use other than what they are meant for:
     if & inline & int & long & register\\
     restricted & return & short & signed & sizeof\\
     static & struct & switch & typedef  & union\\
-    unsigned & void & volatile & while & \_Bool\\
-    \_Complex & \_Imaginary & &\\
+    unsigned & void & volatile & while & \_Alignas\\
+    \_Alignof& \_Atomic & \_Bool & \_Complex & \_Generic \\
+    \_Imaginary & \_Noreturn & \_Static\_assert & \_Thread\_local\\
   \end{tabular}
  \end{center}
 \end{table}
@@ -366,3 +367,8 @@ Size of long double is...16
 
 Please note that the output shown is on 64-bit machine and it will be different
 on 32-bit machines.
+
+To write any program of minimal functionality we need to understand IO or
+input/output and little bit about operators and expressions. At this moment we
+know too little about C to write a decent functional program so in next two
+chapters we are going to study these.
