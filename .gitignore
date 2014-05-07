@@ -1,1 +1,7 @@
+*
 !*.tex
+!figs/
+!figs/*.tex
+!figs/Makefile
+!"GNU FDL"
+!Makefile
