@@ -25,15 +25,7 @@ popular.
 C is simple, small, succinct. It may be dirty but is quick. It may have its
 quirks but it is a success. C is really so simple yet so deceptive. It will
 take one years of programming to really thoroughly understand it. Note that
-this book will make heavy use of C99 specification. It will contain almost a
-copy of n1124.pdf which I have.
-
-Following is a video which I have created and is about introcution to
-programming. I talk a bit about C++ in it:
-\url{http://www.youtube.com/watch?feature=player\_embedded\&v=UIIrDcYSrI0}
-
-In this video I specifically talk about C99:
-\url{http://www.youtube.com/watch?feature=player\_embedded\&v=y8PSO45Krfk}
+this book will make heavy use of C11 specification.
 
 \section{Why C?}
 Because it is the most common denominator. Any language be it C++, Java, Perl,
@@ -55,7 +47,7 @@ expose there objects in terms of C structures not the other way around. The
 reason for this is huge popularity of C and large code base perhaps.
 
 One more important feature is portability. Note that if you want your program
-to have high degree of portability then you should not use C99 features but
+to have high degree of portability then you should not use C11 features but
 rather ANSI C because ANSI C compilers are available on most platforms. Even
 though Java claims to be portable or other interpreted languages they are
 limited by the fact that the interpreters or VMs(JVM in case of Java) is not
@@ -279,13 +271,9 @@ At this moment do not worry much about this. I will give a more formal
 introduction to \texttt{Emacs} in its own section in tools chapter.
 Just that you will need to install \texttt{flymake-mode} for which you can
 consult the documentation or you can read about it at
-\url{http://www.emacswiki.org/emacs/FlyMake}.
-
-\textbf{Advice:} You can also watch a video which I have prepared and which can
-serve as an introduction to Emacs and CMake at
-\url{http://www.youtube.com/watch?feature=player_embedded&v=4K9C83ZNNAg} but
-then it involves another build system CMake which I believe is best left for
-later when you are done with the book.
+\url{http://www.emacswiki.org/emacs/FlyMake}. Very nice and useful Emacs
+packages are also available from \url{http://marmalade-repo.org/}. Try
+learning new packages as you find them useful. 
 
 Once you have got \texttt{flymake-mode} installed you can type \texttt{M-x
   flymake-mode} in any C source file to enable or disble it in
@@ -384,7 +372,7 @@ int main()
 Execute the following command on your command prompt:
 
 \begin{verbatim}
-$clang nothing.c -o nothing
+$gcc nothing.c -o nothing
 \end{verbatim}
 Here \texttt{nothing.c} is the name of the file with which it was saved.
 
@@ -406,7 +394,7 @@ not do the following by accident:
 
 \color{nicered}
 \begin{verbatim}
-$clang nothing.c -o nothing.c
+$gcc nothing.c -o nothing.c
 \end{verbatim}
 \color{black}
 This will overwrite your \texttt{nothing.c} by the result of compilation binary
@@ -416,10 +404,10 @@ using a Makefile. Edit your \texttt{Makefile} like this:
 \begin{minted}{makefile}
 #sample Makefile
 check-syntax:
-    clang -o nul -Wall -S $(CHK_SOURCES)
+    gcc -o nul -Wall -S $(CHK_SOURCES)
 
 nothing:nothing.c
-    clang -Wall -std=c99 -pedantic nothing.c -o nothing
+    gcc -Wall -std=c99 -pedantic nothing.c -o nothing
 \end{minted}
 
 Now from do this from menu. \texttt{Tools->compile} As the command issue
@@ -428,7 +416,7 @@ Now from do this from menu. \texttt{Tools->compile} As the command issue
 code will be compiled. Makefiles are better than executing commands 
 repeatedly again and again however you must know underlying commands. I will
 discuss the compiler options as appropriate. \texttt{-Wall} will enable all the
-warnings from \texttt{gcc}, \texttt{-std=c99} enables new features of C99
+warnings from \texttt{gcc}, \texttt{-std=c11} enables new features of C11
 standard and \texttt{-pedantic} ensures specification conformance. 
 
 So let us get started with basics of C.

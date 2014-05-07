@@ -116,7 +116,7 @@ You can now issue a command as \texttt{\$gcc nothing.c} where
 \texttt{nothing.c} is the filename by which you saved the source code. Note 
 that \texttt{\$} is the prompt not part of command itself. Then you can do an 
 ls and you will find that \texttt{a.out} is a file which has been produced by 
-clang. Now you can run this program by saying \texttt{\$./a.out} and nothing 
+gcc. Now you can run this program by saying \texttt{\$./a.out} and nothing 
 will happen. But if you type \texttt{\$echo \$?} then you will find that 0 is 
 printed on screen which is nothing but 0 after \texttt{return} of our program.
 
@@ -160,9 +160,6 @@ with macros. You can see the output of C preprocessor by typing \texttt{\$gcc
   -E nothing.c} since it will scroll a lot on you terminal you can use a pager
 like \texttt{less} to read it. The \texttt{-E} tells \texttt{gcc} to just allow
 preprocessoing and not compile and link the file.
-
-I have recorded a video on basics of compilation which you can see at
-\url{http://www.youtube.com/watch?v=ARsoVgknRU0}.
 
 Next line is \texttt{int main(int argc, char* argv[])}. Now this is very special
 function. Every complete executable(shared objects or dlls or archive
@@ -267,11 +264,6 @@ variables will be same as \texttt{int}. Note that
 C is a statically typed language and all types have predefined memory
 requirements. In cour case, \texttt{int} requires 4 bytes on 32-bit and 64-bit
 systems but 2 bytes on 16-bit systems.
-
-Here I have created a video about variables of C which you can see at
-\url{http://www.youtube.com/watch?feature=player\_embedded\&v=6whuGZwv2-k} and
-you can watch another about \texttt{printf} and \texttt{scanf} at
-\url{http://www.youtube.com/watch?feature=player\_embedded\&v=U3jCSTR7Ulo}.
 
 Let us learn a bit about \texttt{printf}. This function is declared in
 stdio.h. The prototype of \texttt{printf()} is
