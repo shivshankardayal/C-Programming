@@ -1,0 +1,376 @@
+\chapter{Basics of C}
+There are certain rules in every language, certain grammar which dictates the
+way language will be spoken and written. It has a script to write
+using. Similarly, programming languages have BNF (Backus-Naur Form)
+context-free grammar. There are valid characters in a programming language and
+a set of keywords. There are constructs to handle control flow, loops
+etc. There are facilities provided by language to deal with numbers and strings
+separately, to reuse the code and some basic data structures to facilitate
+programming. However, programming language ruleset is very small compared
+to a natural programming language. Also, when using natural programming
+language like talking to someone or writing something the other person can
+understand your intent but in programming you cannot violate rules. The grammar
+is context-free. Compilers or interpreters cannot deduce your intent by reading
+code. They are not intelligent. You make a mistake and it will refuse to listen
+to you no matter what you do. Therefore, it is very essential to understand
+these rules very clearly and correctly.
+
+\section{The C Character Set}
+The following form the C character set you are allowed to use in it:
+
+\begin{verbatim}
+[a-z] [A-Z] [0-9] ~ ! # % ^ & * ( ) - = [ ] \ ; ' , . / _ + { } | : " < > ?
+\end{verbatim}
+\index{character set}
+
+This means along with other symbols you can use all English alphabets (both
+uppercase and lowercase) and Arabic numerals. Symbols like \texttt{\$} and
+\texttt{@} are not part of C's character set. But strings can contain any
+these characters also. Strings are sequence of characters with double quotes
+and double quotes iteself are escaped with \texttt{$\backslash$}. Also,
+\texttt{\$} and \texttt{@} can also be value of characters. Characters are
+values containing single characters withing single quotes. We will see more of
+these in their individual sections. However, English is not the only
+spoken language in the world. Therefore in other non-English speaking counties
+there are keyboard where certain characters present in above set are not
+present. The inventors of C were wise enough to envision this and provide the
+facility in form of trigraph sequences. Given below is the trigraph sequence
+table:
+
+\begin{table}
+ \begin{center}
+ \caption{Trigraph Sequences}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{Trigraph}&\textbf{Equivalent}&\textbf{Trigraph}&\textbf{Equivalent}&\textbf{Trigraph}&\textbf{Equivalent}\\
+\hline
+??=&\#&??'&\textasciicircum&??!&|\\
+\hline
+??(&[&??)&]&??$<$&\{\\
+\hline
+??$>$&\}&??/&\textbackslash&??-&\textasciitilde\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+\index{trigraph sequences}
+
+However, you should refrain from using trigraph sequences for portability 
+reasons as suggested by GNU coding standards.
+
+\section{Keywords}
+The following are reserved keywords for C programming language which you are not 
+allows to use other than what they are meant for:
+\index{keywords}
+\begin{table}[H]
+ \begin{center}
+  \caption{Keywords of C}
+  \begin{tabular}{l l l l l}
+    auto & break & case & char & const\\
+    continue & default & do & double & else\\
+    enum & extern & float & for & goto\\
+    if & inline & int & long & register\\
+    restricted & return & short & signed & sizeof\\
+    static & struct & switch & typedef  & union\\
+    unsigned & void & volatile & while & \_Bool\\
+    \_Complex & \_Imaginary & &\\
+  \end{tabular}
+ \end{center}
+\end{table}
+
+These keywords are special in C as said and cannot be used for variable names 
+or funciton names or otherwise other than in strings and comments.
+
+\section{Identifiers}
+The names which we give to our variables are known as identifiers. Something 
+with which we identify the variables. As you have already seen what is allowed 
+in C's character set but not all are allowed in an identifiers name. Only 
+alphabets from English language both lowercase and uppercase, Arabic digits from 
+zero to nine and underscore (\_) are allowed in an identifiers name. The rule 
+for constructing names is that among the allowed characters it can only begin 
+with only English alphabets and underscore. Numbers must not be first character. 
+For example, \texttt{x, \_myVar, varX} and \texttt{yourId78} are all valid 
+names. However, take care with names starting from underscore as they are mostly 
+used by different library authors. Invalid identifier examples are \texttt{9x, 
+my\$} and \texttt{your age}. Please read this section carefully and make sure 
+understand the rules for naming identifiers. Later at the end of chapter there 
+are some simple problems to practice with.
+
+\section{Programming}
+Let us revisit our first program and try to understand what it does. Here I am 
+giving code once again for quick reference:
+
+\begin{minted}{c}
+// My first program
+/* Description: This program does nothing.*/
+
+#include <stdio.h>
+
+int main(int argc, char* argv[])
+{
+  return 0;
+}
+\end{minted}
+
+You can now issue a command as \texttt{\$gcc nothing.c} where 
+\texttt{nothing.c} is the filename by which you saved the source code. Note 
+that \texttt{\$} is the prompt not part of command itself. Then you can do an 
+ls and you will find that \texttt{a.out} is a file which has been produced by 
+clang. Now you can run this program by saying \texttt{\$./a.out} and nothing 
+will happen. But if you type \texttt{\$echo \$?} then you will find that 0 is 
+printed on screen which is nothing but 0 after \texttt{return} of our program.
+
+As you can see this program does almost nothing but it is fairly complete 
+program and we can learn a lot from it about C. Let us try to dissect it line
+by line. The first line is a comment. 
+Whenever C compiler parses C programs and it encounters \texttt{//} it ignores 
+rest of line as code i.e. it does not compile them. This type of single line 
+comment were introduced in C99 standard and if your compiler is really old the 
+compiler may give you error message about it. The second line is
+also comments. Anything between \texttt{/*} and \texttt{*/} is ignored like 
+\texttt{//}. However, be careful of something like \texttt{/* some comment */
+  more comment */}. Such comments will produce error messages and your program
+will fail to compile. The reason for this is when first \texttt{*/} is
+encountered by parser or compiler it will complete its token for the comment
+and then further portion which we intented to be part of comment will cause
+syntax error. 
+
+Comments are very integral part of programming. They are used to describe 
+various things. You can write whatever you want. They may also be used to 
+generate documentation with tools like doxygen. Typically comments should tell
+what the program is doing not how. Sometimes how can be covered, when the logic
+is really complex. One should be generous while commenting the code.
+
+The next line is \texttt{\#include <stdio.h>}. \texttt{\#include} is a
+preprocessor directive. The preprocessor directive is handled by the C
+preprocesor which is handled by C preprocessor which looks in four directories
+for include files. The include filename comes after \texttt{\#include} either in
+angular brackets or double quotes. The C preprocessor looks for these at four
+different places at least out of which one or posiibly two is of interest for
+now as we are dealing with angular brackets. Depending on the way your compiler
+is installed the file \texttt{stdio.h} may be in \texttt{/usr/include} or
+\texttt{/usr/local/include} but then again it may be in a non-standard path
+also although possibility of that is very less and then it is controlled by
+parameters whose discussion is beyond the scope of book. Let us say
+\texttt{stdio.h} is present in either of aforementioned directories then the C
+preprocessor will copies the contents and pastes them in source file along the
+way putting \texttt{\#line} macros which are used for debugging
+purposes. \texttt{\#line} macro is discussed later in the chapter which deals
+with macros. You can see the output of C preprocessor by typing \texttt{\$gcc
+  -E nothing.c} since it will scroll a lot on you terminal you can use a pager
+like \texttt{less} to read it. The \texttt{-E} tells \texttt{gcc} to just allow
+preprocessoing and not compile and link the file.
+
+I have recorded a video on basics of compilation which you can see at
+\url{http://www.youtube.com/watch?v=ARsoVgknRU0}.
+
+Next line is \texttt{int main(int argc, char* argv[])}. Now this is very special
+function. Every complete executable(shared objects or dlls or archive
+libraririe do not have main even though they are C programs) C program will
+have one main function unless you do assembly hacking. This function is where
+the programs start. The first word \texttt{int} is a keyword which shirthand
+for integer. This signifies the return type of function. \texttt{main} is the
+name of the function. Inside parenthesis you see \texttt{int argc} which tells
+how many arguments were passed to program and is short form of argument
+count. While \texttt{char* argv[]} is a pointer to array which we will see
+later. For now let us just remember that it holds all the arguments to the
+program including the program name.
+
+Next is a brace. The scope in C is determined by braces. Something outside any
+brace has global scope (we will see these later), something inside first level
+of brace has function or local scope. Something inside second or more level of
+braces have got that particular block scope. Scope here means that when there
+will be a closing brace that particular variable which is valid in that scope
+will cease to exist. However, we do not have to worry about that yet as we do
+not have any variable. Just note that a corresponding closing brace will be the
+end of main function. For every opening brace which starts a scope a closing
+brace is mandatory.
+
+Next line is \texttt{return 0;} This means whoever has called \texttt{main()}
+will get a 0 as \texttt{return} is returning 0. In this case, receiver is the
+shell or operating system 
+which has invoked the very program. The semicolon is called the terminator and
+used also on Java or C++ for example. The very requirement of semicolon is to
+terminate the statement and move on to next statement.
+
+However, the program shown does not do much. Let us write a program which has
+some more functionality and we can explore more of C. So here is a program
+which takes two integers as input from users and presents their sum as
+output. Here is the program:
+
+\begin{minted}{c}
+// My second program
+// Author: Shiv S. Dayal
+// Description: It adds two numbers
+
+#include <stdio.h>
+
+int main()
+{
+  int x=0, y=0, sum=0;
+
+  printf("Please enter an integer:\n");
+  scanf("%d", &x);
+
+  printf("Please enter another integer:\n");
+  scanf("%d", &y);
+
+  sum = x + y;
+
+  printf("%d + %d = %d\n", x, y, sum);
+
+  return 0;
+}
+\end{minted}
+and the output is:
+\begin{verbatim}
+shiv@shiv:~/book/code$ ./addition
+Please enter an integer:
+7
+Please enter another integer:
+8
+7 + 8 = 15
+shiv@shiv:~/book/code$
+\end{verbatim}
+
+Note that \texttt{shiv@shiv:~/book/code\$} is the prompt.
+
+Let us discuss new lines one by one. The line \texttt{int x=0, y=0, z=0;} is
+declaration and definition or initialization of three ints. \texttt{int}
+keyword in C is used to represent integers. Now we have three integers with
+there values set to 0. Note that how the variables are separated by commas and
+terminated by semicolon(as we saw in last program also). We could have also
+written it like this:
+
+\begin{minted}{c}
+int x;
+int y;
+int z;
+
+x = 0;
+y = 0;
+z = 0;
+\end{minted}
+
+or
+
+\begin{minted}{c}
+int x, y, z;
+
+x = y = z = 0;
+\end{minted}
+
+However, the first method is best and most preferred as it prevents use before
+definition. \texttt{int} is a data-type in C. \texttt{x, y,} and \texttt{z} are
+called variables of type \texttt{int}. This means that the size of these
+variables will be same as \texttt{int}. Note that 
+C is a statically typed language and all types have predefined memory
+requirements. In cour case, \texttt{int} requires 4 bytes on 32-bit and 64-bit
+systems but 2 bytes on 16-bit systems.
+
+Here I have created a video about variables of C which you can see at
+\url{http://www.youtube.com/watch?feature=player\_embedded\&v=6whuGZwv2-k} and
+you can watch another about \texttt{printf} and \texttt{scanf} at
+\url{http://www.youtube.com/watch?feature=player\_embedded\&v=U3jCSTR7Ulo}.
+
+Let us learn a bit about \texttt{printf}. This function is declared in
+stdio.h. The prototype of \texttt{printf()} is
+
+\begin{minted}{c}
+int printf(const char *restrict format, ...);
+\end{minted}
+
+The first argument format is what we have in first two function calls. The
+second is a \texttt{...} which means it can take variable number of arguments
+known as variable-list. We have seen this in the third call.This means it will
+take a string with optional variable no. of arguments. The string is called the
+format-string and determines what can be printed with supplied arguments. These
+\texttt{...} are used to supply variable no. of arguments. In the first two
+\texttt{printf()} statements we just print the format-string so that is
+simple. However, in the last one, we have format as \texttt{\%d} which
+signifies a decimal integer. The integers printed are in the same order in
+which they were supplied.
+
+\texttt{scanf()} is scan function which scans for keyboard input. As by now you
+know that \texttt{\%d} is for decimal integer but we have not said \texttt{x}
+or \texttt{y}. The reason is \texttt{x} and \texttt{y} are values while
+\texttt{\&x} and \texttt{\&y} are the addresses of \texttt{x} and \texttt{y} in
+memory. \texttt{scanf()} needs the memory address to which it can write the
+contents to. You will see \texttt{\&} operator in action later when we deal
+with pointers. Just remember for now that to use a simple variable with
+\texttt{scanf()} requires \texttt{\&} before its name.
+
+Till now we have just seen only \texttt{int} data-type but then there are more
+data types for other types of numbers, characters and strings. Let us see them
+one by one.
+
+\section{Data Types}
+What are data types? Why C needs data types? C is a statically typed language
+that is every variable has a type associated with it. These types determine
+what kind of values these variables can hold and how they will be interpreted.
+When everything is a voltage level why not just deal with 0s and 1s? The answer
+is simple. You need to abstract and segregate how much is required. For
+example, say you are given a sequence of 0s and 1s how much can you work with
+them. We as humans are not very versed with 0s and 1s. Also, say we encode
+character `A' for 10101 will it be easy for you to see A or numbers. Also,
+numbers range from $-\infty$ to $\infty$. Also, since C is statically typed the
+sizes of data types have to be known at compile time. There are four types of
+data types. Integral, floating-point, arrays and pointers. Here, I will deal
+with the two former types and leave latter two for later. The integral types
+are \texttt{char, short int, int, long} and \texttt{long long} and
+floating-point types are \texttt{float, double} and \texttt{long
+  double}. \texttt{signed} and \texttt{unsigned} are sign modifiers which also
+modified the range of data types but do not affect their memory
+requirements. By default all basic data types are \texttt{signed} in nature and
+you must qualify you variables with \texttt{unsigned} if you want that
+behavior. \texttt{short} and \texttt{long} are modifiers for size which the
+data type occupies but I consider them as different types because memory
+requirements are different. The ranges of integral data types directly reflect
+their memory requirements and if you know how much memory they are going to
+occupy you can easily compute their ranges. The range of floating-point comes
+from IEEE specification. IEEE standard document 754 governs the binary
+representation of floating point numbers which you can read at
+\url{http://www.eecs.berkeley.edu/~wkahan/ieee754status/IEEE754.PDF}. This is
+not available from IEEE website itself as they sell the specification's
+electronic copies.
+
+Let us write a program to find out ranges for integral data types:
+
+\begin{minted}{c}
+// Description: It gives ranges of integral data types
+
+#include <stdio.h>
+#include <limits.h>
+
+int main()
+{
+  printf("Size of char is..........%d\n", sizeof(char));
+  printf("Size of short int is.....%d\n", sizeof(short int));
+  printf("Size of int is...........%d\n", sizeof(int));
+  printf("Size of long is..........%d\n", sizeof(long));
+  printf("Size of long long is.....%d\n", sizeof(long long));
+  printf("Size of float is.........%d\n", sizeof(float));
+  printf("Size of double is........%d\n", sizeof(double));
+  printf("Size of long double is...%d\n", sizeof(long double));c
+
+  return 0;
+}
+\end{minted}
+
+Here \texttt{sizeof} is a compile time operator which computes size of any type
+passed to it as an argument. So it is computing sizes of all the data types as
+shown in the program. The output is given below:
+
+\begin{verbatim}
+Size of char is..........1
+Size of short int is.....2
+Size of int is...........4
+Size of long is..........8
+Size of long long is.....8
+Size of float is.........4
+Size of double is........8
+Size of long double is...16
+\end{verbatim}
+
+Please note that the output shown is on 64-bit machine and it will be different
+on 32-bit machines.

@@ -1,0 +1,43 @@
+\documentclass[pstricks]{standalone}
+\usepackage{pstricks, pst-all, pst-poly}
+\begin{document}
+\begin{pspicture}(0,0)(10,13)
+%  \psgrid(1,1)(0,0)(10,13)
+  \rput(6,0.4){\psframebox[framearc=0.2]{Stop}}
+  \put(4.8,1.4){\PstPolygon[PolyNbSides=4, PolyRotation=0.2, unit=1.2]}
+  \rput(6,2.6){\begin{tabular}{c}Correct\\output?\end{tabular}}
+  \psline{<-}(6,0.64)(6,1.4)
+  \rput(6.4,1){\textbf{Yes}}
+  \psline{->}(4.8,2.6)(3,2.6)
+  \psline(3,2.6)(2,2.6)
+  \psline(2,2.6)(2,4.54)
+  \rput(2.8,2.2){\textbf{Input error}}
+  \rput(6,4.8){\psframebox{Execute executable.}}
+  \rput(2,4.8){\psframebox{Input data.}}
+  \psline{->}(3,4.8)(4.38,4.8)
+  \psline{->}(7.2,2.6)(7.9,2.6)
+  \psline(7.8,2.6)(9,2.6)(9,11)(7.2,11)
+  \rput(8.6,2.2){\textbf{Logical error}}
+  \psline{<-}(6,3.8)(6,4.57)
+  \put(4.6,5.8){\PstPolygon[PolyNbSides=4, PolyRotation=0.2, unit=1.4]}
+  \rput(6,7.2){\begin{tabular}{c}Compilation\\ errors?\end{tabular}}
+  \psline{->}(6,5.8)(6,5.03)
+  \psline{->}(7.4,7.2)(7.9,7.2)
+  \psline(7.8,7.2)(9,7.2)
+  \rput(8,7.8){\begin{tabular}{c}\textbf{Syntax}\\\textbf{error}\end{tabular}}
+  \psline(4.6,7.2)(4,7.2)
+  \psline{->}(4,7.2)(4,7.8)
+  \psline(4,7.8)(4,9.6)
+  \psline{->}(3.43,9.6)(4.5,9.6)
+  \rput(6,9.6){\psframebox{Compile program.}}
+  \psline{->}(6,9.34)(6,8.6)
+  \rput(2.8,8){\begin{tabular}{c}\textbf{Command}\\\textbf{error}\end{tabular}}
+  \rput(2,9.6){\psframebox{gcc like compiler.}}
+  \psline{->}(6,10.72)(6,9.84)
+  \psline{->}(3.5,11)(4.8,11)
+  \rput(6,11){\psframebox{Edit program.}}
+  \rput(2,11){\psframebox{Emacs like editor.}}
+  \rput(6,12.2){\psframebox[framearc=0.2]{Start}}
+  \psline{->}(6,11.98)(6,11.26)
+\end{pspicture}
+\end{document}
