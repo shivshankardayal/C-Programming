@@ -2,6 +2,9 @@
 !*.tex
 !figs/
 !figs/*.tex
+!figs/*.png
+!figs/*.eps
+!figs/*.pdf
 !figs/Makefile
 !"GNU FDL"
 !Makefile
