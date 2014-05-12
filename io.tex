@@ -1,0 +1,28 @@
+\chapter{Console I/O}
+IO stands for input/output. C provides only mechanism to interact through
+console using its standard library. C does not provide ways to have GUI
+although that is possible with various GUI libraries most notable being
+GTK. However, discussing about GTK is out of scope of this book. In this
+chapter we will focus on console output facilities of C because any program we
+write at this stage will be meaningless if it has no input/output. Typically
+when we interact with a C program we give input using keyboard which is also
+referred as \texttt{stdin} stream. The output is monitor or \texttt{stdout}
+stream. There is one more stream \texttt{stderr} which is generally redirected
+to monitor or a log file. For historical reasons these are known as
+\texttt{FILE} stream which represents the datatype of these
+streams. \texttt{FILE} is capable of representing other streams which are disk
+based for example a file on your hard drive. There are more type of input
+devices on a modern computer. For example, network i/o is there. Whenever you
+browse web or download a file through your intenet connection network i/o comes
+into play. There is an opengroup
+which specifies functions for network related functions. Operating systems
+like GNU/Linux are POSIX compatible which defines how network i/o will be
+used. Even a printer is a special output device, a camera input, speakers
+output, microphone input and so on. In this books we are concerned with
+keyboard input, output on monitor and i/o using files. Other types of i/os are
+out of scope of this book.
+
+However, before we go on with i/o I would
+like to present C's memory model which will be needed by our discussion of i/o
+related functions. However, if things do not make sense even then please go
+through it and come later to understand more. 
