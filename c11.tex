@@ -1,4 +1,4 @@
-% \documentclass[9pt, twoside, openright, showtrimson]{memoir}
+%\documentclass[9pt, twoside, openright, showtrimson]{memoir}
 \documentclass[10pt, a4paper, twoside, openright]{memoir}
 
 \setstocksize{11in}{8in}
@@ -24,7 +24,7 @@
 
 % \usepackage{xcolor, calc, graphicx, soul, fourier, verbments, makeidx, mflogo}
 \usepackage{xcolor, calc, graphicx, soul, minted, makeidx, mflogo, 
-  pstricks, minitoc, amsmath, amssymb, pst-poly}
+  pstricks, minitoc, amsmath, amssymb, pst-poly, longtable}
 \let\footruleskip\undefined
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -98,7 +98,9 @@
 \author{\vspace*{1cm}\LARGE{Shiv S. Dayal}}
 \date{}
 
-\renewcommand{\ttdefault}{cmtt}
+%\renewcommand{\ttdefault}{pcr}
+%\renewcommand{\rmdefault}{ptm}
+%\renewcommand{\rmdefault}{phv}
 \renewcommand{\contentsname}{Table of Contents}
 \makeindex
 \begin{document}
@@ -136,9 +138,9 @@ Copyright, \copyright~ Shiv Shankar Dayal, 2011. All rights reserved.
 \newpage
 \mainmatter
 \pagenumbering{arabic}
-\include{introduction}
+%\include{introduction}
 \include{basics}
-\include{io}
-\backmatter
+%\include{io}
 \printindex
+\backmatter
 \end{document}
