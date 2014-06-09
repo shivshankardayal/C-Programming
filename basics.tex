@@ -1035,3 +1035,191 @@ and the output is:
 
 Note that \texttt{true} and \texttt{false} are keywords while \texttt{True} and
 \texttt{False} are identifiers.
+
+\section{Complex Type}
+C99 introduced another type \texttt{complex}. As you may know a complex has two
+parts real and imaginary. These parts of a complex individually are
+floating-point numbers i.e. they can be represented by \texttt{float, double}
+or \texttt{long double}. The header \texttt{<complex.h>} deals with complex
+numbers and there are lots of useful functions to use and manipulate complex
+numbers which are detailed in the reference. Let us see a simple example:
+
+\begin{minted}{c}
+#include <stdio.h>
+#include <complex.h>
+
+int main()
+{
+  double complex z = 4.0 + 3.0i;
+
+  printf("Absolute value of z is %lf\n", cabs(z));
+
+  double complex zConj = conj(z);
+  printf("Imaghinary part of conjugate is now %lf\n", cimag(zConj));
+
+  return 0;
+}
+\end{minted}
+
+Since we have used \texttt{<complex.h>} we need to link math library to compile
+this program so the compilation command would look like \texttt{\$gcc -o complex
+complex.c -lm}. The \texttt{-lm} part is mandatory for compilation of this
+program. Let us see the output:
+
+\begin{verbatim}
+Absolute value of z is 5.000000
+Imaghinary part of conjugate is now -3.000000
+\end{verbatim}
+
+I have shown only two functions \texttt{cabs} and \texttt{cimag} but there are
+a lot more and very useful functions available to do computations on complex
+numbers. The way to declare a complex number is shown. It is a combination of
+real part and imaginary part where imaginary part is coupled with $i$ which is
+given by $i = \sqrt{-1}$. Here, \texttt{cabs} computes absolute value of
+complex number which is given by $\sqrt{x^2 + y^2}$ where complex number is
+given by $x + iy$. We will see rest of the functions in reference.
+
+\section{Void and Enum}
+The \texttt{void} type comprises an empty set of values; it is an incomplete
+object type\footnote{An incomplete type is a type whose size is unknown.} that
+cannot be completed. You cannot declare variables with type void. You cannot
+declare an array of\texttt{void} type. Any declaration which requires size of
+type to be known cannot have \texttt{void} as its type. However, we can declare
+pointers of type \texttt{void} because pointers do not require size of type to
+be known. For this reason \texttt{void} pointers are used as generic pointers
+and is used to convert one type of pointers into another. It is a low-level
+type and should be used sparigly. We will see examples of \texttt{void} type
+later in the book.
+
+Enum type is an integral type and is used as symbolic constants. An enumeration
+is is a set of integers(values). You can do all operations of an enum on an
+enumeration member which you can do on an integer. It starts from zero by
+default and increments by one unless specifically specified. Given below is an
+example of \texttt{enum} type.
+
+\begin{minted}{c}
+#include <stdio.h>
+
+int main()
+{
+  typedef enum {zero, one, two} enum1;
+  typedef enum {alpha=-5, beta, gamma, theta=4, delta, omega} enum2;
+
+  printf("zero = %d, one = %d, two=%d\n", zero, one, two);
+  printf("alpha = %d, beta = %d, gamma=%d, theta=%d, delta=%d, omega=%d\n", \
+          alpha, beta, gamma, theta, delta, omega);
+
+  return 0;
+}
+\end{minted}
+
+and the output is
+
+\begin{verbatim}
+zero = 0, one = 1, two=2
+alpha = -5, beta = -4, gamma=-3, tehta=4, delta=5, omega=6
+\end{verbatim}
+
+\section{Constants}
+There are four categories of constants: character, integer, floating-point, and
+enumeration constant. There are certain rules about constants. Commas and
+spaces are not allowed except for character and string constants. Their range
+cannot outgrow the range of there data type. For numeric type of stants they
+can have a leading (-)minus sign.
+
+Given below is an example of integer constants:
+
+\begin{minted}{c}
+#include <stdio.h>
+
+int main()
+{
+  int decimal = 7;
+  int octal = 06;
+  int hex = 0xb;
+
+  printf("%d %o %x\n", decimal, octal, hex);
+
+  return 0;
+}
+\end{minted}
+
+and the output is:
+
+\begin{verbatim}
+7 6 b
+\end{verbatim}
+
+As you can see there are three different categories for integer constants:
+decimal constants (base 10), octal constants (base 8) and hexadecimal constants
+(base 16). Also, you must have noticed how a zero is prefixed before octal type
+and a zero and x for hexadecimal type. The \texttt{\%d} format specifier is
+already known to you for signed decimals. However, now you know two more
+\texttt{\%o} and \texttt{\%x} for unsigned octal and unsigned hexadecimal
+respectively. For unsigned integer it is \texttt{\%u}. There is one more format
+specifier which you may encounter for signed decimal and that is
+\texttt{\%i}. Note that there is nothing for binary constants.
+
+A floating-point constant is a base-10 number that contains either decimal
+point or exponent or both. Given below is an example of floating-point
+constants:
+
+\begin{minted}{c}
+#include <stdio.h>
+
+int main()
+{
+  float f = 7.5384589234;
+  double d = 13.89457883453857823;
+  long double ld = 759.8263478234729;
+
+  printf("%f %lf %Lf\n", f, d, ld);
+
+  return 0;
+}
+\end{minted}
+
+and the output is
+
+\begin{verbatim}
+7.538459 13.894579 759.826348
+\end{verbatim}
+
+For example 123456 can be wriiten as one of 1.23456e5, 1.23456e+5, 1.23456E5,
+.123456e6, 12.3456E+4 etc. The expoenent is integer and it cannot be
+floating-point number.
+
+A character constant is a single character enclosed in apostrophes. Some
+examples of a character constants are \texttt{'A', 'T', ')', '?'. ' '}. Commas
+and blanks are allowed as character constants in apostrophes. The character
+constants are fundamentally integers and all arithmetic operations can be
+performed over them. These values depend on the character set of the computer
+in use. However, in this book we are concerned about ASCII character set.
+
+\section{Escape Sequences}
+There are certain characters which are not on keyboard and are not displayed in
+the form on printing characters. Some of these are expressed using
+\textit{escape sequences}. An escape sequence always begins with a backslash
+and is followed by on or more characters. Given below is the table of escape
+sequences:
+
+\begin{table}[!h]
+\begin{center}
+\caption{Escape Sequences}
+\begin{longtable}{lcc}
+\textbf{Character}&\textbf{Escape Seqquence}&\textbf{ASCII Value}\\
+bell (alert)&$\backslash$a&007\\
+backspace&$\backslash$b&008\\
+horizontal t&$\backslash$t&009\\
+vertical tab&$\backslash$v&011\\
+newline (line feed)&$\backslash$n&010\\
+form feed&$\backslash$f&012\\
+carriage return&$\backslash$r&013\\
+quotation mark(")&$\backslash$"&034\\
+apostrophe(')&$\backslash$'&039\\
+question mark(?)&$\backslash$?&063\\
+backslask ($\backslash$)&$\backslash\backslash$&092\\
+null&$\backslash$0&000
+\end{longtable}
+\end{center}
+\end{table}
