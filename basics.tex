@@ -82,16 +82,16 @@ most or rather most important part is processor often named as CPU (central
 processing unit). The logic gates in CPUs are formed and instructions like ADD
 (addition), SUB (subtraction), MUL (multiplication), DIV (division) etc are
 implemented in hardware of CPU. When we write a program say C program the
-instructions given in our program is translated to a format which operating
-system can understand. In our case that is GNU/Linux this executable format is
-known as ELF (executable and linkable format). For the curious you can read
-\url{http://en.wikipedia.org/wiki/Executable_and_Linkable_Format} and there are
-lots of specification for different CPUs. Then operating system interprets these
-files and ask CPU to perform action. So a C program does not directly talk to
-processor but it rather talks to operating system or rather kernel of the
-operating system and in turn the operating system or kernel provides services
-to your program. There is a typical life cycle in development of a program. It
-has been given as a flowchart in figure \ref{fig:lifecycle}.
+instructions(code) given in our program is translated to a format which
+operating  ystem can understand. In our case that is GNU/Linux this executable
+format is known as ELF (executable and linkable format). For the curious you
+can read \url{http://en.wikipedia.org/wiki/Executable_and_Linkable_Format} and
+there are lots of specification for different CPUs. Then operating system
+interprets these files and ask CPU to perform action. So a C program does not
+directly talk to processor but it rather talks to operating system or rather
+kernel of the operating system and in turn the operating system or kernel
+provides services to your program. There is a typical life cycle in development
+of a program. It has been given as a flowchart in figure \ref{fig:lifecycle}.
 
 \begin{figure}[H]
 \begin{center}
@@ -103,7 +103,7 @@ has been given as a flowchart in figure \ref{fig:lifecycle}.
   \node (compileprogram) [process, below of=editprogram] {Compile Program};
   \node (ccompiler) [process, left of=compileprogram, xshift=-2cm] {C Compiler};
   \node (syntaxerrors) [decision, below of=compileprogram, yshift=1.2cm] {Syntax Errors};
-  \draw [arrow] (syntaxerrors.east) -- +(1cm, 0) |- (editprogram.east);
+  \draw [arrow] (syntaxerrors.east) -- +(1cm, 0) |- ([yshift=-0.1cm]editprogram.east);
   \node (link) [process, below of=syntaxerrors, align=center] {Link with\\System Library};
   \node (systemlibrary) [process, left of=link, xshift=-2cm] {System Library};
   \node (executecode) [process, below of=link] {Execute program};
@@ -117,11 +117,98 @@ has been given as a flowchart in figure \ref{fig:lifecycle}.
   \draw [arrow] (editprogram) -- (compileprogram);
   \draw [arrow] (ccompiler) -- (compileprogram);
   \draw [arrow] (compileprogram) -- (syntaxerrors);
+  \draw [arrow] (syntaxerrors) -- (link);
+  \draw [arrow] (systemlibrary) -- (link);
+  \draw [arrow] (link) -- (executecode);
+  \draw [arrow] (input) -- (executecode);
+  \draw [arrow] (executecode) -- (error);
+  \draw [arrow] (error) -| (input);
+  \draw [arrow] (error.east) -- +(1.5cm, 0) |- ([yshift=0.1cm]editprogram.east);
+  \draw [arrow] (error) -- (success);
+  \draw [arrow] (success) -- (stop);
+  \node [above] at ([xshift=1cm]editprogram.north east) {\textbf{Source Program}};
+  \node [above] at ([xshift=0.3cm, yshift=0.2cm]syntaxerrors.east) {\textbf{Yes}};
+  \node [below] at ([xshift=0.7cm, yshift=0.3cm]syntaxerrors.south) {\textbf{No}};
+  \node [above] at ([xshift=1.35cm, yshift=0.2cm]error.east) {\textbf{Logical error}};
+    \node [above] at ([xshift=-1cm, yshift=0.2cm]error.west) {\textbf{Input error}};
 \end{tikzpicture}
 \end{center}
 \caption{Life cycle of a program}
 \label{fig:lifecycle}
 \end{figure}
+
+As you can see in the figure first we need to edit a source file which is done
+by using a text editor. The C source code files have the extension \texttt{.c}
+while C header files have the extension \texttt{.h} which are then compiled to
+give us a executable binary if no compilation errors occur. The output of
+compilation can be a library which is linked to other executables. For now, we
+will focus only on executables. In case of compilation errors we need to edit
+the code again so that no compilation errors/warnings are there. Then we can
+run the code which can lead to two different types of errors. One is input
+error and second is logical error in our program. Both will cause the program
+to not give desired output. Input error is easy to fix most of the time but
+logical errors can be nasty and many times you will need to use a debugger like
+GDB.
+
+\section{Attributes of a Program}
+Any program cannot be considered a good program unless it satisfies following
+requirements or possess following attributes(Note: These are generic
+attributes and not specific to C programming language):
+\begin{enumerate}
+  \item \textbf{Correctness:} Correctness means that a program satisfies its
+    requirement specification. It means that for a specified input the
+    specified output should be produced. This particular attribute is of most
+    significance. It does not matter whether other attributes are present or
+    not but this one is a must. If a program behavior is not correct then it is
+    of no use.
+
+  \item \textbf{Efficiency:} Efficiency is second to correctness only. Say you
+    are developing a text editor and you take 5 seconds to load a 10KB text
+    file then by no means you can persuade a user to use you text editor. A
+    program/software must be as efficient as possible. Sometimes it clashes
+    with other attributes and also depend on the problem domain that how strict
+    are the requirements.
+
+  \item \textbf{Security:} A very highly desirable feature in programs which
+    deal with more than one computer and also for desktop applications. It is
+    very bad if someone can take advantage of buffer overflow, stack overflow,
+    integer overflow etc. in your program and you must guard against these at
+    all times. Note that to provide security you must put extra checks which
+    will go against efficiency.
+
+\item \textbf{Robustness:} Sometimes users will not give correct inputs. For
+  example they may enter a character when an integer is asked for or they can
+  give input beyond range. In such cases you must handle the erroneous
+  input. This is just one example. Sometimes your memory allocation may
+  fail. The rule is program defensively. All such input validations and checks
+  on memory do take a toll on our second attribute but that does not mean that
+  we can neglect it. This is especially true for software running on multiple
+  computers(known as distributed systems) and critical systems like health care
+  machines.
+
+\item \textbf{Maintainability:} Even a one line program has to be maintained if
+  it is worth it! Typically the life of a program far exceeds the development
+  time. In almost all the cases the original programmer is not
+  maintainer. Because of these reasons you must strive for maintainability. You
+  should follow some coding standards like I highly recommend
+  \url{http://www.gnu.org/prep/standards/}. Clear documentation is one of the
+  prerequisites of maintainability.
+
+\item \textbf{Extensibility:} Let us take our example of text editor and say
+  our editor is complete. Now someone else would like to provide a plugin which
+  will enable syntax highlighting and project management for this editor. So,
+  in order to do so you can choose a plugin-based extensible architecture or
+  you can allow them to extend the editor using scripting languages like Guile,
+  Python, Lua etc.This features allows user to collaborate and make your
+  program better. Remember the rule is the more the merrier here.
+
+\item \textbf{Portability:} It is an elusive and painful goal. Let us say we
+  write our text editor GUI using something like Xlib directly then we will
+  have to port the entire GUI for other non X-based OSes. So we can choose some
+  cross-platform GUI libraries like GTK+, Qt, WxWidgets etc. Even then when
+  system calls come in your software you can do not much but either write
+  wrappers and do conditional compilation.
+\end{enumerate}
 
 There are certain rules in every language, certain grammar which dictates the
 way language will be spoken and written. It has a script to write
