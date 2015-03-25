@@ -1,4 +1,128 @@
 \chapter{Basics of C}
+C is a compiled programming language developed by Dennis Ritchie. It is a
+small, fast, portable, succint  and relatively low-level language. It was
+originally meant to replace assembly language for system programming and it has
+been successful at that. It may be dirty but is quick. It may have its quirks
+but it is a success. C is really so simple yet so deceptive(we will see later
+how). C and Unix were born almost together in early 1970s at AT\&T Bell
+Labs. Then Unix was ported in C and the notion that operating systems can be
+only written in assembly language, because it has to do time critical things,
+was destroyed. After that Unix became very popular and since C compiler used to
+come with it C also became very popular because people found it much easier to
+program in compared to assembly language. Other proprietary operting systems
+were also written using C. So, essentially what happened that there is a lot of
+code base which is there in C. Also, C++’s backward compatibility is one of the
+reasons why C++ is so popular. When C was invented there was no structured
+programming language and code was mostly written in assembly. With C it gave
+the power of assembly and benefits of structured language like code reuse,
+modularity, and portability among others. Because of these reasons C became
+immensely popular and is still popular.
+
+\section{History}
+C was formally delivered to this world in 1972 and conceived by Dennis
+MacAlistair Ritchie in 1968. What happened was there was a project for
+development of a text processor and GE-645 was bought by AT\&T Bell Labs. At
+that time Ken Thompson had developed a game called ``Space Travel''. Then they
+had another machine PDP-11. Before that they had PDP-7. Now all the time the
+code for ``Space Travel'' had to be rewritten and also the Unix had to be
+ported. So when C was invented it was used to write Unix code in C. And then
+``Space Travel''. I do not know what was the real motivation the language, the
+OS or the game. In 1972 C was formally announced. C takes its features from
+BCPL a language by Martin Richard and B by Ken Thompson. AT\&T Bells labs gave
+Unix and a C compiler to many universities at a normal fees and it grew with
+leaps and bounds from there and became a ubiquitous language. For many years
+``The C Programming Language'' served as a reference of C. Later it was
+standardized by ANSI and then by ISO standards.
+
+\section{Why C?}
+Because it is the most common denominator. Any language be it C++, Java, Perl,
+Python etc have got bindings in C. Whenever you are willing to extend these
+languages you need to know C. Also, if by any chance you are going towards
+system programming you need to C. C is everywhere. There is no escape from
+learning it; it does not matter whether you like it or not.
+
+There is one more important point worth noting here is that C++ is far more
+complex compared to C. Also, the runtime calculations of C++ make it slightly
+slower than C. The library of C is much smaller than C. Therefore wherever
+there is a memory constraint or extreme high performance is needed C is
+preferred. The simple syntax of C means its code is very verbose for programmer
+in the sense that if you read code then you can very easily see what
+instructions the code is going to translate into.
+
+It is very easy to write interfaces to other languages because other languages
+expose there objects in terms of C structures not the other way around. The
+reason for this is huge popularity of C and large code base perhaps.
+
+One more important feature is portability. Note that if you want your program
+to have high degree of portability then you should not use C99 features but
+rather ANSI C because ANSI C compilers are available on most platforms. Even
+though Java claims to be portable or other interpreted languages they are
+limited by the fact that the interpreters or VMs(JVM in case of Java) is not
+available on all the platforms. Therefore, C is the MOST portable language. :-)
+
+\section{Comparison with Other Pogramming Languages}
+C is a structured, statically typed, somewhat low-level, high-performance
+compiled language. It does not support object-oriented programming like most
+modern programming including C++, Java, Perl, Python, Ruby etc. However, that
+does not mean you cannot do object-oriented programming in C. It is just that C
+does not have support at the language level and it is painful to do so. C is
+low level because it allows you to handle memory contents directly. You have
+something called void which is raw representation of memory content. C also
+does not support functional or generic programming but again it is possible to
+do so with painful hacks. One of the coveted features is C programs deliver
+very high performance if written correctly as it does not have reunite
+penalties of virtual functions of OOP (object-oriented programming) languages.
+While C is not meant for functional programming it is nonetheless possible to
+do functional programming to some extent. We will implement some object oriented
+features and functional programming features later in the book.
+
+\section{What is a Computer Program?}
+You may know a computer consists of many components and one of the
+most or rather most important part is processor often named as CPU (central
+processing unit). The logic gates in CPUs are formed and instructions like ADD
+(addition), SUB (subtraction), MUL (multiplication), DIV (division) etc are
+implemented in hardware of CPU. When we write a program say C program the
+instructions given in our program is translated to a format which operating
+system can understand. In our case that is GNU/Linux this executable format is
+known as ELF (executable and linkable format). For the curious you can read
+\url{http://en.wikipedia.org/wiki/Executable_and_Linkable_Format} and there are
+lots of specification for different CPUs. Then operating system interprets these
+files and ask CPU to perform action. So a C program does not directly talk to
+processor but it rather talks to operating system or rather kernel of the
+operating system and in turn the operating system or kernel provides services
+to your program. There is a typical life cycle in development of a program. It
+has been given as a flowchart in figure \ref{fig:lifecycle}.
+
+\begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}[node distance=1.8cm]
+  \node (start) [startstop] {Start};
+  \node (enterprogram) [process, below of=start] {Enter Program};
+  \node (programcode) [process, left of=enterprogram, xshift=-2cm] {Program Code};
+  \node (editprogram) [process, below of=enterprogram] {Edit Source File};
+  \node (compileprogram) [process, below of=editprogram] {Compile Program};
+  \node (ccompiler) [process, left of=compileprogram, xshift=-2cm] {C Compiler};
+  \node (syntaxerrors) [decision, below of=compileprogram, yshift=1.2cm] {Syntax Errors};
+  \draw [arrow] (syntaxerrors.east) -- +(1cm, 0) |- (editprogram.east);
+  \node (link) [process, below of=syntaxerrors, align=center] {Link with\\System Library};
+  \node (systemlibrary) [process, left of=link, xshift=-2cm] {System Library};
+  \node (executecode) [process, below of=link] {Execute program};
+  \node (input) [io, left of=executecode, xshift=-2cm] {Input Data};
+  \node (error) [decision, below of=executecode, align=center, yshift=1.2cm] {Logic and data errors};
+  \node (success) [process, below of=error] {Correct output};
+  \node (stop) [startstop, below of=success] {Stop};
+  \draw [arrow] (start) -- (enterprogram);
+  \draw [arrow] (programcode) -- (enterprogram);
+  \draw [arrow] (enterprogram) -- (editprogram);
+  \draw [arrow] (editprogram) -- (compileprogram);
+  \draw [arrow] (ccompiler) -- (compileprogram);
+  \draw [arrow] (compileprogram) -- (syntaxerrors);
+\end{tikzpicture}
+\end{center}
+\caption{Life cycle of a program}
+\label{fig:lifecycle}
+\end{figure}
+
 There are certain rules in every language, certain grammar which dictates the
 way language will be spoken and written. It has a script to write
 using. Similarly, programming languages have BNF (Backus-Naur Form)
@@ -18,9 +142,9 @@ these rules very clearly and correctly.
 \section{The C Character Set}
 The following form the C character set you are allowed to use in it:
 
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 [a-z] [A-Z] [0-9] ~ ! # % ^ & * ( ) - = [ ] \ ; ' , . / _ + { } | : " < > ?
-\end{verbatim}
+\end{Verbatim}
 \index{character set}
 
 This means along with other symbols you can use all English alphabets (both
@@ -37,7 +161,7 @@ present. The inventors of C were wise enough to envision this and provide the
 facility in form of trigraph sequences. Given below is the trigraph sequence
 table:
 
-\begin{table}
+\begin{table}[H]
  \begin{center}
  \caption{Trigraph Sequences}
 \begin{tabular}{|c|c|c|c|c|c|}
@@ -104,7 +228,7 @@ simple problems to practice with.
 Let us revisit our first program and try to understand what it does. Here I am 
 giving code once again for quick reference:
 
-\begin{minted}{c}
+\begin{Verbatim}[frame=single]
 // My first program
 /* Description: This program does nothing.*/
 
@@ -114,7 +238,7 @@ int main(int argc, char* argv[])
 {
   return 0;
 }
-\end{minted}
+\end{Verbatim}
 
 You can now issue a command as \texttt{\$gcc nothing.c} where 
 \texttt{nothing.c} is the filename by which you saved the source code. Note 
@@ -199,7 +323,7 @@ some more functionality and we can explore more of C. So here is a program
 which takes two integers as input from users and presents their sum as
 output. Here is the program:
 
-\begin{minted}{c}
+\begin{Verbatim}[frame=single]
 // My second program
 // Author: Shiv S. Dayal
 // Description: It adds two numbers
@@ -222,9 +346,9 @@ int main()
 
   return 0;
 }
-\end{minted}
+\end{Verbatim}
 and the output is:
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 shiv@shiv:~/book/code$ ./addition
 Please enter an integer:
 7
@@ -232,7 +356,7 @@ Please enter another integer:
 8
 7 + 8 = 15
 shiv@shiv:~/book/code$
-\end{verbatim}
+\end{Verbatim}
 
 Note that \texttt{shiv@shiv:~/book/code\$} is the prompt.
 
@@ -243,7 +367,7 @@ there values set to 0. Note that how the variables are separated by commas and
 terminated by semicolon(as we saw in last program also). We could have also
 written it like this:
 
-\begin{minted}{c}
+\begin{Verbatim}[frame=single]
 int x;
 int y;
 int z;
@@ -251,15 +375,15 @@ int z;
 x = 0;
 y = 0;
 z = 0;
-\end{minted}
+\end{Verbatim}
 
 or
 
-\begin{minted}{c}
+\begin{Verbatim}[frame=single]
 int x, y, z;
 
 x = y = z = 0;
-\end{minted}
+\end{Verbatim}
 
 However, the first method is best and most preferred as it prevents use before
 definition. \texttt{int} is a data-type in C. \texttt{x, y,} and \texttt{z} are
@@ -272,9 +396,9 @@ systems but 2 bytes on 16-bit systems.
 Let us learn a bit about \texttt{printf}. This function is declared in
 stdio.h. The prototype of \texttt{printf()} is
 
-\begin{minted}{c}
+\begin{Verbatim}[frame=single]
 int printf(const char *restrict format, ...);
-\end{minted}
+\end{Verbatim}
 
 The first argument format is what we have in first two function calls. The
 second is a \texttt{...} which means it can take variable number of arguments
@@ -334,7 +458,7 @@ electronic copies.
 
 Let us write a program to find out ranges for integral data types:
 
-\begin{minted}{c}
+\begin{Verbatim}[frame=single]
 // Description: It gives ranges of integral data types
 
 #include <stdio.h>
@@ -353,13 +477,13 @@ int main()
 
   return 0;
 }
-\end{minted}
+\end{Verbatim}
 
 Here \texttt{sizeof} is a compile time operator which computes size of any type
 passed to it as an argument. So it is computing sizes of all the data types as
 shown in the program. The output is given below:
 
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 Size of char is..........1
 Size of short int is.....2
 Size of int is...........4
@@ -368,7 +492,7 @@ Size of long long is.....8
 Size of float is.........4
 Size of double is........8
 Size of long double is...16
-\end{verbatim}
+\end{Verbatim}
 
 Please note that the output shown is on 64-bit machine and it will be different
 on 32-bit machines.
@@ -423,7 +547,7 @@ ASCII value. A full table of ASCII values is given in the appendix A.
 A simple program which takes input for few characters and then prints them on
 console along with their ascii values is given below:
 
-\begin{minted}{c}
+\begin{Verbatim}[frame=single]
 #include <stdio.h>
 
 int main()
@@ -450,11 +574,11 @@ values are %d and %d respectively.\n", c1, c2, c1, c2);
 
   return 0;
 }
-\end{minted}
+\end{Verbatim}
 
 A sample run may have following output:
 
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 $ ./a.out
 Enter a character on your keyboard and then press ENTER:
 1
@@ -463,7 +587,7 @@ Enter a pair of characters on your keyboard and then press ENTER:
 12
 The characters entered are 1 and 2 and their ASCII values are 49 and 50 respectively.
 The sum of c1 and c2 as integers is 99.
-\end{verbatim}
+\end{Verbatim}
 
 As you can see from the program that characters are internally stored as
 itnegers and we can even perform integers which we normally perform on
@@ -911,7 +1035,7 @@ Consider a decimal number. Let us say 53 then how would be convert it to
 binary. The technique is that of division. Please examine following carefully:
 
 \hspace*{2cm}
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 2 | 53 | 1
 ----------
 2 | 26 | 0
@@ -923,7 +1047,7 @@ binary. The technique is that of division. Please examine following carefully:
 2 | 3  | 1
 ----------
 2 | 1  |
-\end{verbatim}
+\end{Verbatim}
 
 So the binary is $110101_2$. First we divide 53 by 2 and write the
 remainder. Then quotient is 26. We repeat the process for 26 therefore
@@ -968,7 +1092,7 @@ similar in all number systems.
 Now let us see a program to see how we can take input and print the floating
 point numbers.
 
-\begin{minted}{c}
+\begin{Verbatim}[frame=single]
 #include <stdio.h>
 
 int main()
@@ -984,16 +1108,16 @@ int main()
 
   return 0;
 }
-\end{minted}
+\end{Verbatim}
 
 If you run this you might have following output:
 
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 $ ./a.out
 Enter a float, double and long double separated by space:
 3.4 5.6 7.8
 You entered 3.400000 5.600000 7.800000
-\end{verbatim}
+\end{Verbatim}
 
 By default these print upto six significant digits but doubles have double
 precision as we have studied. Now that we know basic types let us learn a bit
@@ -1008,7 +1132,7 @@ which are defined in \texttt{<stdbool.h>} and they expand to 1 and 0
 respectively. The type \texttt{bool} is a macro which expands to
 \texttt{\_Bool}. Let us see a small program with bolleans:
 
-\begin{minted}{c}
+\begin{Verbatim}[frame=single]
 #include <stdio.h>
 #include <stdbool.h>
 
@@ -1025,13 +1149,13 @@ int main()
 
   return 0;
 }
-\end{minted}
+\end{Verbatim}
 
 and the output is:
 
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 1 1 1 0 1 1
-\end{verbatim}
+\end{Verbatim}
 
 Note that \texttt{true} and \texttt{false} are keywords while \texttt{True} and
 \texttt{False} are identifiers.
@@ -1044,7 +1168,7 @@ or \texttt{long double}. The header \texttt{<complex.h>} deals with complex
 numbers and there are lots of useful functions to use and manipulate complex
 numbers which are detailed in the reference. Let us see a simple example:
 
-\begin{minted}{c}
+\begin{Verbatim}[frame=single]
 #include <stdio.h>
 #include <complex.h>
 
@@ -1059,17 +1183,17 @@ int main()
 
   return 0;
 }
-\end{minted}
+\end{Verbatim}
 
 Since we have used \texttt{<complex.h>} we need to link math library to compile
 this program so the compilation command would look like \texttt{\$gcc -o complex
 complex.c -lm}. The \texttt{-lm} part is mandatory for compilation of this
 program. Let us see the output:
 
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 Absolute value of z is 5.000000
 Imaghinary part of conjugate is now -3.000000
-\end{verbatim}
+\end{Verbatim}
 
 I have shown only two functions \texttt{cabs} and \texttt{cimag} but there are
 a lot more and very useful functions available to do computations on complex
@@ -1097,7 +1221,7 @@ enumeration member which you can do on an integer. It starts from zero by
 default and increments by one unless specifically specified. Given below is an
 example of \texttt{enum} type.
 
-\begin{minted}{c}
+\begin{Verbatim}[frame=single]
 #include <stdio.h>
 
 int main()
@@ -1111,14 +1235,14 @@ int main()
 
   return 0;
 }
-\end{minted}
+\end{Verbatim}
 
 and the output is
 
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 zero = 0, one = 1, two=2
 alpha = -5, beta = -4, gamma=-3, tehta=4, delta=5, omega=6
-\end{verbatim}
+\end{Verbatim}
 
 \section{Constants}
 There are four categories of constants: character, integer, floating-point, and
@@ -1129,7 +1253,7 @@ can have a leading (-)minus sign.
 
 Given below is an example of integer constants:
 
-\begin{minted}{c}
+\begin{Verbatim}[frame=single]
 #include <stdio.h>
 
 int main()
@@ -1142,13 +1266,13 @@ int main()
 
   return 0;
 }
-\end{minted}
+\end{Verbatim}
 
 and the output is:
 
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 7 6 b
-\end{verbatim}
+\end{Verbatim}
 
 As you can see there are three different categories for integer constants:
 decimal constants (base 10), octal constants (base 8) and hexadecimal constants
@@ -1164,7 +1288,7 @@ A floating-point constant is a base-10 number that contains either decimal
 point or exponent or both. Given below is an example of floating-point
 constants:
 
-\begin{minted}{c}
+\begin{Verbatim}[frame=single]
 #include <stdio.h>
 
 int main()
@@ -1177,13 +1301,13 @@ int main()
 
   return 0;
 }
-\end{minted}
+\end{Verbatim}
 
 and the output is
 
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 7.538459 13.894579 759.826348
-\end{verbatim}
+\end{Verbatim}
 
 For example 123456 can be wriiten as one of 1.23456e5, 1.23456e+5, 1.23456E5,
 .123456e6, 12.3456E+4 etc. The expoenent is integer and it cannot be

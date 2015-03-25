@@ -207,7 +207,7 @@ compiling programs I will use \texttt{GNU Make} though in the beginning I will
 show you how to compile on command line. Let us begin with Emacs configuration
 file \texttt{.emacs}. Given below is an excerpt of my \texttt{.emacs}:
 
-\begin{minted}{common-lisp}
+\begin{Verbatim}[frame=single]{common-lisp}
 (custom-set-variables
 ;; custom-set-variables was added by Custom.
 ;; If you edit it by hand, you could mess it up, so be careful.
@@ -264,7 +264,7 @@ semi-condensed :foundry "misc" :family "fixed")))))
     (setq-default TeX-master nil)
     (load "auctex.el" nil t t)
     (load "preview-latex.el" nil t t)
-\end{minted}
+\end{Verbatim}
 
 At this moment do not worry much about this. I will give a more formal
 introduction to \texttt{Emacs} in its own section in tools chapter.
@@ -281,17 +281,17 @@ cycle. \texttt{M} stands for \texttt{Meta} key which is usually \texttt{Esc} or
 called Makefile in the same directory where you intend to keep your source
 files:
 
-\begin{minted}{makefile}
+\begin{Verbatim}[frame=single]{makefile}
 check-syntax:
     gcc -o nul -Wall -S $(CHK_SOURCES)
-\end{minted}
+\end{Verbatim}
 
 
 Note that the leading whitespace on second line is a \texttt{TAB} character not
 spacebar whitespace. Then just copy paste the following program in
 \texttt{Emacs}:
 
-\begin{minted}{c}
+\begin{Verbatim}[frame=single]
 //Note:This listing will not compile. It has errors.
 #include <stdio.h
 
@@ -299,7 +299,7 @@ int main()
 {
   return 0
 }
-\end{minted}
+\end{Verbatim}
 
 If you do all steps correctly you should see something like: Note the pink
 background. If you move your mouse there then you will see the error/diagnostic
@@ -359,20 +359,20 @@ extension of file should be \texttt{*.c}. For example,
 \texttt{myprogram.c}. After that you can give this command at terminal. Here is
 the corrected code.
 
-\begin{minted}{c}
+\begin{Verbatim}[frame=single]
 #include <stdio.h>
 
 int main()
 {
   return 0;
 }
-\end{minted}
+\end{Verbatim}
 
 Execute the following command on your command prompt:
 
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 $gcc nothing.c -o nothing
-\end{verbatim}
+\end{Verbatim}
 Here \texttt{nothing.c} is the name of the file with which it was saved.
 
 Then you will see a file named my program is created by compiler if no errors
@@ -380,9 +380,9 @@ were there in your program. In case of errors, like we had in one shown to you
 they have to be resolved first. Executable \texttt{nothing} is produced then
 you can execute it like
 
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 $./nothing
-\end{verbatim}
+\end{Verbatim}
 
 Note that in both the commands \texttt{\$} is not part of command but it is
 prompt. For you it may be \texttt{\%} or \texttt{\#} or something fancier
@@ -392,22 +392,22 @@ in. Also, note that on some systems \texttt{TAB} auto completes filename so do
 not do the following by accident:
 
 \color{nicered}
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 $gcc nothing.c -o nothing.c
-\end{verbatim}
+\end{Verbatim}
 \color{black}
 This will overwrite your \texttt{nothing.c} by the result of compilation binary
 with the same name \texttt{nothing.c}. Let us see how to compile this program
 using a Makefile. Edit your \texttt{Makefile} like this:
 
-\begin{minted}{makefile}
+\begin{Verbatim}[frame=single]{makefile}
 #sample Makefile
 check-syntax:
     gcc -o nul -Wall -S $(CHK_SOURCES)
 
 nothing:nothing.c
     gcc -Wall -std=c99 -pedantic nothing.c -o nothing
-\end{minted}
+\end{Verbatim}
 
 Now from do this from menu. \texttt{Tools->compile} As the command issue
 \texttt{make -k test}. Another way to do the same using keyboard only is type

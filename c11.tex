@@ -24,16 +24,39 @@
 
 % \usepackage{xcolor, calc, graphicx, soul, fourier, verbments, makeidx, mflogo}
 \usepackage{xcolor, calc, graphicx, soul, minted, makeidx, mflogo, 
-  pstricks, minitoc, amsmath, amssymb, pst-poly, longtable}
+  pstricks, minitoc, amsmath, amssymb, pst-poly, longtable, tikz}
+\usetikzlibrary{shapes, arrows}
+% Define block styles
+\tikzstyle{decision} = [diamond, draw,
+  text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt]
+\tikzstyle{startstop} = [rectangle, draw, 
+  text width=5em, text centered, rounded corners, minimum height=2em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse, node distance=3cm,
+  minimum height=0.5cm]
+\tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right
+  angle=110, minimum width=0.5cm, minimum height=0.5cm, text centered, draw=black,
+]
+\tikzstyle{process} = [rectangle, minimum width=1cm, minimum height=0.5cm, text
+  centered, draw=black]
+\tikzstyle{arrow} = [->,>=stealth]
+
 \let\footruleskip\undefined
 \usepackage{fancyhdr}
+\usepackage{fancyvrb}
 \pagestyle{fancy}
 %\usepackage[shellescape, latex]{gmp}
 \showtrimson
 
+\definecolor{niceblack}{rgb}{.1, .1, .1}
 \definecolor{webred}{rgb}{.7,0,0}
 \definecolor{webbg}{rgb}{1,.8,.2}
 \definecolor{bootstrapurl}{rgb}{0,.5,.75}
+%\definecolor{nicered}{rgb}{.347,.129,.149}
+%\definecolor{nicegreen}{rgb}{.129,.447,.149}
+%\definecolor{niceblue}{rgb}{0, 0, .6}
+%\definecolor{niceyellow}{rgb}{1,1,.95}
+%\color{niceblack}
 \usepackage[colorlinks]{hyperref}
 \hypersetup{%
   pdftitle={C Programming with C11},
@@ -41,8 +64,8 @@
   pdfkeywords={C, Programming},
   bookmarksnumbered,
   pdfstartview={FitH},
-  urlcolor=bootstrapurl,
-  linkcolor=bootstrapurl,
+  urlcolor=niceblack,
+  linkcolor=niceblack,
 }%
 
 \renewcommand{\chaptermark}[1]{%
@@ -50,13 +73,6 @@
 \renewcommand{\sectionmark}[1]{%
   \markright{#1}{}}
 
-\definecolor{nicered}{rgb}{.347,.129,.149}
-\definecolor{nicegreen}{rgb}{.129,.447,.149}
-\definecolor{niceblack}{rgb}{.2, .2, .2}
-\definecolor{niceblue}{rgb}{0, 0, .6}
-\definecolor{niceyellow}{rgb}{1,1,.95}
-
-%\color{niceblack}
 \makeatletter
 \newlength\dlf@normtxtw
 \setlength\dlf@normtxtw{\textwidth}
@@ -66,18 +82,18 @@
   \sbox\feline@chapter{%
     \resizebox{!}{#1}{\fboxsep=1pt%
       \colorbox{niceblack}{\color{white}\bfseries\sffamily\thechapter}%
-    }}%
+  }}%
   \rotatebox{90}{%
     \resizebox{%
       \heightof{\usebox{\feline@chapter}}+\depthof{\usebox{\feline@chapter}}}%
-    {!}{\scshape\so\@chapapp}}\quad%
+              {!}{\scshape\so\@chapapp}}\quad%
   \raisebox{\depthof{\usebox{\feline@chapter}}}{\usebox{\feline@chapter}}%
 }
 \newcommand\feline@chm[1][4cm]{%
   \sbox\feline@chapter{\feline@chapter@marker[#1]}%
   \makebox[0pt][l]{% aka \rlap
     \makebox[1cm][r]{\usebox\feline@chapter}%
-  }}
+}}
 \makechapterstyle{daleif1}{
   \renewcommand\chapnamefont{\normalfont\Large\scshape\raggedleft\so}
   \renewcommand\chaptitlefont{\normalfont\huge\bfseries\scshape\color{niceblack}}
@@ -138,7 +154,6 @@ Copyright, \copyright~ Shiv Shankar Dayal, 2011. All rights reserved.
 \newpage
 \mainmatter
 \pagenumbering{arabic}
-%\include{introduction}
 \include{basics}
 %\include{io}
 \printindex

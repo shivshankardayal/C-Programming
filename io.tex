@@ -92,9 +92,9 @@ begin with our familiar friends; printf and scanf.
 \section{printf}
 The prototype of \texttt{printf} is given by
 
-\begin{minted}{c}
+\begin{Verbatim}[frame=single]
 int printf(const char* fmt, ...);
-\end{minted}
+\end{Verbatim}
 
 Let us take a minute to understand this as we have not yet covered
 functions. The first word is \texttt{int} which denotes the return type of the
@@ -120,7 +120,7 @@ type-safety. In general compiler will warn you about it and you, the
 programmer, are responsible for giving correct format string, correct no. of
 correct type of arguments. Consider the following program for example:
 
-\begin{minted}{c}
+\begin{Verbatim}[frame=single]
 #include <stdio.h>
 
 int main()
@@ -145,13 +145,13 @@ int main()
 
   return 0;
 }
-\end{minted}
+\end{Verbatim}
 
 now that if you give the command like \texttt{gcc -Wall printf.c} where
 \texttt{printf.c} is the name of the ile then you will be shown following
 warnings:
 
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 printf.c: In function 'main':
 printf.c:8:3: warning: format '%d' expects a matching 'int' argument [-Wformat=]
    printf("%d %d\n", 5);
@@ -167,7 +167,7 @@ argument 2 has type 'char *' [-Wformat=]
    ^
 printf.c:20:3: warning: format '%d' expects argument of type 'int', but
 argument 2 has type 'char *' [-Wformat=]
-\end{verbatim}
+\end{Verbatim}
 
 Clearly this is not a good sign for any program. A program should compile
 cleanly. In our case \texttt{gcc} is generating binary even though there are
@@ -177,7 +177,7 @@ warnings. You can make \texttt{gcc} generate more warnings by issuing a
 has no warnings. Now let us move to output and try to understand it. The output
 on my system is as given below. It may differ on your system:
 
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 3 8
 5 8
 3 5
@@ -185,7 +185,7 @@ on my system is as given below. It may differ on your system:
 D
 134514119
 10
-\end{verbatim}
+\end{Verbatim}
 
 First \texttt{printf} is correct as expected. The second line causes undefined
 behavior. You may think it is the previous 8 but believe me it is not
@@ -467,7 +467,7 @@ given precision.
 In real-world most of the time the conversion specifiers are kept simple. Given
 below is a sample program showing some of the things given above:
 
-\begin{minted}{c}
+\begin{Verbatim}[frame=single]
 #include<stdio.h>
 
 int main()
@@ -495,11 +495,11 @@ int main()
 
   return 0;
 }
-\end{minted}
+\end{Verbatim}
 
 The output of the above program is:
 
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
  343456
 +343456
 01236640
@@ -516,7 +516,7 @@ The output of the above program is:
 343456
 123.00000000
 78939.93470000
-\end{verbatim}
+\end{Verbatim}
 
 We will keep seeing more conversion specifiers being used as we progress
 through this book.
@@ -754,7 +754,7 @@ directive.
 
 Now that we have seen this description let us take a look at few examples.
 
-\begin{minted}{c}
+\begin{Verbatim}[frame=single]
 #include <stdio.h>
 
 int main()
@@ -766,15 +766,15 @@ int main()
 
   return 0;
 }
-\end{minted}
+\end{Verbatim}
 
 and the output is:
 
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 Hi! My name is Shiv.
 You entered:
 Hi!
-\end{verbatim}
+\end{Verbatim}
 
 It is certainly not the correct output. We had expected to see like: ``Hi! My
 name is Shiv.''. What happend to input string after ``Hi!''. Well, in a form
@@ -784,7 +784,7 @@ format. For characters it is character-by-character so no confusion either. So
 what if you want to have the entire string including white-spaces. Use
 \texttt{[\^{}n]} as given below:
 
-\begin{minted}{c}
+\begin{Verbatim}[frame=single]
 #include <stdio.h>
 
 int main()
@@ -796,22 +796,22 @@ int main()
 
   return 0;
 }
-\end{minted}
+\end{Verbatim}
 
 and the output is:
 
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 Hi! My name is Shiv.
 You entered:
 Hi! My name is Shiv.
-\end{verbatim}
+\end{Verbatim}
 
 What if you want to filter a string based on certain patterns. For example, a
 charcater string does not contain more that a single space, English alphabets,
 period and digits. To scan such a string you can define a pttern as program
 given below shows:
 
-\begin{minted}{c}
+\begin{Verbatim}[frame=single]
 #include <stdio.h>
 
 int main()
@@ -823,19 +823,19 @@ int main()
 
   return 0;
 }
-\end{minted}
+\end{Verbatim}
 
 and the output is:
 
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 Hi! My name is Shiv! My phone no. is 1234. %^$&*
 Hi! My name is Shiv! My phone no. is 1234.
-\end{verbatim}
+\end{Verbatim}
 
 There is also a major problem associated with input and that comes when you
 have characters involved. Consider the following program:
 
-\begin{minted}{c}
+\begin{Verbatim}[frame=single]
 #include <stdio.h>
 
 int main()
@@ -863,11 +863,11 @@ int main()
 
   return 0;
 }
-\end{minted}
+\end{Verbatim}
 
 and the output is:
 
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 2
 3.4
 s
@@ -877,7 +877,7 @@ You entered
 
 
 s
-\end{verbatim}
+\end{Verbatim}
 
 What is happening here is that newline entered by our RET key is getting
 assigned to \texttt{c1} and \texttt{c3}. That is why the program accepted only
@@ -885,7 +885,7 @@ second character. The enter after \texttt{float f;} was assigned to \texttt{c1}
 and the character entered to \texttt{c2} and then the RET newline to
 \texttt{c3}. There is a very simple way to recover from this:
 
-\begin{minted}{c}
+\begin{Verbatim}[frame=single]
 #include <stdio.h>
 
 int main()
@@ -911,7 +911,7 @@ int main()
 
   return 0;
 }
-\end{minted}
+\end{Verbatim}
 
 The whitespace character shown will eat up all the white-space given after the
 previous input. This concludes our discussion on \texttt{printf()} and
@@ -929,7 +929,7 @@ pointer and fill it with input or print it to monitor. Note that
 with \texttt{FILE} streams i.e. other than \texttt{stdin} and \texttt{stdout}
 they can also work with disk based files. Here is a sample program:
 
-\begin{minted}{c}
+\begin{Verbatim}[frame=single]
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -946,16 +946,16 @@ int main()
 
   return 0;
 }
-\end{minted}
+\end{Verbatim}
 
 and the output is:
 
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 Hi!
 Hi!
 Hello!
 Hello!
-\end{verbatim}
+\end{Verbatim}
 
 First \texttt{``Hi!''} and \texttt{``Hello!''} are keyboard inputs. Do not
 worry about array and pointer syntax at the moment. Just see the difference
@@ -972,7 +972,7 @@ There are several functions for single character i/o. They are \texttt{getc(),
 \texttt{getchar()} and \texttt{putchar()} rest can do any FILE stream-based
 i/o. Let us have a simple program as they are mostly trivial.
 
-\begin{minted}{c}
+\begin{Verbatim}[frame=single]
 #include<stdio.h>
 
 int main()
@@ -996,18 +996,18 @@ int main()
 
   return 0;
 }
-\end{minted}
+\end{Verbatim}
 
 and the output is:
 
-\begin{verbatim}
+\begin{Verbatim}[frame=single]
 4
 4
 5
 5
 6
 6
-\end{verbatim}
+\end{Verbatim}
 
 The first 4, 5 and 6 were keyboard inputs. Note the use of extra
 \texttt{getchar()} and \texttt{putchar()} to handle the situation we faced
