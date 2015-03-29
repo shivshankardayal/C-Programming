@@ -280,8 +280,10 @@ systems in computers are binary, octal and hexadecimal not to mention decimal
 ofcourse.
 
 A number in a generic number system is given below:
-$$(.. c_mb^{m-1} + c_{m-1}b^{m-2}+ ... + c_2b^1 + c1_b^0 + c_{-1}b^{-1} +
-... + c_{-m}b^{-m} ) \\ = (... c_mc_{m-1}...c_2c_1.c_{-1}...c_{-m})_b$$
+\begin{equation}
+(.. c_mb^{m-1} + c_{m-1}b^{m-2}+ ... + c_2b^1 + c1_b^0 + c_{-1}b^{-1} +
+... + c_{-m}b^{-m} ) \\ = (... c_mc_{m-1}...c_2c_1.c_{-1}...c_{-m})_b
+\end{equation}
 
 All the terms with $c$  are called digits. The leftmost or leading digit is
 called \textit{most significant digit} and the rightmost or trailing digit is
@@ -302,7 +304,7 @@ understood with the help of a book on electronics which is out of scope of this
 book. All binary numbers consist of 0 and 1. So the count is like 0, 1, 10, 11,
 100, 101, 110, 111, 1000 and so on.
 
-\subsubsection{Conversion of Decimals and Bianries}
+\subsubsection{Conversion of Unsigned Decimals and Bianries}
 Consider a decimal number. Let us say 53 then how would be convert it to
 binary. The technique is that of division. Please examine following carefully:
 
@@ -341,6 +343,7 @@ less than 128 so I will use 64. Then 36 remains. So I will use 32 and then
 4. This means 100=64+32+4  which means power 6, 5 and 2 have been
 used. Therefore, I can quickly write down number as $1100100_2$.
 
+\label{fractional binary numbers}
 Fractional numbers are slightly more complicated. Let us consider $1.1_2$  . In
 decimal it will be $1+\frac{1}{2}$. This is 1.5 in decimal. Note that when you
 convert a fractional part of binary to decimal denominator will always be power
@@ -369,6 +372,14 @@ values. In 1's complement the number is obtained by inverting bits i.e. making
 
 Consider the following table which contains some numbers for 1's complement
 of some 8-bit numbers.
+
+The 2's complement of an $N$-bit number is defined as the complement with
+respect to $2^N$; i.e. it is the result of subtracting the number
+from $2^N$, which in binary is one followed by $N$ zeroes. This is also
+equivalent to taking the 1's complement and then adding one, since the sum of
+a number and its 1's complement is all 1 bits.
+
+
 
 \begin{table}[H]
  \begin{center}
@@ -434,7 +445,62 @@ As you see in table and also you can verify the value becomes negative if its
 computers because of two zeroes in 1's complement, borrowing being complicated
 etc. 
 
-There are certain rules in every language, certain grammar which dictates the
+Consider following table of 2's complement 3-bit binary numbers:
+
+\begin{table}[H]
+  \begin{center}
+    \caption{3-bit 2's complement integers}
+    \begin{tabular}{|c|r|r|}
+      \hline
+      \textbf{Bits}&\textbf{Unsigned value}&\textbf{2's complement value}\\
+      \hline
+      011&3&3\\
+      \hline
+      010&2&2\\
+      \hline
+      001&1&1\\
+      \hline
+      000&0&0\\
+      \hline
+      111&7&-1\\
+      \hline
+      110&6&-2\\
+      \hline
+      101&5&-3\\
+      \hline
+      100&4&-4\\
+      \hline
+    \end{tabular}
+  \end{center}
+\end{table}
+
+Clearly, since $N$-bit 1's complement can represent numbers in range
+$-2^{N-1}-1$ to $2^{N-1} + 1$ 2's complement of $N$-bit can represent
+$-2^{N-1}$ to $2^{N-1} - 1$ as it does not have negative 0 i.e. its range is
+more by 1 number.
+
+The 2' complement system has the advantage that operations of addition,
+subtraction, and multiplication are same as unsigned binary numbers (as long as
+the inputs are represented in the same number of bits and any overflow beyond
+those bits is discarded from the result). This property makes the system both
+simpler to implement and capable of easily handling higher precision
+arithmetic. Also, as mentioned above zero has only a single 
+representation, avioding the subtleties associated with negative zero, which
+exists in 1's complement systems.
+
+The value $v$ of an $N$-bit integer $b_{N-1} b_{N-2} \dots b_0 $is given by the
+following formula:
+
+\begin{equation}
+v=-b_{N-1} 2^{N-1} + \sum_{i=0}^{N-2} b_i 2^i
+\end{equation}
+
+I will leave it up to you, the reader, to perform basic operations like
+addition, subtraction, multiplication, division etc.
+
+Now we can proceed to discuss technical details of C programming
+language. There are certain rules in every language, certain grammar which
+dictates the
 way language will be spoken and written. It has a script to write
 using. Similarly, programming languages have BNF (Backus-Naur Form)
 context-free grammar. There are valid characters in a programming language and
@@ -450,8 +516,18 @@ code. They are not intelligent. You make a mistake and it will refuse to listen
 to you no matter what you do. Therefore, it is very essential to understand
 these rules very clearly and correctly.
 
+Note that C language is govered by ISO specification \textbf{ISO/IEC
+  9899:2011}. As much as I would like to refer to specification there are
+financial reasons why I will not because it is expensive and I do not expect
+all of readers to buy this. Therefore, I will be referring to final draft
+version which you can download from
+\url{http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf}. It will be
+almost same as final revision and costs nothing. Sections of this document will
+be referred like \S(section number).
+
 \section{The C Character Set}
-The following form the C character set you are allowed to use in it:
+The following form the C character set you are allowed to use in it which is
+given in \S(5.2.1):
 
 \begin{Verbatim}[frame=single]
 [a-z] [A-Z] [0-9] ~ ! # % ^ & * ( ) - = [ ] \ ; ' , . / _ + { } | : " < > ?
@@ -470,7 +546,7 @@ spoken language in the world. Therefore in other non-English speaking counties
 there are keyboard where certain characters present in above set are not
 present. The inventors of C were wise enough to envision this and provide the
 facility in form of trigraph sequences. Given below is the trigraph sequence
-table:
+table given in \S(5.2.1.1):
 
 \begin{table}[H]
  \begin{center}
@@ -494,7 +570,7 @@ However, you should refrain from using trigraph sequences for portability
 reasons as suggested by GNU coding standards.
 
 \section{Keywords}
-The following are reserved keywords for C programming language which you are not 
+The following given in \S(6.4.1) are reserved keywords for C programming language which you are not 
 allows to use other than what they are meant for:
 \index{keywords}
 \begin{table}[H]
@@ -518,12 +594,18 @@ These keywords are special in C as said and cannot be used for variable names
 or funciton names or otherwise other than in strings and comments.
 
 \section{Identifiers}
-The names which we give to our variables are known as identifiers. Something 
-with which we identify the variables. In other words since memory locations are
-difficult to remember for us, human beings, we assign these memory locations
-more meaningful names in form of identifiers. As you have already seen what is
-allowed  in C's character set but not all are allowed in an identifiers
-name. Only alphabets from English language both lowercase and uppercase,
+The names which we give to our variables are known as identifiers
+\S(6.4.2). Please read this section carefully and make sure understand
+the rules for naming identifiers. Later at the end of chapter there are some
+simple problems to practice with.
+
+Identifoers are something  with which we identify the variables or constants or
+functions etc. In other words
+since memory locations are difficult to remember for us, human beings, we
+assign these memory locations more meaningful names in form of identifiers. As
+you have already seen what is allowed  in C's character set but not all are
+allowed in an identifiers name. Only alphabets from English language both
+lowercase and uppercase(they are distinct),
 Arabic digits from zero to nine and underscore (\_) are allowed in an
 identifiers name. The rule for constructing names is that among the allowed
 characters it can only begin with only English alphabets and
@@ -531,9 +613,13 @@ underscore. Numbers must not be first character. For example, \texttt{x,
   \_myVar, varX} and \texttt{yourId78} are all valid names. However, take care
 with names starting from underscore as they are mostly used by different
 library authors. Invalid identifier examples are \texttt{9x, my\$} and
-\texttt{your age}. Please read this section carefully and make sure understand
-the rules for naming identifiers. Later at the end of chapter there are some
-simple problems to practice with.
+\texttt{your age}. If the identifier name contains extended
+characters(i.e. other than what is mentioned for simplicity like, chinese,
+european, japanese etc) then it will be replaced with an encoding of universal
+character set, however, it cannot be first chgaracter.
+
+Length of an identifer for 31 characters, as specified in \S(5.2.4.1), is
+guaranteed across all platforms.
 
 \section{Programming}
 Let us revisit our first program and try to understand what it does. Here I am 
@@ -738,7 +824,9 @@ one by one.
 
 \section{Data Types}
 What are data types? Why C needs data types? C is a statically typed language
-that is every variable has a type associated with it. These types determine
+that is every variable has a type associated with it. Types are discussed in
+specification in great length in \S(6.2.5) to \S(6.2.8).
+These types determine
 what kind of values these variables can hold and how they will be interpreted.
 Say we encode
 character `A' for 10101 will it be easy for you to see A or numbers. Also,
@@ -763,9 +851,8 @@ their memory requirements and if you know how much memory they are going to
 occupy you can easily compute their ranges. The range of floating-point comes
 from IEEE specification. IEEE standard document 754 governs the binary
 representation of floating point numbers which you can read at
-\url{http://www.eecs.berkeley.edu/~wkahan/ieee754status/IEEE754.PDF}. This is
-not available from IEEE website itself as they sell the specification's
-electronic copies.
+\url{http://www.eecs.berkeley.edu/~wkahan/ieee754status/IEEE754.PDF}. You can
+also buy it from IEEE's website. I will describe it later.
 
 Let us write a program to find out ranges for integral data types:
 
@@ -890,18 +977,18 @@ values are %d and %d respectively.\n", c1, c2, c1, c2);
 A sample run may have following output:
 
 \begin{Verbatim}[frame=single]
-$ ./a.out
 Enter a character on your keyboard and then press ENTER:
 1
 The character entered is 1 and its ASCII value is 49.
 Enter a pair of characters on your keyboard and then press ENTER:
 12
-The characters entered are 1 and 2 and their ASCII values are 49 and 50 respectively.
+The characters entered are 1 and 2 and their ASCII values are 49 and 50
+respectively.
 The sum of c1 and c2 as integers is 99.
 \end{Verbatim}
 
 As you can see from the program that characters are internally stored as
-itnegers and we can even perform integers which we normally perform on
+integers and we can even perform integers which we normally perform on
 numbers like addition as shown. We can perform other operation as subtraction,
 multiplication and division, however, most of the time addition or subtraction
 only makes sense to advance the characters in their class. Multiplication and
@@ -983,314 +1070,29 @@ are all minimum values.
 Floating point representation is a lot more complicated in computers than it
 is for us human beings. C specification takes floating points description and
 specification from IEC 60559:1989 which is a standard for floating point
-arithmetic. In C there are three types of flaoting point numbers \texttt{float,
-double} and \texttt{long double.} Since all are governed by the same model I am
-presenting following from specification (in following paragraphs implemenation
-means compiler) for the sake of accuracy.
+arithmetic whihc is same as IEEE 754. In C there are three types of flaoting
+point numbers \texttt{float, double} and \texttt{long double.} It is describved
+in specification in \S(5.2.4.2.2).
 
-The characteristics of floating types are defined in terms of a model that
-describes a representation of floating-point numbers and values that provide
-information about an implementation's floating-point arithmetic.\footnote{The
-  floating-point model is intended to clarify the description of each
-  floating-point characteristic and does not require the floating-point
-  arithmetic of the implementation to be identical.} The following parameters
-are used to define the model for each floating-point type:
-\\\\
-\hspace*{1cm}\begin{tabular}{ll}
-$s$&sign ($\pm$1)\\
-$b$&base or radix of exponent representation (an integer $>$ 1)\\
-$e$&exponent (an integer between a minimum $e_{min}$ and a maximum $e_{max}$)\\
-$p$&precision (the number of base-$b$ digits in the significand)\\
-$f_k$&nonnegative integers less than $b$ (the significand digits)
-\end{tabular}
-\\\\
-A \textit{floating-point number (x)} is defined by the following model:
+A floating-point number is used to represent real-world fractional value which
+is a trade-off between range and accuracy because as I said in \ref{fractional
+  binary numbers}, a decimal fraction cannot represented in binary unless the
+denominator of that number is an integral power of 2. A number is, in general,
+represented approximately to a fixed number of significant digits (the
+significand) and scaled using an exponent; numbers are usually binary, octal,
+decimal or hexadecimal. A number that can be represented exactly is of the
+following form:
 
-$$x = sb^e\sum_{k=1}^pf_kb^{-k},~~e_{min}\le~e~\le~e_{max}$$
+$$\text{significand} \times \text{base}^\text{exponent}$$
 
-In addition to normalized floating-point numbers ( $f_1 > 0$ if $x \ne 0$),
-floating types may be able to contain other kinds of floating-point numbers,
-such as \textit{subnormal floating-point numbers} ($x \ne 0, e = e_{min}, f_1 =
-0$) and \textit{unnormalized floating-point numbers} ($x \ne 0, e > e_{min},
-f_1 = 0$), and values that are not floating-point numbers, such as infinities
-and NaNs. A \textit{NaN} is an encoding signifying Not-a-Number. A
-\textit{quiet} NaN propagates through almost every arithmetic operation without
-raising a floating-point exception; a \textit{signaling} NaN generally raises a
-floating-point exception when occurring as an arithmetic operand.\footnote{IEC
-  60559:1989 specifies quiet and signaling NaNs. For implementations that do
-  not support IEC 60559:1989, the terms quiet NaN and signaling NaN are
-  intended to apply to encodings with similar behavior.}
+For example, $1.2345 = \underbrace{12345}_\text{significand} \times \,\underbrace{10}_\text{base}\!\!\!\!\!\!^{\overbrace{-4}^\text{exponent}}$
 
-An implementation may give zero and values that are not floating-point numbers
-(such as infinities and NaNs) a sign or may leave them unsigned. Wherever such
-values are unsigned, any requirement in this International Standard to retrieve
-the sign shall produce an unspecified sign, and any requirement to set the sign
-shall be ignored. 
+The term floating point refers to the fact that a number's radix point (decimal
+point, or, more commonly in computers, binary point) can ``float''; that is, it
+can be placed anywhere relative to the significant digits of the number.
 
-The minimum range of representable values for a floating type is the most
-negative finite floating-point number representable in that type through the
-most positive finite floating-point number representable in that type. In
-addition, if negative infinity is representable in a type, the range of that
-type is extended to all negative real numbers; likewise, if positive infinity
-is representable in a type, the range of that type is extended to all positive
-real numbers.
+\subsection{Representation of Floating-Point Numbers}
 
-The accuracy of the floating-point operations (\texttt{+, -, *, /}) and of the
-library functions in \texttt{<math.h>} and \texttt{<complex.h>} that return
-floating-point results is implementation-defined, as is the accuracy of the
-conversion between floating-point internal representations and string
-representations performed by the library functions in \texttt{<stdio.h>,
-  <stdlib.h>,} and \texttt{<wchar.h>}. The implementation may state that the
-accuracy is unknown.
-
-The rounding mode for floating-point addition is characterized by the
-implementation-defined value of \texttt{FLT\_ROUNDS}:\footnote{Evaluation of
-  \texttt{FLT\_ROUNDS} correctly reflects any execution-time change of rounding
-  mode through the function \texttt{fesetround} in \texttt{<fenv.h>}.}
-\\\\
-\hspace*{1cm}\begin{tabular}{rl}
-\texttt{-1} & indeterminable\\
-\texttt{0} & toward zero\\
-\texttt{1} & to nearest\\
-\texttt{2} & toward positive infinity\\
-\texttt{3} & toward negative infinity\\
-\end{tabular}
-\\\\
-All other values for \texttt{FLT\_ROUNDS} characterize implementation-defined
-rounding behavior.
-
-Except for assignment and cast (which remove all extra range and precision),
-the values yielded by operators with floating operands and values subject to
-the usual arithmetic conversions and of floating constants are evaluated to a
-format whose range and precision may be greater than required by the type. The
-use of evaluation formats is characterized by the implementation-defined value
-of \texttt{FLT\_EVAL\_METHOD}:\footnote{The evaluation method determines
-  evaluation formats of expressions involving all floating types, not just real
-  types. For example, if \texttt{FLT\_EVAL\_METHOD} is 1, then the product of
-  two float \texttt{\_Complex} operands is represented in the \texttt{double
-    \_Complex} format, and its parts are evaluated to \texttt{double}.}
-\\\\
-\hspace*{1cm}\begin{tabular}{rl}
-\texttt{-1} & indeterminable;\\
-\texttt{0} & evaluate all operations and constants just to the range and
-precision of the type;\\
-\texttt{1} & evaluate operations and constants of type \texttt{float} and\\
-&\texttt{double} to the range and precision of the \texttt{double} type,\\
-&evaluate \texttt{long double} operations and constants to the range and\\
-&precision of the \texttt{long double} type;\\
-\texttt{2} & evaluate all operations and constants to the range and precision\\
-&of the \texttt{long double} type.
-\end{tabular}
-\\\\
-All other negative values for \texttt{FLT\_EVAL\_METHOD} characterize
-implementation-defined behavior.
-
-The presence or absence of subnormal numbers is characterized by the
-implementation-defined values of \texttt{FLT\_HAS\_SUBNORM, DBL\_HAS\_SUBNORM,}
-and \texttt{LDBL\_HAS\_SUBNORM}:
-\\\\
-\hspace*{1cm}\begin{tabular}{rl}
--1 & indeterminable\footnote{Characterization as indeterminable is intended if
-  floating-point operations do not consistently interpret subnormal
-  representations as zero, nor as nonzero.}\\
-0 & absent\footnote{Characterization as absent is intended if no floating-point
-  operations produce subnormal results from non-subnormal inputs, even if the
-  type format includes representations of subnormal numbers.} (type does not
-support subnormal numbers)\\
-1 & present (type does support subnormal numbers)
-\end{tabular}
-\\\\
-The values given in the following list shall be replaced by constant
-expressions with implementation-defined values that are greater or equal in
-magnitude (absolute value) to those shown, with the same sign:
-
-\begin{itemize}
-\item[---] radix of exponent representation, $b$\\
-\begin{tabular}{lr}
-\texttt{FLT\_RADIX}&\hfil\hspace*{2cm}\texttt{2}
-\end{tabular}
-\item[---] number of base-\texttt{FLT\_RADIX} digits in the floating-point significand,
-  $p$\\\\
-\texttt{FLT\_MANT\_DIG}\\
-\texttt{DBL\_MANT\_DIG}\\
-\texttt{LDBL\_MANT\_DIG}
-\item[---] number of decimal digits, $n$, such that any floating-point number
-  with $p$ radix $b$ digits can be rounded to a floating-point number with $n$
-  decimal digits and back again without change to the value,\\
-$\left\{ 
-  \begin{array}{l l}
-    plog_{10}~b & \quad \text{if $b$ is a power of 10}\\
-    \lceil 1 + plog_{10}~b\rceil & \quad \text{otherwise}
-  \end{array} \right. $\\\\
-\begin{tabular}{lr}
-\texttt{FLT\_DECIMAL\_DIG}&\hfil\hspace*{2cm}\texttt{6}\\
-\texttt{DBL\_DECIMAL\_DIG}&\hfil\hspace*{2cm}\texttt{10}\\
-\texttt{LDBL\_DECIMAL\_DIG}&\hfil\hspace*{2cm}\texttt{10}
-\end{tabular}
-\item[---] number of decimal digits, $n$, such that any floating-point number
-in the widest supported floating type with $p_{max}$ radix $b$ digits can be
-rounded to a floating-point number with $n$ decimal digits and back again
-without change to the value,\\\\
-$\left\{ 
-  \begin{array}{l l}
-    p_{max}log_{10}~b & \quad \text{if $b$ is a power of 10}\\
-    \lceil 1 + p_{max}log_{10}~b\rceil & \quad \text{otherwise}
-  \end{array} \right. $\\\\
-\texttt{DECIMAL\_DIG}\hfil\hspace*{2cm}\texttt{10}
-\item[---] number of decimal digits, $q$, such that any floating-point number
-  with $q$ decimal digits can be rounded into a floating-point number with $p$
-  radix $b$ digits and back again without change to the $q$ decimal digits,\\\\
-$\left\{ 
-  \begin{array}{l l}
-    plog_{10}~b & \quad \text{if $b$ is a power of 10}\\
-    \lfloor (p - 1)log_{10}~b\rfloor & \quad \text{otherwise}
-  \end{array} \right. $\\\\
-\begin{tabular}{lr}
-\texttt{FLT\_DIG}&\hfil\hspace*{2cm}\texttt{6}\\
-\texttt{DBL\_DIG}&\hfil\hspace*{2cm}\texttt{10}\\
-\texttt{LDBL\_DIG}&\hfil\hspace*{2cm}\texttt{10}
-\end{tabular}
-\item[---] minimum negative integer such that \texttt{FLT\_RADIX} raised to one
-  less than that power is a normalized floating-point number, $e_{min}$\\\\
-\texttt{FLT\_MIN\_EXP}\\
-\texttt{DBL\_MIN\_EXP}\\
-\texttt{LDBL\_MIN\_EXP}
-\item[---] minimum negative integer such that 10 raised to that power is in the range of
-normalized floating-point numbers,$\lceil log10~b^{e_{min}-1}\rceil$\\\\
-\begin{tabular}{lr}
-\texttt{FLT\_MIN\_10\_EXP}&\hfil\hspace*{2cm}\texttt{-37}\\
-\texttt{DBL\_MIN\_10\_EXP}&\hfil\hspace*{2cm}\texttt{-37}\\
-\texttt{LDBL\_MIN\_10\_EXP}&\hfil\hspace*{2cm}\texttt{-37}
-\end{tabular}
-\item[---] maximum integer such that \texttt{FLT\_RADIX} raised to one less
-  than that power is a representable finite floating-point number,
-  $e_{max}$\\\\
-\texttt{FLT\_MAX\_EXP}\\
-\texttt{DBL\_MAX\_EXP}\\
-\texttt{LDBL\_MAX\_EXP}\\
-\item[---] maximum integer such that 10 raised to that power is in the range of
-  representable finite floating-point numbers, $\lfloor log_{10}((1 -
-  b^{-p})b^{e_{max}} )\rfloor$\\\\
-\begin{tabular}{lr}
-\texttt{FLT\_MIN\_10\_EXP}&\hfil\hspace*{2cm}\texttt{+37}\\
-\texttt{DBL\_MIN\_10\_EXP}&\hfil\hspace*{2cm}\texttt{+37}\\
-\texttt{LDBL\_MIN\_10\_EXP}&\hfil\hspace*{2cm}\texttt{+37}
-\end{tabular}
-\end{itemize}
-
-The values given in the following list shall be replaced by constant
-expressions with implementation-defined values that are greater than or equal
-to those shown:
-
-\begin{itemize}
-\item[---] maximum representable finite floating-point number, $(1 -
-  b^{-p})b^{e_{max}}$\\\\
-\begin{tabular}{lr}
-\texttt{FLT\_MAX}&\hfil\hspace*{2cm}\texttt{1E+37}\\
-\texttt{DBL\_MAX}&\hfil\hspace*{2cm}\texttt{1E+37}\\
-\texttt{LDBL\_MAX}&\hfil\hspace*{2cm}\texttt{1E+37}
-\end{tabular}
-\end{itemize}
-
-The values given in the following list shall be replaced by constant
-expressions with implementation-defined (positive) values that are less than or
-equal to those shown:
-
-\begin{itemize}
-\item[---] the difference between 1 and the least value greater than 1 that is
-  representable in the given floating point type, $b^{1-p}$\\\\
-\begin{tabular}{lr}
-\texttt{FLT\_EPSILON}&\hfil\hspace*{2cm}\texttt{1E-5}\\
-\texttt{DBL\_EPSILON}&\hfil\hspace*{2cm}\texttt{1E-9}\\
-\texttt{LDBL\_EPSILON}&\hfil\hspace*{2cm}\texttt{1E-9}
-\end{tabular}
-\item[---] minimum normalized positive floating-point number,
-  $b^{e_{min}-1}$\\\\
-\begin{tabular}{lr}
-\texttt{FLT\_MIN}&\hfil\hspace*{2cm}\texttt{1E-37}\\
-\texttt{DBL\_MIN}&\hfil\hspace*{2cm}\texttt{1E-37}\\
-\texttt{LDBL\_MIN}&\hfil\hspace*{2cm}\texttt{1E-37}
-\end{tabular}
-\item[---] minimum positive floating-point number\footnote{If the presence or
-    absence of subnormal numbers is indeterminable, then the value is intended
-    to be a positive number no greater than the minimum normalized positive
-    number for the type.}\\\\
-\begin{tabular}{lr}
-\texttt{FLT\_TRUE\_MIN}&\hfil\hspace*{2cm}\texttt{1E-37}\\
-\texttt{DBL\_TRUE\_MIN}&\hfil\hspace*{2cm}\texttt{1E-37}\\
-\texttt{LDBL\_TRUE\_MIN}&\hfil\hspace*{2cm}\texttt{1E-37}
-\end{tabular}
-\end{itemize}
-
-Conversion from (at least) \texttt{double} to decimal with
-\texttt{DECIMAL\_DIG} digits and back should be the identity function.
-
-\small{EXAMPLE 1 The following describes an artificial floating-point
-  representation that meets the minimum requirements of this International
-  Standard, and the appropriate values in a \texttt{<float.h>} header for type
-  \texttt{float}:}
-
-$$x = s16^e\sum_{k=1}^6f_k16^{-k}, ~~ -31\le~e~\le~+32$$
-
-\small{\hspace*{2cm}\begin{tabular}{lr}
-\texttt{FLT\_RADIX}&\hfil\hspace*{3cm}\texttt{16}\\
-\texttt{FLT\_MANT\_DIG}&\hfil\hspace*{3cm}\texttt{6}\\
-\texttt{FLT\_EPSILON}&\hfil\hspace*{3cm}\texttt{9.53674316E-07F}\\
-\texttt{FLT\_DECIMAL\_DIG}&\hfil\hspace*{3cm}\texttt{9}\\
-\texttt{FLT\_DIG}&\hfil\hspace*{3cm}\texttt{6}\\
-\texttt{FLT\_MIN\_EXP}&\hfil\hspace*{3cm}\texttt{-31}\\
-\texttt{FLT\_MIN}&\hfil\hspace*{3cm}\texttt{2.93873588E-39F}\\
-\texttt{FLT\_MIN\_10\_EXP}&\hfil\hspace*{3cm}\texttt{-38}\\
-\texttt{FLT\_MAX\_EXP}&\hfil\hspace*{3cm}\texttt{+32}\\
-\texttt{FLT\_MAX}&\hfil\hspace*{3cm}\texttt{3.40282347E+38F}\\
-\texttt{FLT\_MAX\_10\_EXP}&\hfil\hspace*{3cm}\texttt{+38}
-\end{tabular}
-
-EXAMPLE 2 The following describes floating-point representations that also meet
-the requirements for single-precision and double-precision numbers in IEC
-60559,\footnote{The floating-point model in that standard sums powers of b from
-  zero, so the values of the exponent limits are one less than shown here.} and
-the appropriate values in a \texttt{<float.h>} header for types \texttt{float}
-and \texttt{double}:
-
-$$x = s2^e\sum_{k=1}^{24}f_k2^{-k}, ~~ -125\le~e~\le~+128$$
-$$x = s2^e\sum_{k=1}^{53}f_k2^{-k}, ~~ -1021\le~e~\le~+1024$$
-
-\hspace*{2cm}\begin{tabular}{lr}
-\texttt{FLT\_RADIX}&\hfil\hspace*{3cm}\texttt{2}\\
-\texttt{DECIMAL\_DIG}&\hfil\hspace*{3cm}\texttt{17}\\
-\texttt{FLT\_MANT\_DIG}&\hfil\hspace*{3cm}\texttt{24}\\
-\texttt{FLT\_EPSILON}&\hfil\hspace*{3cm}\texttt{1.19209290E-07F}\\
-\texttt{FLT\_DECIMAL\_DIG}&\hfil\hspace*{3cm}\texttt{9}\\
-\texttt{FLT\_DIG}&\hfil\hspace*{3cm}\texttt{6}\\
-\texttt{FLT\_MIN\_EXP}&\hfil\hspace*{3cm}\texttt{-125}\\
-\texttt{FLT\_MIN}&\hfil\hspace*{3cm}\texttt{1.17549435E-38F}\\
-\texttt{FLT\_TRUE\_MIN}&\hfil\hspace*{3cm}\texttt{1.40129846E-45F}\\
-\texttt{FLT\_HAS\_SUBNORM}&\hfil\hspace*{3cm}\texttt{1}\\
-\texttt{FLT\_MIN\_10\_EXP}&\hfil\hspace*{3cm}\texttt{-37}\\
-\texttt{FLT\_MAX\_EXP}&\hfil\hspace*{3cm}\texttt{+128}\\
-\texttt{FLT\_MAX}&\hfil\hspace*{3cm}\texttt{3.40282347E+38F}\\
-\texttt{FLT\_MAX\_10\_EXP}&\hfil\hspace*{3cm}\texttt{+38}\\
-\texttt{DBL\_MANT\_DIG}&\hfil\hspace*{3cm}\texttt{53}\\
-\texttt{DBL\_EPSILON}&\hfil\hspace*{3cm}\texttt{2.2204460492503131E-16}\\
-\texttt{DBL\_DECIMAL\_DIG}&\hfil\hspace*{3cm}\texttt{17}\\
-\texttt{DBL\_DIG}&\hfil\hspace*{3cm}\texttt{15}\\
-\texttt{DBL\_MIN\_EXP}&\hfil\hspace*{3cm}\texttt{-1021}\\
-\texttt{DBL\_MIN}&\hfil\hspace*{3cm}\texttt{2.2250738585072014E-308}\\
-\texttt{DBL\_TRUE\_MIN}&\hfil\hspace*{3cm}\texttt{4.9406564584124654E-324}\\
-\texttt{DBL\_HAS\_SUBNORM}&\hfil\hspace*{3cm}\texttt{1}\\
-\texttt{DBL\_MIN\_10\_EXP}&\hfil\hspace*{3cm}\texttt{-307}\\
-\texttt{DBL\_MAX\_EXP}&\hfil\hspace*{3cm}\texttt{+1024}\\
-\texttt{DBL\_MAX}&\hfil\hspace*{3cm}\texttt{1.7976931348623157E+308}\\
-\texttt{DBL\_MAX\_10\_EXP}&\hfil\hspace*{3cm}\texttt{+308}
-\end{tabular}
-
-If a type wider than \texttt{double} were supported, then \texttt{DECIMAL\_DIG}
-would be greater than 17. For example, if the widest type were to use the
-minimal-width IEC 60559 double-extended format (64 bits of precision), then
-\texttt{DECIMAL\_DIG} would be 21.
-}
-\normalsize
 
 Now let us see a program to see how we can take input and print the floating
 point numbers.
