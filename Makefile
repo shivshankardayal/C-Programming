@@ -3,4 +3,4 @@ c11.pdf: $(SRCS)
 	pdflatex --shell-escape c11.tex
 	mv c11.pdf C.pdf
 clean:
-	rm c11.pdf
+	rm C.pdf
