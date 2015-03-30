@@ -93,7 +93,7 @@ kernel of the operating system and in turn the operating system or kernel
 provides services to your program. There is a typical life cycle in development
 of a program. It has been given as a flowchart in figure \ref{fig:lifecycle}.
 
-\begin{figure}[H]
+\begin{figure}
 \begin{center}
 \begin{tikzpicture}[node distance=1.8cm]
   \node (start) [startstop] {Start};
@@ -425,14 +425,14 @@ arithmetic operations. Subtraction for 1's complement is a bit
 different. Consider the following:
 
 \begin{Verbatim}[frame=single]
-    0000 0110      6
-  - 0001 0011     19
-    ===========   ====
-    1 1111 0011    −12    -An end-around borrow is produced, and the sign bit
-                          of the intermediate result is 1.
-  - 0000 0001        1   -Subtract the end-around borrow from the result.
-    ===========   ====
-    1111 0010      −13    -The correct result (6 - 19 = -13)
+  0000 0110       6
+- 0001 0011      19
+  ===========   ====
+1 1111 0011     -12    -An end-around borrow is produced, and the sign bit
+                        of the intermediate result is 1.
+- 0000 0001       1    -Subtract the end-around borrow from the result.
+  ===========   ====
+  1111 0010     -13    -The correct result (6 - 19 = -13)
 \end{Verbatim}
 
 Borrows are propagated to the left. If the borrow extends past the end then it
@@ -622,8 +622,7 @@ Length of an identifer for 31 characters, as specified in \S(5.2.4.1), is
 guaranteed across all platforms.
 
 \section{Programming}
-Let us revisit our first program and try to understand what it does. Here I am 
-giving code once again for quick reference:
+Let us see our first program and try to understand what it does.
 
 \begin{Verbatim}[frame=single]
 // My first program
@@ -745,16 +744,12 @@ int main()
 }
 \end{Verbatim}
 and the output is:
-\begin{Verbatim}[frame=single]
-shiv@shiv:~/book/code$ ./addition
-Please enter an integer:
-7
-Please enter another integer:
-8
-7 + 8 = 15
-shiv@shiv:~/book/code$
-\end{Verbatim}
-
+\\\\\texttt{shiv@shiv:\textasciitilde/book/code\$ \textbf{./addition}\\
+Please enter an integer:\\
+\textbf{7}\\
+Please enter another integer:\\
+\textbf{8}
+7 + 8 = 15}\\\\
 Note that \texttt{shiv@shiv:~/book/code\$} is the prompt.
 
 Let us discuss new lines one by one. The line \texttt{int x=0, y=0, z=0;} is
@@ -880,18 +875,14 @@ int main()
 Here \texttt{sizeof} is a compile time operator which computes size of any type
 passed to it as an argument. So it is computing sizes of all the data types as
 shown in the program. The output is given below:
-
-\begin{Verbatim}[frame=single]
-Size of char is..........1
-Size of short int is.....2
-Size of int is...........4
-Size of long is..........8
-Size of long long is.....8
-Size of float is.........4
-Size of double is........8
-Size of long double is...16
-\end{Verbatim}
-
+\\\\\texttt{Size of char is..........1\\
+Size of short int is.....2\\
+Size of int is...........4\\
+Size of long is..........8\\
+Size of long long is.....8\\
+Size of float is.........4\\
+Size of double is........8\\
+Size of long double is...16\\\\}
 Please note that the output shown is on 64-bit machine and it will be different
 on 32-bit machines.
 
@@ -975,18 +966,14 @@ values are %d and %d respectively.\n", c1, c2, c1, c2);
 \end{Verbatim}
 
 A sample run may have following output:
-
-\begin{Verbatim}[frame=single]
-Enter a character on your keyboard and then press ENTER:
-1
-The character entered is 1 and its ASCII value is 49.
-Enter a pair of characters on your keyboard and then press ENTER:
-12
-The characters entered are 1 and 2 and their ASCII values are 49 and 50
-respectively.
-The sum of c1 and c2 as integers is 99.
-\end{Verbatim}
-
+\\\\\texttt{Enter a character on your keyboard and then press ENTER:\\
+\textbf{1}\\
+The character entered is 1 and its ASCII value is 49.\\
+Enter a pair of characters on your keyboard and then press ENTER:\\
+\textbf{12}\\
+The characters entered are 1 and 2 and their ASCII values are 49 and 50\\
+respectively.\\
+The sum of c1 and c2 as integers is 99.\\\\}
 As you can see from the program that characters are internally stored as
 integers and we can even perform integers which we normally perform on
 numbers like addition as shown. We can perform other operation as subtraction,
@@ -1355,7 +1342,7 @@ For example 123456 can be wriiten as one of 1.23456e5, 1.23456e+5, 1.23456E5,
 floating-point number.
 
 A character constant is a single character enclosed in apostrophes. Some
-examples of a character constants are \texttt{'A', 'T', ')', '?'. ' '}. Commas
+examples of a character constants are \texttt{`A', `T', `)', `?'. ` '}. Commas
 and blanks are allowed as character constants in apostrophes. The character
 constants are fundamentally integers and all arithmetic operations can be
 performed over them. These values depend on the character set of the computer
@@ -1368,7 +1355,7 @@ the form on printing characters. Some of these are expressed using
 and is followed by on or more characters. Given below is the table of escape
 sequences:
 
-\begin{table}[!h]
+\begin{table}[H]
 \begin{center}
 \caption{Escape Sequences}
 \begin{longtable}{lcc}
