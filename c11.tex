@@ -1,4 +1,4 @@
-%\documentclass[9pt, twoside, openright, showtrims]{memoir}
+%\documentclass[9pt, twoside, openright]{memoir}
 \documentclass[10pt, a4paper, twoside, openright]{memoir}
 
 \setstocksize{11in}{8in}
@@ -44,6 +44,7 @@
 \let\footruleskip\undefined
 \usepackage{fancyhdr}
 \usepackage{fancyvrb}
+\renewcommand{\ttdefault}{pcr}
 \pagestyle{fancy}
 %\usepackage[shellescape, latex]{gmp}
 \showtrimson
@@ -160,6 +161,7 @@ Copyright, \copyright~ Shiv Shankar Dayal, 2011. All rights reserved.
 \include{basics}
 \include{io}
 \include{oae}
+\include{cf}
 \printindex
 \backmatter
 \end{document}

@@ -1,6 +1,6 @@
-SRCS = c11.tex preface.tex introduction.tex basics.tex io.tex
+SRCS = c11.tex preface.tex introduction.tex basics.tex io.tex cf.tex
 c11.pdf: $(SRCS)
 	pdflatex --shell-escape c11.tex
 	mv c11.pdf C.pdf
 clean:
-	rm C.pdf
+	rm c11.pdf
