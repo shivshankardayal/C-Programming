@@ -12,11 +12,57 @@ readability, simplicity of your code. Whenever you see array and pointer in
 following sections just plow through them. All will be clear soon.
 
 Before we can proceed to discuss operators and expressions I will explain
-scope, linkage, namespaces and storage durations which can be applied to
+scope, linkage and storage durations which can be applied to
 variables. These are given in specification starting in \S(6.2.1) and ending at
 \S(6.2.4).
+
+\section{Scope of an Identifier}
+Till now we have seen plain variables and their identifiers. However, there are
+other identifiers as well which will be discussed later. For now we will
+consider scope of plain variables. In general there are three kinds of
+scope. Global scope, function scope and block scope. Variables declared outside
+any function have global scope and they persist throughout the lifetime of the
+program. Variables declared inside functions at outermost level have function
+scope and they live as long as function remains active. A block in C is marked
+by braces(\{ and \}). Function bodies are also marked by this. Here I mean
+blocks inside a function. Starting from C99 you can declare variables anywhere
+inside a function and this block variables which have less lifetime than
+functions are possible. We will see more of these when we see more code. Note
+that identifiers can be reused in different scopes. For example, a loop index
+integer identifer is repeated many times but every time it is a new
+variable(We will see loops soon). Two idendifiers have same scope if and only
+if their scope terminates at the same point.
+
+\section{Linkages of an Identifier}
+There are three different kinds of linkages. External, internal and
+none. Global variables and functions have external linkage as long as they are
+not static. If they are static then they have internal linkage. By external
+linkage we mean that for a program which consists of multiple source code files
+these functions and variable identifiers can be referred in files other than in
+which they are declared. When functions and global variables are static
+i.e. they have internal linkage they cannot be accessed in other source code
+files.
+
+The following identifiers have no linkage: an identifier declared to be
+anything other than an variable or a function; an identifier declared to be a
+function parameter; a block scope identifier for an object declared without the
+storage-class specifier `extern`.
+
+\section{Storage Duration of Objects}
+There are four storage durations. Static, thread, automatic and
+allocated. Here, we will not discuss thread which we will talk about later. A
+static variable which is local to a function of global variable has static
+duration and it lives in data segment in memory and has static storage
+duration. A variable local to a function or block which is not dynamically
+allocated on heap by using either of `malloc, calloc` or `realloc` has
+automatic storage and has function or block has automatic storage and is
+cleaned up automatically and it lives on stack. Allocated storage duration
+varibales can persist as long as they want after allocation on heap by using
+one of `malloc, calloc` and `realloc` as long as the name is kept
+in scope and a corresponding `free` is not called on that name of the
+variable. Now let us discuss operators and expressions.
 
 
 Whenever operators and expressions come in picture you may have a set of mixed
 data then to perform opration data is converted from one type to another. This
-is known as "Usual Arithmetic Conversion", which I am going to tell you next.
+has an entire section devoted to it in specification at \S(6.3).
