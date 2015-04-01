@@ -13,7 +13,7 @@ to monitor or a log file. For historical reasons these are known as
 streams. \texttt{FILE} is capable of representing other streams which are disk
 based for example a file on your hard drive. There are more type of input
 devices on a modern computer. For example, network i/o is there. Whenever you
-browse web or download a file through your intenet connection network i/o comes
+browse web or download a file through your Internet connection network i/o comes
 into play. There is an opengroup
 which specifies functions for network related functions. Operating systems
 like GNU/Linux are POSIX compatible which defines how network i/o will be
@@ -28,12 +28,12 @@ related functions. However, if things do not make sense even then please go
 through it and come later to understand more. 
 
 \section{C's Memory Model}
-As you may be knowing RAM(random acess memory) is the area which is used as
+As you may be knowing RAM(random access memory) is the area which is used as
 primary memory. Whenever we execute a program the first thing which happens is
 that it gets loaded into memory. Now a binary program becomes a process when it
 is running i.e. a running program is referred as process. All processes have
 memory area divided into different portions. These portions are known as data
-segment, stack and code or text segment. Dats segement is further split in
+segment, stack and code or text segment. Data segment is further split in
 three parts; initialized data segment, uninitialized data segment or BSS which
 is name after an ancient assembler Block Started by Symbol and
 heap. Initialized data segment contains initialized global variables and static
@@ -55,7 +55,7 @@ least you loose all pointers to the memory area before you can free. The nature
 with this particular problem is that if your program is going to run for long
 time then it is going to consume more and more memory. Because of its nature it
 is known as memory leak. It is very difficult to detect such problems in code
-which does not run for long periods of time. Our friend valgrind will come to
+which does not run for long periods of time. Our friend Valgrind will come to
 help up with this problem. When a memory leak happens it eats up RAM slowly and
 then operating system has to use virtual memory as explained above. In a
 nutshell, I will say that heap means you have to manage it.
@@ -77,9 +77,9 @@ variables. However, stack is very limited (compared to heap) and in deeply
 nested function calls or recursion (you will see these in Functions chapter)
 stack may get full and program may crash. The reason for crashing is that
 operating system will not use virtual memory but will do a segmentation fault
-in its place. GNU/Linux allow its users to modify the stack size by ulimit
-command. Note that stack and heap are adjacent in memory and grow in opposite
-direction.
+in its place. GNU/Linux allow its users to modify the stack size by 
+\texttt{ulimit} command. Note that stack and heap are adjacent in memory and 
+grow in opposite direction.
 
 Code segment or text segment is an area where the executable instructions of
 program reside. It is typically constant and read-only area unless your system
@@ -112,7 +112,7 @@ format string as shown previously. After the format specifier it expects as
 many arguments as specified in format string. The characters which are not
 like, say \texttt{\%d} for example, arecalled ordinary characters. These are
 simply copied to output stream, which, is stdout for printf. The \texttt{\%d}
-like conversion charcaters are known as conversion specification or format
+like conversion characters are known as conversion specification or format
 specifiers. Each conversion specification should be augmented with one one
 argument. The results are undefined if there are insufficient arguments for the
 format. If extra arguments are given the excess arguments will be evaluated but
@@ -149,7 +149,7 @@ int main()
 \end{Verbatim}
 
 now that if you give the command like \texttt{gcc -Wall printf.c} where
-\texttt{printf.c} is the name of the ile then you will be shown following
+\texttt{printf.c} is the name of the file then you will be shown following
 warnings:
 
 \begin{Verbatim}[frame=single]
@@ -254,7 +254,7 @@ It scans \texttt{stdin} or keyboard for input. Its signature is same as that of
 according to format string. It also expects a set of pointer arguments as
 opposed to values for printf(). The pointers indicate where the interpreted
 data from the input will be stored. The result is \texttt{UNDEFINED} if there
-are less number of pointer arguments than the number of conversion specifers in
+are less number of pointer arguments than the number of conversion specifiers in
 format string. Excess arguments will be evaluated but ignored. The format
 string can have only white-space characters or an ordinary character (neither
 `\%' nor a white-space character) or a conversion specification. Each
@@ -286,7 +286,7 @@ and the output is:
 You entered:\\
 Hi!\\\\}
 It is certainly not the correct output. We had expected to see like: ``Hi! My
-name is Shiv.''. What happend to input string after ``Hi!''. Well, in a form
+name is Shiv.''. What happened to input string after ``Hi!''. Well, in a form
 given above for \texttt{scanf()} it will stop taking input after white-space
 for character strings. For numerics it does not matter as it does not match the
 format. For characters it is character-by-character so no confusion either. So
@@ -312,8 +312,8 @@ and the output is:
 You entered:\\
 Hi! My name is Shiv.\\\\}
 What if you want to filter a string based on certain patterns. For example, a
-charcater string does not contain more that a single space, English alphabets,
-period and digits. To scan such a string you can define a pttern as program
+character string does not contain more that a single space, English alphabets,
+period and digits. To scan such a string you can define a pattern as program
 given below shows:
 
 \begin{Verbatim}[frame=single]

@@ -280,7 +280,7 @@ axis. The numbers I have written are supposedly in decimal number system. Base
 of decimal number system is 10. Why because it consists of 10 distinct symbols
 0 through 9. Similarly we can have any other number system. Popular number
 systems in computers are binary, octal and hexadecimal not to mention decimal
-ofcourse.
+of course.
 
 A number in a generic number system is given below:
 \begin{equation}
@@ -291,7 +291,7 @@ A number in a generic number system is given below:
 All the terms with $c$  are called digits. The leftmost or leading digit is
 called \textit{most significant digit} and the rightmost or trailing digit is
 called \textit{least significant digit}. The . is called a point which
-separates the integral part which is toards its left from the fractional part
+separates the integral part which is towards its left from the fractional part
 which is towards its right. $b$  is known as radix or base of the number
 system. Note that all digits will be between $0$ to $b-1$. So in our decimal
 system $b$  is 10 therefore we have digits from 0 to 9. In binary number system
@@ -299,7 +299,7 @@ it is 2 therefore digits permitted are 0 and 1.
 
 \subsection{Binary Number System}
 As the name suggests binary number system has base of 2. Therefore it has only
-two symbols. 0 and 1. This is the most popular system for computers becasue TTL
+two symbols. 0 and 1. This is the most popular system for computers because TTL
 NAND and NOR gates which are the most basic logic gates using which other gates
 are implemented in processor has only two voltage output levels because of
 their operation in cut-off and saturation zones. These terms are better
@@ -307,7 +307,7 @@ understood with the help of a book on electronics which is out of scope of this
 book. All binary numbers consist of 0 and 1. So the count is like 0, 1, 10, 11,
 100, 101, 110, 111, 1000 and so on.
 
-\subsubsection{Conversion of Unsigned Decimals and Bianries}
+\subsubsection{Conversion of Unsigned Decimals and Binaries}
 Consider a decimal number. Let us say 53 then how would be convert it to
 binary. The technique is that of division. Please examine following carefully:
 
@@ -421,7 +421,7 @@ and negative. As you see in table that 1111 1111 is -0 because MSB is 1 so it
 is a negative number and then if you invert all remaining bits then it turns
 out to be 0. In a 1's complement system negative numbers are represented by the
 arithmetic negative of the value. An $N$-bit 1's complement number system can
-represent integres in the range $-2^{N-1} - 1$ to $-2^{N-1} - 1$.
+represent integers in the range $-2^{N-1} - 1$ to $-2^{N-1} - 1$.
 
 Now it is easy to do addition, subtraction, multiplication, division and other
 arithmetic operations. Subtraction for 1's complement is a bit
@@ -488,7 +488,7 @@ the inputs are represented in the same number of bits and any overflow beyond
 those bits is discarded from the result). This property makes the system both
 simpler to implement and capable of easily handling higher precision
 arithmetic. Also, as mentioned above zero has only a single 
-representation, avioding the subtleties associated with negative zero, which
+representation, avoiding the subtleties associated with negative zero, which
 exists in 1's complement systems.
 
 The value $v$ of an $N$-bit integer $b_{N-1} b_{N-2} \dots b_0 $is given by the
@@ -510,7 +510,7 @@ context-free grammar. There are valid characters in a programming language and
 a set of keywords. There are constructs to handle control flow, loops
 etc. There are facilities provided by language to deal with numbers and strings
 separately, to reuse the code and some basic data structures to facilitate
-programming. However, programming language ruleset is very small compared
+programming. However, programming language rule-set is very small compared
 to a natural programming language. Also, when using natural programming
 language like talking to someone or writing something the other person can
 understand your intent but in programming you cannot violate rules. The grammar
@@ -519,7 +519,7 @@ code. They are not intelligent. You make a mistake and it will refuse to listen
 to you no matter what you do. Therefore, it is very essential to understand
 these rules very clearly and correctly.
 
-Note that C language is govered by ISO specification \textbf{ISO/IEC
+Note that C language is governed by ISO specification \textbf{ISO/IEC
   9899:2011}. As much as I would like to refer to specification there are
 financial reasons why I will not because it is expensive and I do not expect
 all of readers to buy this. Therefore, I will be referring to final draft
@@ -541,7 +541,7 @@ This means along with other symbols you can use all English alphabets (both
 uppercase and lowercase) and Arabic numerals. Symbols like \texttt{\$} and
 \texttt{@} are not part of C's character set. But strings can contain any
 these characters also. Strings are sequence of characters with double quotes
-and double quotes iteself are escaped with \texttt{$\backslash$}. Also,
+and double quotes itself are escaped with \texttt{$\backslash$}. Also,
 \texttt{\$} and \texttt{@} can also be value of characters. Characters are
 values containing single characters withing single quotes. We will see more of
 these in their individual sections. However, English is not the only
@@ -594,7 +594,7 @@ allows to use other than what they are meant for:
 \end{table}
 
 These keywords are special in C as said and cannot be used for variable names 
-or funciton names or otherwise other than in strings and comments.
+or function names or otherwise other than in strings and comments.
 
 \section{Identifiers}
 The names which we give to our variables are known as identifiers
@@ -619,9 +619,9 @@ underscore. Numbers must not be first character. For example, \texttt{x,
 with names starting from underscore as they are mostly used by different
 library authors. Invalid identifier examples are \texttt{9x, my\$} and
 \texttt{your age}. If the identifier name contains extended
-characters(i.e. other than what is mentioned for simplicity like, chinese,
-european, japanese etc) then it will be replaced with an encoding of universal
-character set, however, it cannot be first chgaracter.
+characters(i.e. other than what is mentioned for simplicity like, Chinese,
+European, Japanese etc) then it will be replaced with an encoding of universal
+character set, however, it cannot be first character.
 
 Length of an identifer for 31 characters, as specified in \S(iso.5.2.4.1), is
 guaranteed across all platforms.
@@ -661,7 +661,7 @@ also comments. Anything between \texttt{/*} and \texttt{*/} is ignored like
   more comment */}. Such comments will produce error messages and your program
 will fail to compile. The reason for this is when first \texttt{*/} is
 encountered by parser or compiler it will complete its token for the comment
-and then further portion which we intented to be part of comment will cause
+and then further portion which we intended to be part of comment will cause
 syntax error. 
 
 Comments are very integral part of programming. They are used to describe 
@@ -672,10 +672,10 @@ is really complex. One should be generous while commenting the code.
 
 The next line is \texttt{\#include <stdio.h>}. \texttt{\#include} is a
 preprocessor directive. The preprocessor directive is handled by the C
-preprocesor which is handled by C preprocessor which looks in four directories
+preprocessor which is handled by C preprocessor which looks in four directories
 for include files. The include filename comes after \texttt{\#include} either in
 angular brackets or double quotes. The C preprocessor looks for these at four
-different places at least out of which one or posiibly two is of interest for
+different places at least out of which one or possibly two is of interest for
 now as we are dealing with angular brackets. Depending on the way your compiler
 is installed the file \texttt{stdio.h} may be in \texttt{/usr/include} or
 \texttt{/usr/local/include} but then again it may be in a non-standard path
@@ -688,13 +688,13 @@ purposes. \texttt{\#line} macro is discussed later in the chapter which deals
 with macros. You can see the output of C preprocessor by typing \texttt{\$gcc
   -E nothing.c} since it will scroll a lot on you terminal you can use a pager
 like \texttt{less} to read it. The \texttt{-E} tells \texttt{gcc} to just allow
-preprocessoing and not compile and link the file.
+preprocessing and not compile and link the file.
 
 Next line is \texttt{int main(int argc, char* argv[])}. Now this is very special
 function. Every complete executable(shared objects or dlls or archive
 libraririe do not have main even though they are C programs) C program will
 have one main function unless you do assembly hacking. This function is where
-the programs start. The first word \texttt{int} is a keyword which shirthand
+the programs start. The first word \texttt{int} is a keyword which shorthand
 for integer. This signifies the return type of function. \texttt{main} is the
 name of the function. Inside parenthesis you see \texttt{int argc} which tells
 how many arguments were passed to program and is short form of argument
@@ -787,7 +787,7 @@ definition. \texttt{int} is a data-type in C. \texttt{x, y,} and \texttt{z} are
 called variables of type \texttt{int}. This means that the size of these
 variables will be same as \texttt{int}. Note that 
 C is a statically typed language and all types have predefined memory
-requirements. In cour case, \texttt{int} requires 4 bytes on 32-bit and 64-bit
+requirements. In our case, \texttt{int} requires 4 bytes on 32-bit and 64-bit
 systems but 2 bytes on 16-bit systems.
 
 Let us learn a bit about \texttt{printf}. This function is declared in
@@ -832,9 +832,9 @@ Say we encode
 character `A' for 10101 will it be easy for you to see A or numbers. Also,
 numbers range from $-\infty$ to $\infty$. Also, since C is statically typed the
 sizes of data types have to be known at compile time. Because the data type is
-known a compiler can detect whether we are storing corect type of values in
-corect type of variables at compilation time. Also, it allows compiler to do
-certain optimization which efffects the runtime performance of the program
+known a compiler can detect whether we are storing correct type of values in
+correct type of variables at compilation time. Also, it allows compiler to do
+certain optimization which effects the runtime performance of the program
 during execution. There are four types of
 data types. Integral, floating-point, arrays and pointers. Here, I will deal
 with the two former types and leave latter two for later. The integral types
@@ -901,7 +901,7 @@ bytes. Since most modern computers are either 32-bit with
 64-bit becoming more dominant we will assume in this book that integer's size
 is 4 bytes or 32-bit implicitly because 32-bit \texttt{gcc} gives a 32-bit
 integer. There is a keyword \texttt{signed} which when 
-applied to a data type splits the range into two parts. Since interger is 32
+applied to a data type splits the range into two parts. Since integer is 32
 bit so it will be split in the range from $-2^{31}$ to $2^{31} - 1$. By default
 integers, characters and long are \texttt{signed}. Floats and doubles are
 always \texttt{signed} and have no unsigned counterpart. When the integer will
@@ -914,18 +914,18 @@ which you can find in \texttt{/usr/include} or \texttt{/usr/local/include} by
 default.
 
 There are four different types of integers based on their storage
-reuirement. \texttt{short int, int, long,} and \texttt{long long.} Short
+requirement. \texttt{short int, int, long,} and \texttt{long long.} Short
 integers are always two bytes. Signed short integer has a range of -32768 to
 32767 while unsigned of that has a range of 0 to 65535. Plain integers
 i.e. \texttt{int} has already been discussed. \texttt{long} are having a
-minimum storage reuirement of 4 bytes. Usually it is large enough to represent
+minimum storage requirement of 4 bytes. Usually it is large enough to represent
 all memory addresses of the system because \texttt{size\_t} is
 \texttt{unsigned long.}
 
 \texttt{short, long} and \texttt{long long} qualifiers decrease/increase the
 range of plain integers. On a 64-bit compiler {short int} will be 2 bytes while
 \texttt{long int} will be 8 bytes, which, will be equal to \texttt{long long
-  int}. \texttt{unsigned lon int} is chose in such a way that it should be
+  int}. \texttt{unsigned long int} is chose in such a way that it should be
 capable of representing all memory addresses because it has a typedef to
 \texttt{size\_t} which is the type of argument received by many functions
 including memory allocation functions.
@@ -939,11 +939,11 @@ one zero for positive and negative numbers. If it would have been 1's
 complement then range would have been from -127 to 127 but since computers
 follow 2's complement the specification clearly mentions that range should be
 from $-2^7$ to $2^7 - 1.$ Note that chars are fundamentally integral types and
-ascii symbols are first 128 numbers or in other words they are 7-bit numbers.
+ASCII symbols are first 128 numbers or in other words they are 7-bit numbers.
 
 So a character `0' is internally 48 in decimal which is its integral or
 internally it is handled as a sequence of binary numbers representing
-\texttt{0x30} in hexdecimal. These integral values for characters are known as
+\texttt{0x30} in hexadecimal. These integral values for characters are known as
 ASCII value. A full table of ASCII values is given in the appendix A.
 
 A simple program which takes input for few characters and then prints them on
@@ -1070,8 +1070,8 @@ are all minimum values.
 Floating point representation is a lot more complicated in computers than it
 is for us human beings. C specification takes floating points description and
 specification from IEC 60559:1989 which is a standard for floating point
-arithmetic whihc is same as IEEE 754. In C there are three types of flaoting
-point numbers \texttt{float, double} and \texttt{long double.} It is describved
+arithmetic which is same as IEEE 754. In C there are three types of floating
+point numbers \texttt{float, double} and \texttt{long double.} It is described
 in specification in \S(iso.5.2.4.2.2).
 
 A floating-point number is used to represent real-world fractional value which
@@ -1167,7 +1167,7 @@ A boolean type has only two values possible; \texttt{true} and
 integers. \texttt{true} and \texttt{false} are macros (which we will see later)
 which are defined in \texttt{<stdbool.h>} and they expand to 1 and 0
 respectively. The type \texttt{bool} is a macro which expands to
-\texttt{\_Bool}. Let us see a small program with bolleans:
+\texttt{\_Bool}. Let us see a small program with booleans:
 
 \begin{Verbatim}[frame=single]
 #include <stdio.h>
@@ -1223,7 +1223,7 @@ this program so the compilation command would look like \texttt{\$gcc -o complex
 complex.c -lm}. The \texttt{-lm} part is mandatory for compilation of this
 program. Let us see the output:
 \\\\\texttt{Absolute value of z is 5.000000\\
-Imaghinary part of conjugate is now -3.000000\\\\}
+Imaginary part of conjugate is now -3.000000\\\\}
 I have shown only two functions \texttt{cabs} and \texttt{cimag} but there are
 a lot more and very useful functions available to do computations on complex
 numbers. The way to declare a complex number is shown. It is a combination of
@@ -1241,7 +1241,7 @@ type to be known cannot have \texttt{void} as its type. However, we can declare
 pointers of type \texttt{void} because pointers do not require size of type to
 be known. For this reason \texttt{void} pointers are used as generic pointers
 and is used to convert one type of pointers into another. It is a low-level
-type and should be used sparigly. We will see examples of \texttt{void} type
+type and should be used sparingly. We will see examples of \texttt{void} type
 later in the book.
 
 Enum type is an integral type and is used as symbolic constants. An enumeration
@@ -1274,7 +1274,7 @@ alpha = -5, beta = -4, gamma=-3, tehta=4, delta=5, omega=6\\\\}
 There are four categories of constants: character, integer, floating-point, and
 enumeration constant. There are certain rules about constants. Commas and
 spaces are not allowed except for character and string constants. Their range
-cannot outgrow the range of there data type. For numeric type of stants they
+cannot outgrow the range of there data type. For numeric type of constants they
 can have a leading (-)minus sign.
 
 Given below is an example of integer constants:
@@ -1327,7 +1327,7 @@ int main()
 
 and the output is:
 \\\\\texttt{7.538459 13.894579 759.826348\\\\}
-For example 123456 can be wriiten as one of 1.23456e5, 1.23456e+5, 1.23456E5,
+For example 123456 can be written as one of 1.23456e5, 1.23456e+5, 1.23456E5,
 .123456e6, 12.3456E+4 etc. The expoenent is integer and it cannot be
 floating-point number.
 
@@ -1349,7 +1349,7 @@ sequences:
 \begin{center}
 \caption{Escape Sequences}
 \begin{longtable}{lcc}
-\textbf{Character}&\textbf{Escape Seqquence}&\textbf{ASCII Value}\\
+\textbf{Character}&\textbf{Escape Sequence}&\textbf{ASCII Value}\\
 bell (alert)&$\backslash$a&007\\
 backspace&$\backslash$b&008\\
 horizontal t&$\backslash$t&009\\
