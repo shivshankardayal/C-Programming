@@ -2,11 +2,11 @@
 Operators and expressions are in the core of every programming language. They
 form the major part of BNF grammar. They also decide how the syntax will look
 like. You as a programmer will spend considerable time using C operators. C has
-sevral type of operators like arithmetic operators, relational operators,
+several type of operators like arithmetic operators, relational operators,
 bitwise operators, unary operators, logical operators to name some of them.
-Since C was first of very poopular structured general-pupose lnguages therefore
+Since C was first of very popular structured general-purpose languages therefore
 many modern language use almost all the operators and supplement with their own.
-It is needless to say that to become a good programmar you must know all the
+It is needless to say that to become a good programmer you must know all the
 operators of C and know where to use which one as it may decide performance,
 readability, simplicity of your code. Whenever you see array and pointer in
 following sections just plow through them. All will be clear soon.
@@ -29,8 +29,8 @@ blocks inside a function. Starting from C99 you can declare variables anywhere
 inside a function and this block variables which have less lifetime than
 functions are possible. We will see more of these when we see more code. Note
 that identifiers can be reused in different scopes. For example, a loop index
-integer identifer is repeated many times but every time it is a new
-variable(We will see loops soon). Two idendifiers have same scope if and only
+integer identifier is repeated many times but every time it is a new
+variable(We will see loops soon). Two identifiers have same scope if and only
 if their scope terminates at the same point.
 
 \section{Linkages of an Identifier}
@@ -57,14 +57,14 @@ duration. A variable local to a function or block which is not dynamically
 allocated on heap by using either of `malloc, calloc` or `realloc` has
 automatic storage and has function or block has automatic storage and is
 cleaned up automatically and it lives on stack. Allocated storage duration
-varibales can persist as long as they want after allocation on heap by using
+variables can persist as long as they want after allocation on heap by using
 one of `malloc, calloc` and `realloc` as long as the name is kept
 in scope and a corresponding `free` is not called on that name of the
 variable. Now let us discuss operators and expressions.
 
 
 Whenever operators and expressions come in picture you may have a set of mixed
-data then to perform opration data is converted from one type to another. This
+data then to perform oration data is converted from one type to another. This
 has an entire section devoted to it in specification at \S(iso.6.3). There are two
 types of conversions. Many operators convert their operands silently which is
 called ``implicit conversion'' and then we have cast operators
@@ -124,7 +124,7 @@ to an \texttt{unsigned int}. These are called the \textit{integer
   usual arithmetic conversions, to certain argument expressions, to the
   operands of the unary \texttt{\textbf{+, -}} and \texttt{\textbf{\~}}
   operators, and to both operands of the shift operators, as specified by their
-  respective subclauses.} All other types are unchanged by theinteger
+  respective subclauses.} All other types are unchanged by the integer
 promotions.
 
 The integer promotions preserve value including sign. As discussed earlier, whether a
@@ -264,7 +264,8 @@ aggregates or unions) with a const-qualified type.
 \section{Additive Operators}
 For addition \texttt{+} is used as symbol and for subtraction \texttt{-} is
 used as symbol. For addition both operands can be pointers(do not worry about
-these for now) or integers or characters or floating-point numbers. In other
+these for now. We will refer to this later) or integers or characters or 
+floating-point numbers. In other
 case one can be a pointer to a complete object and another can be an interger.
 
 For subtraction both operands should be pointers or left one can be pointer and
@@ -272,7 +273,7 @@ right one can be integer else both operands can be arithmetic type
 i.e. characters, integers or floating-point numbers.
 
 Usual arithmetic conversions are performed on operands which we have discussed
-above. For now we will only consider arithemtic types and not pointers.
+above. For now we will only consider arithmetic types and not pointers.
 
 \section{Multiplicative operators}
 There are three multiplicative operators. For multiplication \texttt{*} is
@@ -282,7 +283,7 @@ performed and operands must be of arithmetic type. \texttt{\%} can only be
 applied to integral types i.e. characters and integers but not to
 floating-point numbers as \texttt{/} operation's result contain the fraction
 part which forms the remainder for \texttt{\%} in case of both the operands
-being integeral type.
+being integral type.
 
 Let us see a program to understand these operators clearly.
 \begin{Verbatim}[frame=single]
@@ -372,16 +373,117 @@ int main()
 and the output is:
 \\\\\texttt{-2\\
 4294967294\\\\}
-Here, \texttt{INT\_MAX} is 2147483647 which is nothing but $2^{31} - 1$ for
-32-bit intergers. Now if we add these it will cause integer overflow. Thus
+Here, \texttt{INT\_MAX}(found in header \texttt{limits.h}) is 2147483647 which 
+is nothing but $2^{31} - 1$ for
+32-bit integers. Now if we add these it will cause integer overflow. Thus
 specification gives the compiler freedom that you can wrap around the sum
 around the maximum value. Thus if you go on counting in 2's complement and wrap
 after \texttt{INT\_MAX} and count \texttt{INT\_MAX} times again then you will
 get -2. Now the question is how can we add these numbers. We can promote them
 to a bigger data types say \texttt{long} by using cast operators which we will
-see later. Casting signed type to unsigned types is not advisable because sign
-conversions will end up having values which are not intutive.
+see later. For the curious one if you are wondering how can we represent 
+integers larger than \texttt{long long} then the answer lies in many methods. 
+You can implement a linked list or use  a multiple-precision library like 
+\href{https://gmplib.org/}{GMP}. Casting signed type to unsigned types is not 
+advisable because sign conversions will end up having values which are not 
+intuitive.
 
 Similarly floating-point arithmetic can also be done.
 
 \section{Relational Operators}
+There are four relational operators which are used to compare the value. There 
+are two additional equality operators, which we will see next, are used for 
+checking equality between its operands. The four relational operators are 
+\texttt{<, <=, >, >=}. \texttt{<} and \texttt{>} are simple. They mean less 
+than and greater than. \texttt{<=} checks if left operand is less than or equal 
+to the right operand. Similarly \texttt{>=} is used for checking if left 
+operand is greater than or equal to right operand. The constraint or condition 
+on operands is both operands will be real types i.e. characters. integers or 
+floating-point numbers or both operands will be pointers to qualified or 
+unqualified versions of compatible types(again we will not worry about pointers 
+here). The result of comparison is an \texttt{int} having a value 0 or 1. 
+Consider the following program:
+
+\begin{Verbatim}[frame=single]
+#include <stdio.h>
+#include <stdbool.h>
+
+int main()
+{
+  int i = 4, j = 5;
+  _Bool result = 0;
+
+  result = i < j;
+  printf("%d\n", result);
+
+  result = i > j;
+  printf("%d\n", result);
+
+  result = i <= j;
+  printf("%d\n", result);
+
+  result = i >= j;
+  printf("%d\n", result);
+
+  return 0;
+}
+\end{Verbatim}
+
+and the output is::
+\\\\\texttt{1\\
+0\\
+1\\
+0\\\\}
+We could have used \texttt{char} data type as well since they are fundamentally 
+integral types.
+
+
+Note that you should not apply these to floating-point data types as they may
+not be represented correctly and two different entities have the same internal
+representation. Consider following \texttt{double} values:
+\\\\\texttt{3ff0 0000 0000 0000\textsubscript{16}   = 1\\
+3ff0 0000 0000 0001\textsubscript{16}   $\approx$ 1.0000000000000002, 
+the smallest 
+number > 1\\
+3ff0 0000 0000 0002\textsubscript{16} $\approx$ 1.0000000000000004\\\\}
+As you can see 1.0000000000000003 cannot be represented correctly comparing it 
+against given values which are at either end may throw up surprises. For 
+example, consider the following program:
+
+\begin{Verbatim}[frame=single]
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+  if(1.0000000000000003 == 1.0000000000000002)
+    printf("Surprise!\n");
+
+  return 0;
+}
+
+\end{Verbatim}
+
+In this program equality operator is used, which is discussed in next section, 
+along with \texttt{if} statement which is part of next chapter and ideally the  
+string \texttt{Surprise!} should not print but it prints. Therefore, it is not 
+suggested to compare two floating point values if you suspect them to be very 
+close to each other.
+
+\section{Equality Operators}
+Equality operators are very much similar to relational operation we have just 
+discussed but their precedence is lower.\footnote{Because of the precedences, 
+\texttt{a<b == c<d} is 1 whenever \texttt{a<b} and \texttt{c<d} have the same 
+truth-value.} There are four constraints on operands 
+of equality operators:
+\begin{itemize}
+	\item[---] both the operands are of arithmetic type.
+	\item[---] both operands are pointers to qualified or unqualified versions 
+	of compatible types;
+	\item[---] one operand is a pointer to an object type and the other is a 
+	pointer to a qualified or unqualified version of \texttt{void}; or
+	\item[---] one operand is a pointer and the other is a null pointer 
+	constant.
+\end{itemize}
+Once again we will not worry about pointers i.e. we can ignore last three 
+constraints.
