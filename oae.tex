@@ -339,3 +339,49 @@ fesult = 5.758928
 fesult = 1.000000
 \end{Verbatim}
 
+First cResult is sumof \texttt{'A' + i} which is \texttt{'K'} as \texttt{'K'}
+comes ten positions after \texttt{'A'} in ASCII table. Then we subtract five and
+go back to \texttt{'F'}.
+
+First \texttt{iReasult} is \texttt{10 - i} where value of \texttt{i} is 10
+hence result is 0. Next we multiply \texttt{i} with \texttt{c} which
+contains \texttt{'A'} who has got ASCII value of 65 and result becomes
+650. Then We take sum of \texttt{'A'} and  \texttt{i} and divide by 3 so the
+result is 25 as it is a division of 75 by 3. Next we use modulus operator and
+remainder is 1. Note that in case of / and \% if denominator is zero the
+behavior is undefined.
+
+Consider a different program:
+
+\begin{Verbatim}[frame=single]
+#include <stdio.h>
+#include <limits.h>
+
+int main()
+{
+  int i=INT_MAX;
+  int j = INT_MAX;
+
+  printf("%d\n", i + j);
+  printf("%ld", (long)i + (long)j);
+
+  return 0;
+}
+\end{Verbatim}
+
+and the output is:
+\\\\\texttt{-2\\
+4294967294\\\\}
+Here, \texttt{INT\_MAX} is 2147483647 which is nothing but $2^{31} - 1$ for
+32-bit intergers. Now if we add these it will cause integer overflow. Thus
+specification gives the compiler freedom that you can wrap around the sum
+around the maximum value. Thus if you go on counting in 2's complement and wrap
+after \texttt{INT\_MAX} and count \texttt{INT\_MAX} times again then you will
+get -2. Now the question is how can we add these numbers. We can promote them
+to a bigger data types say \texttt{long} by using cast operators which we will
+see later. Casting signed type to unsigned types is not advisable because sign
+conversions will end up having values which are not intutive.
+
+Similarly floating-point arithmetic can also be done.
+
+\section{Relational Operators}
