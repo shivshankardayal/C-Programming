@@ -19,6 +19,9 @@ modularity, and portability among others. Because of these reasons C became
 immensely popular and is still popular.
 
 \section{History}
+\index{Dennis Ritchie}
+\index{Ken Thompson}
+\index{Martin Richards}
 C was formally delivered to this world in 1972 and conceived by Dennis
 MacAlistair Ritchie in 1968. What happened was there was a project for
 development of a text processor and GE-645 was bought by AT\&T Bell Labs. At
@@ -523,11 +526,11 @@ all of readers to buy this. Therefore, I will be referring to final draft
 version which you can download from
 \url{http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf}. It will be
 almost same as final revision and costs nothing. Sections of this document will
-be referred like \S(section number).
+be referred like \S(iso.section number).
 
 \section{The C Character Set}
 The following form the C character set you are allowed to use in it which is
-given in \S(5.2.1):
+given in \S(iso.5.2.1):
 
 \begin{Verbatim}[frame=single]
 [a-z] [A-Z] [0-9] ~ ! # % ^ & * ( ) - = [ ] \ ; ' , . / _ + { } | : " < > ?
@@ -546,7 +549,7 @@ spoken language in the world. Therefore in other non-English speaking counties
 there are keyboard where certain characters present in above set are not
 present. The inventors of C were wise enough to envision this and provide the
 facility in form of trigraph sequences. Given below is the trigraph sequence
-table given in \S(5.2.1.1):
+table given in \S(iso.5.2.1.1):
 
 \begin{table}[H]
  \begin{center}
@@ -570,7 +573,7 @@ However, you should refrain from using trigraph sequences for portability
 reasons as suggested by GNU coding standards.
 
 \section{Keywords}
-The following given in \S(6.4.1) are reserved keywords for C programming language which you are not 
+The following given in \S(iso.6.4.1) are reserved keywords for C programming language which you are not 
 allows to use other than what they are meant for:
 \index{keywords}
 \begin{table}[H]
@@ -595,7 +598,7 @@ or funciton names or otherwise other than in strings and comments.
 
 \section{Identifiers}
 The names which we give to our variables are known as identifiers
-\S(6.4.2). Please read this section carefully and make sure understand
+\S(iso.6.4.2). Please read this section carefully and make sure understand
 the rules for naming identifiers. Later at the end of chapter there are some
 simple problems to practice with.
 
@@ -620,7 +623,7 @@ characters(i.e. other than what is mentioned for simplicity like, chinese,
 european, japanese etc) then it will be replaced with an encoding of universal
 character set, however, it cannot be first chgaracter.
 
-Length of an identifer for 31 characters, as specified in \S(5.2.4.1), is
+Length of an identifer for 31 characters, as specified in \S(iso.5.2.4.1), is
 guaranteed across all platforms.
 
 \section{Programming}
@@ -750,7 +753,7 @@ and the output is:
 Please enter an integer:\\
 \textbf{7}\\
 Please enter another integer:\\
-\textbf{8}
+\textbf{8}\\
 7 + 8 = 15}\\\\
 Note that \texttt{shiv@shiv:~/book/code\$} is the prompt.
 
@@ -822,7 +825,7 @@ one by one.
 \section{Data Types}
 What are data types? Why C needs data types? C is a statically typed language
 that is every variable has a type associated with it. Types are discussed in
-specification in great length in \S(6.2.5) to \S(6.2.8).
+specification in great length in \S(iso.6.2.5) to \S(iso.6.2.8).
 These types determine
 what kind of values these variables can hold and how they will be interpreted.
 Say we encode
@@ -901,7 +904,7 @@ integer. There is a keyword \texttt{signed} which when
 applied to a data type splits the range into two parts. Since interger is 32
 bit so it will be split in the range from $-2^{31}$ to $2^{31} - 1$. By default
 integers, characters and long are \texttt{signed}. Floats and doubles are
-always \texttt{unsigned} and have no signed counterpart. When the integer will
+always \texttt{signed} and have no unsigned counterpart. When the integer will
 be \texttt{unsigned} then the positive range doubles and it becomes $0$ to
 $2^{32} - 1$. When the value of intger is more than its range then the values
 rotate in the using modulus with the largest value of the range which is also
@@ -918,6 +921,14 @@ i.e. \texttt{int} has already been discussed. \texttt{long} are having a
 minimum storage reuirement of 4 bytes. Usually it is large enough to represent
 all memory addresses of the system because \texttt{size\_t} is
 \texttt{unsigned long.}
+
+\texttt{short, long} and \texttt{long long} qualifiers decrease/increase the
+range of plain integers. On a 64-bit compiler {short int} will be 2 bytes while
+\texttt{long int} will be 8 bytes, which, will be equal to \texttt{long long
+  int}. \texttt{unsigned lon int} is chose in such a way that it should be
+capable of representing all memory addresses because it has a typedef to
+\texttt{size\_t} which is the type of argument received by many functions
+including memory allocation functions.
 
 \section{Characters}
 A \texttt{char} is 1 byte i.e. 8 bits or \texttt{CHAR\_BIT} bits. So its signed
@@ -1061,7 +1072,7 @@ is for us human beings. C specification takes floating points description and
 specification from IEC 60559:1989 which is a standard for floating point
 arithmetic whihc is same as IEEE 754. In C there are three types of flaoting
 point numbers \texttt{float, double} and \texttt{long double.} It is describved
-in specification in \S(5.2.4.2.2).
+in specification in \S(iso.5.2.4.2.2).
 
 A floating-point number is used to represent real-world fractional value which
 is a trade-off between range and accuracy because as I said in \ref{fractional
@@ -1142,13 +1153,9 @@ int main()
 \end{Verbatim}
 
 If you run this you might have following output:
-
-\begin{Verbatim}[frame=single]
-Enter a float, double and long double separated by space:
-3.4 5.6 7.8
-You entered 3.400000 5.600000 7.800000
-\end{Verbatim}
-
+\\\\\texttt{Enter a float, double and long double separated by space:\\
+\textbf{3.4 5.6 7.8}\\
+You entered 3.400000 5.600000 7.800000\\\\}
 By default these print upto six significant digits but doubles have double
 precision as we have studied. Now that we know basic types let us learn a bit
 about input/output.
@@ -1182,11 +1189,7 @@ int main()
 \end{Verbatim}
 
 and the output is:
-
-\begin{Verbatim}[frame=single]
-1 1 1 0 1 1
-\end{Verbatim}
-
+\\\\\texttt{1 1 1 0 1 1\\\\}
 Note that \texttt{true} and \texttt{false} are keywords while \texttt{True} and
 \texttt{False} are identifiers.
 
@@ -1219,12 +1222,8 @@ Since we have used \texttt{<complex.h>} we need to link math library to compile
 this program so the compilation command would look like \texttt{\$gcc -o complex
 complex.c -lm}. The \texttt{-lm} part is mandatory for compilation of this
 program. Let us see the output:
-
-\begin{Verbatim}[frame=single]
-Absolute value of z is 5.000000
-Imaghinary part of conjugate is now -3.000000
-\end{Verbatim}
-
+\\\\\texttt{Absolute value of z is 5.000000\\
+Imaghinary part of conjugate is now -3.000000\\\\}
 I have shown only two functions \texttt{cabs} and \texttt{cimag} but there are
 a lot more and very useful functions available to do computations on complex
 numbers. The way to declare a complex number is shown. It is a combination of
@@ -1267,12 +1266,9 @@ int main()
 }
 \end{Verbatim}
 
-and the output is
-
-\begin{Verbatim}[frame=single]
-zero = 0, one = 1, two=2
-alpha = -5, beta = -4, gamma=-3, tehta=4, delta=5, omega=6
-\end{Verbatim}
+and the output is:
+\\\\\texttt{zero = 0, one = 1, two=2\\
+alpha = -5, beta = -4, gamma=-3, tehta=4, delta=5, omega=6\\\\}
 
 \section{Literals}
 There are four categories of constants: character, integer, floating-point, and
@@ -1299,11 +1295,7 @@ int main()
 \end{Verbatim}
 
 and the output is:
-
-\begin{Verbatim}[frame=single]
-7 6 b
-\end{Verbatim}
-
+\\\\\texttt{7 6 b\\\\}
 As you can see there are three different categories for integer constants:
 decimal constants (base 10), octal constants (base 8) and hexadecimal constants
 (base 16). Also, you must have noticed how a zero is prefixed before octal type
@@ -1333,12 +1325,8 @@ int main()
 }
 \end{Verbatim}
 
-and the output is
-
-\begin{Verbatim}[frame=single]
-7.538459 13.894579 759.826348
-\end{Verbatim}
-
+and the output is:
+\\\\\texttt{7.538459 13.894579 759.826348\\\\}
 For example 123456 can be wriiten as one of 1.23456e5, 1.23456e+5, 1.23456E5,
 .123456e6, 12.3456E+4 etc. The expoenent is integer and it cannot be
 floating-point number.

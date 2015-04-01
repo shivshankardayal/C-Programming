@@ -13,8 +13,8 @@ following sections just plow through them. All will be clear soon.
 
 Before we can proceed to discuss operators and expressions I will explain
 scope, linkage and storage durations which can be applied to
-variables. These are given in specification starting in \S(6.2.1) and ending at
-\S(6.2.4).
+variables. These are given in specification starting in \S(iso.6.2.1) and ending at
+\S(iso.6.2.4).
 
 \section{Scope of an Identifier}
 Till now we have seen plain variables and their identifiers. However, there are
@@ -65,4 +65,277 @@ variable. Now let us discuss operators and expressions.
 
 Whenever operators and expressions come in picture you may have a set of mixed
 data then to perform opration data is converted from one type to another. This
-has an entire section devoted to it in specification at \S(6.3).
+has an entire section devoted to it in specification at \S(iso.6.3). There are two
+types of conversions. Many operators convert their operands silently which is
+called ``implicit conversion'' and then we have cast operators
+which we can use to explicitly convert values from one type to another which is
+called ``explicit conversion''. We will first see implicit conversion.
+
+\section{Arithmetic Conversions}
+\subsection{Booleans, Integers and Characters}
+These are all integral types. They have a rank or priority associated with them
+which controls which value is converted to which one. Following comes from
+\S(iso.6.3) for accuracy.
+
+\begin{itemize}
+\item[---] No two signed integer types shall have the same rank, even if they
+  have the same representation.
+\item[---] The rank of a signed integer type shall be greater than the rank of
+  any signed integer type with less precision.
+\item[---] The rank of \texttt{long long int} shall be greater than the rank of
+  \texttt{long int,} which shall be greater than the rank of \texttt{int,}
+  which shall be greater than the rank of \texttt{short int,} which shall be
+  greater than the rank of \texttt{signed char}.
+\item[---] The rank of any unsigned integer type shall equal the rank of the
+  corresponding signed integer type, if any.
+\item[---] The rank of any standard integer type shall be greater than the rank
+  of any extended integer type with the same width.
+\item[---] The rank of \texttt{char} shall equal the rank of \texttt{signed
+    char} and \texttt{unsigned char}.\footnote{However, plain char is treated
+    as signed char in gcc.}
+\item[---] The rank of \texttt{\_Bool} shall be less than the rank of all other
+  standard integer types. 
+\item[---] The rank of any enumerated type shall equal the rank of the
+  compatible integer type \S(iso.6.7.2.2).
+\item[---]The rank of any extended signed integer type relative to another
+  extended signed integer type with the same precision is
+  implementation-defined, but still subject to the other rules for determining
+  the integer conversion rank.
+\item[---] For all integer types \texttt{T1, T2,} and \texttt{T3,} if
+  \texttt{T1} has greater rank than \texttt{T2} and \texttt{T2} has greater
+  rank than \texttt{T3,} then \texttt{T1} has greater rank than \texttt{T3}.
+\end{itemize}
+
+The following may be used in an expression wherever an int or unsigned int may
+be used:
+
+\begin{itemize}
+\item[---] An object or expression with an integer type (other than
+  \texttt{int} or \texttt{unsigned int}) whose integer conversion rank is less
+  than or equal to the rank of \texttt{int} and \texttt{unsigned int}.
+\item[---] A bit-field of type \texttt{\_Bool, int, signed int} or \texttt{unsigned int}.
+\end{itemize}
+
+If an \texttt{int} can represent all values of the original type (as restricted
+by the width, for a bit-field(we will see these when we discuss structures and
+unions)), the value is converted to an \texttt{int}; otherwise, it is converted
+to an \texttt{unsigned int}. These are called the \textit{integer
+  promotions}.\footnote{The integer promotions are applied only: as part of the
+  usual arithmetic conversions, to certain argument expressions, to the
+  operands of the unary \texttt{\textbf{+, -}} and \texttt{\textbf{\~}}
+  operators, and to both operands of the shift operators, as specified by their
+  respective subclauses.} All other types are unchanged by theinteger
+promotions.
+
+The integer promotions preserve value including sign. As discussed earlier, whether a
+``plain'' \texttt{char} is treated as signed is implementation-defined.
+
+\subsection{Boolean Types}
+All values are convert to \texttt{\_Bool}. If non-zero then it is 1 else 0 or
+\texttt{true} and \texttt{false} respectively.\footnote{NaNs are not equal to 0
+  and thus convert to 1.}
+
+\subsection{Signed and Unsigned Integers}
+When a value with integer type is converted to another integer type other than
+\texttt{\_Bool}, if the value can be represented by the new type, it is
+unchanged.
+
+Otherwise, if the new type is unsigned, the value is converted by repeatedly
+adding or subtracting one more than the maximum value that can be represented
+in the new type until the value is in the range of the new type.\footnote{The
+  rules describe arithmetic on the mathematical value, not the value of a given
+  type of expression.}
+
+Otherwise, the new type is signed and the value cannot be represented in it;
+either the result is implementation-defined or an implementation-defined signal
+is raised.
+
+\subsection{Real Floating and Integer}
+When a finite value of real floating type is converted to an integer type other
+than \texttt{\_Bool,} the fractional part is discarded (i.e., the value is
+truncated toward zero). If the value of the integral part cannot be represented
+by the integer type, the behavior is undefined.\footnote{The remaindering
+  operation performed when a value of integer type is converted to unsigned
+  type need not be performed when a value of real floating type is converted to
+  unsigned type. Thus, the range of portable real floating values is (−1,
+  \texttt{\textbf{U}}\textit{type}\_\texttt{MAX+1}).}
+
+When a value of integer type is converted to a real floating type, if the value
+being converted can be represented exactly in the new type, it is unchanged. If
+the value being converted is in the range of values that can be represented but
+cannot be represented exactly, the result is either the nearest higher or
+nearest lower representable value, chosen in an implementation-defined
+manner. If the value being converted is outside the range of values that can be
+represented, the behavior is undefined. Results of some implicit conversions
+may be represented in greater range and precision than that required by the new
+type (see \S(iso.6.3.1.8) and \S(iso.6.8.6.4)).
+
+\subsection{Complex Types}
+When a value of complex type is converted to another complex type, both the
+real and imaginary parts follow the conversion rules for the corresponding real
+types.
+
+\subsection{Real and Complex}
+When a value of real type is converted to a complex type, the real part of the
+complex result value is determined by the rules of conversion to the
+corresponding real type and the imaginary part of the complex result value is a
+positive zero or an unsigned zero.
+
+When a value of complex type is converted to a real type, the imaginary part of
+the complex value is discarded and the value of the real part is converted
+according to the conversion rules for the corresponding real type.
+
+\subsection{Usual Arithmetic Conversions}
+Many operators that expect operands of arithmetic type(characters, integers and
+floating-point numbers) cause conversions and
+yield result types in a similar way. The purpose is to determine a
+\textit{common real type} for the operands and result. For the specified
+operands, each operand is converted, without change of type domain, to a type
+whose corresponding real type is the common real type. Unless explicitly stated
+otherwise, the common real type is also the corresponding real type of the
+result, whose type domain is the type domain of the operands if they are the
+same, and complex otherwise. This pattern is called the \textit{usual
+  arithmetic conversions}:
+
+\setlength{\leftskip}{1.5cm}
+
+\noindent First, if the corresponding real type of either operand is \texttt{long
+  double,} the other operand is converted, without change of type domain, to a
+type whose corresponding real type is \texttt{long double}.
+
+
+\noindent Otherwise, if the corresponding real type of either operand is \texttt{double,}
+the other operand is converted, without change of type domain, to a type whose
+corresponding real type is \texttt{double}.
+
+
+\noindent Otherwise, if the corresponding real type of either operand is \texttt{float,}
+the other operand is converted, without change of type domain, to a type whose
+corresponding real type is \texttt{float}.
+
+
+\noindent Otherwise, the integer promotions are performed on both operands. Then the
+following rules are applied to the promoted operands:
+
+\setlength{\leftskip}{3cm}
+
+\noindent If both operands have the same type, then no further conversion is needed.
+
+
+\noindent Otherwise, if both operands have signed integer types or both have unsigned
+integer types, the operand with the type of lesser integer conversion rank is
+converted to the type of the operand with greater rank.
+
+
+\noindent Otherwise, if the operand that has unsigned integer type has rank greater or
+equal to the rank of the type of the other operand, then the operand with
+signed integer type is converted to the type of the operand with unsigned
+integer type.
+
+
+\noindent Otherwise, if the type of the operand with signed integer type can represent
+all of the values of the type of the operand with unsigned integer type, then
+the operand with unsigned integer type is converted to the type of the
+operand with signed integer type.
+
+
+\noindent Otherwise, both operands are converted to the unsigned integer type
+corresponding to the type of the operand with signed integer type.
+
+
+\setlength{\leftskip}{0cm}
+The values of floating operands and of the results of floating expressions may
+be represented in greater range and precision than that required by the type;
+the types are not changed thereby.\footnote{The cast and assignment operators
+  are still required to remove extra range and precision.}
+
+There is also a concept called \textit{lvalue}\footnote{The name ``lvalue''
+  comes originally from the assignment expression \texttt{E1 = E2,} in which
+  the left operand \texttt{E1} is required to be a (modifiable) lvalue. It is
+  perhaps better considered as representing an object ``locator value''. What
+  is sometimes called ``rvalue'' is in this International Standard described 
+  as the ``value of an expression''.}. An lvalue is a value whose
+address can be taken. A modifiable lvalue is a value lvalue that does not have
+array type, does not have an incomplete type i.e. void, does not have a
+const-qualified type, and if it is a structure or union, does not have any
+member (including, recursively, any member or element of all contained
+aggregates or unions) with a const-qualified type.
+
+\section{Additive Operators}
+For addition \texttt{+} is used as symbol and for subtraction \texttt{-} is
+used as symbol. For addition both operands can be pointers(do not worry about
+these for now) or integers or characters or floating-point numbers. In other
+case one can be a pointer to a complete object and another can be an interger.
+
+For subtraction both operands should be pointers or left one can be pointer and
+right one can be integer else both operands can be arithmetic type
+i.e. characters, integers or floating-point numbers.
+
+Usual arithmetic conversions are performed on operands which we have discussed
+above. For now we will only consider arithemtic types and not pointers.
+
+\section{Multiplicative operators}
+There are three multiplicative operators. For multiplication \texttt{*} is
+used. For division / is used and for calculating remainder or modulus
+\texttt{\%} is used. For all these operators usual arithmetic conversions are
+performed and operands must be of arithmetic type. \texttt{\%} can only be
+applied to integral types i.e. characters and integers but not to
+floating-point numbers as \texttt{/} operation's result contain the fraction
+part which forms the remainder for \texttt{\%} in case of both the operands
+being integeral type.
+
+Let us see a program to understand these operators clearly.
+\begin{Verbatim}[frame=single]
+#include <stdio.h>
+
+int main()
+{
+  int i = 10;
+  float f= 6.45;
+  char c = 'A';
+  int iResult = 0;
+  float fResult = 0.0;
+  char cResult = '\0';
+
+  cResult = c + i;
+  printf("cResult = %c\n", cResult);
+  cResult = cResult - 5;
+  printf("cResult = %c\n", cResult);
+
+  iResult = i - 10;
+  printf("iResult = %d\n", iResult);
+  iResult = i * c;
+  printf("iResult = %d\n", iResult);
+  iResult = (i + c)/3;
+  printf("Result = %d\n", iResult);
+  iResult = (i + c)%2;
+  printf("iesult = %d\n", iResult);
+
+  fResult = f * 2.12;
+  printf("fesult = %f\n", fResult);
+  fResult = f - i;
+  printf("fesult = %f\n", fResult);  
+  fResult = f / 1.12;
+  printf("fesult = %f\n", fResult);
+  fResult = 1 % 3;
+  printf("fesult = %f\n", fResult);
+
+  return 0;
+}
+\end{Verbatim}
+
+and the output is:
+
+\begin{Verbatim}
+cResult = K
+cResult = F
+iResult = 0
+iResult = 650
+Result = 25
+iesult = 1
+fesult = 13.674000
+fesult = -3.550000
+fesult = 5.758928
+fesult = 1.000000
+\end{Verbatim}
+

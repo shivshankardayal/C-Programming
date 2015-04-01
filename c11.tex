@@ -1,5 +1,5 @@
 %\documentclass[9pt, twoside, openright]{memoir}
-\documentclass[10pt, a4paper, twoside, openright]{memoir}
+\documentclass[9pt, a4paper, twoside, openright]{memoir}
 
 \setstocksize{11in}{8in}
 \settrimmedsize{9in}{7in}{*}
@@ -16,6 +16,7 @@
 \DeclareOldFontCommand{\rm}{\normalfont\rmfamily}{\mathrm}
 \DeclareOldFontCommand{\sf}{\normalfont\sffamily}{\mathsf}
 \DeclareOldFontCommand{\tt}{\normalfont\ttfamily}{\mathtt}
+\DeclareOldFontCommand{\tt}{\smallfont\ttfamily}{\texxttt}
 \DeclareOldFontCommand{\bf}{\normalfont\bfseries}{\mathbf}
 \DeclareOldFontCommand{\it}{\normalfont\itshape}{\mathit}
 \DeclareOldFontCommand{\sl}{\normalfont\slshape}{\@nomath\sl}
@@ -44,7 +45,6 @@
 \let\footruleskip\undefined
 \usepackage{fancyhdr}
 \usepackage{fancyvrb}
-\renewcommand{\ttdefault}{pcr}
 \pagestyle{fancy}
 %\usepackage[shellescape, latex]{gmp}
 \showtrimson
@@ -118,7 +118,8 @@
 \author{\vspace*{1cm}\LARGE{Shiv S. Dayal}}
 \date{}
 
-%\renewcommand{\ttdefault}{pcr}
+\renewcommand{\ttdefault}{pcr}
+\setlength{\parskip}{1em}
 %\renewcommand{\rmdefault}{ptm}
 %\renewcommand{\rmdefault}{phv}
 \renewcommand{\contentsname}{Table of Contents}
@@ -162,6 +163,6 @@ Copyright, \copyright~ Shiv Shankar Dayal, 2011. All rights reserved.
 \include{io}
 \include{oae}
 \include{cf}
-\printindex
 \backmatter
+\printindex
 \end{document}

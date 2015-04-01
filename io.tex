@@ -177,17 +177,13 @@ warnings. You can make \texttt{gcc} generate more warnings by issuing a
 \texttt{-Werror} to \texttt{gcc}. These two options will ensure that your code
 has no warnings. Now let us move to output and try to understand it. The output
 on my system is as given below. It may differ on your system:
-
-\begin{Verbatim}[frame=single]
-3 8
-5 8
-3 5
-115
-D
-134514119
-10
-\end{Verbatim}
-
+\\\\\texttt{3 8\\
+5 8\\
+3 5\\
+115\\
+D\\
+134514119\\
+10\\\\}
 First \texttt{printf} is correct as expected. The second line causes undefined
 behavior. You may think it is the previous 8 but believe me it is not
 guaranteed that it will always the case. Ii is \textbf{UNDEFINED}. Third
@@ -197,7 +193,7 @@ trying to print a decimal integer while argument is a character string. There
 is no way for compiler to determine that what should be printed which will fit
 on standards.
 
-A full detail of all conversion specification is given in specification at \S(7.21.6).
+A full detail of all conversion specification is given in specification at \S(iso.7.21.6).
 
 In real-world most of the time the conversion specifiers are kept simple. Given
 below is a sample program showing some of the things given above:
@@ -233,26 +229,22 @@ int main()
 \end{Verbatim}
 
 The output of the above program is:
-
-\begin{Verbatim}[frame=single]
- 343456
-+343456
-01236640
-123.000000
-343456
-00343456
-  343456
--96
-15776
-343456
-4638355772471066016
-4638355772471066016
-343456
-343456
-123.00000000
-78939.93470000
-\end{Verbatim}
-
+\\\\\texttt{ 343456\\
++343456\\
+01236640\\
+123.000000\\
+343456\\
+00343456\\
+  343456\\
+-96\\
+15776\\
+343456\\
+4638355772471066016\\
+4638355772471066016\\
+343456\\
+343456\\
+123.00000000\\
+78939.93470000\\\\}
 We will keep seeing more conversion specifiers being used as we progress
 through this book.
 
@@ -290,13 +282,9 @@ int main()
 \end{Verbatim}
 
 and the output is:
-
-\begin{Verbatim}[frame=single]
-Hi! My name is Shiv.
-You entered:
-Hi!
-\end{Verbatim}
-
+\\\\\texttt{\textbf{Hi! My name is Shiv.\\}
+You entered:\\
+Hi!\\\\}
 It is certainly not the correct output. We had expected to see like: ``Hi! My
 name is Shiv.''. What happend to input string after ``Hi!''. Well, in a form
 given above for \texttt{scanf()} it will stop taking input after white-space
@@ -320,13 +308,9 @@ int main()
 \end{Verbatim}
 
 and the output is:
-
-\begin{Verbatim}[frame=single]
-Hi! My name is Shiv.
-You entered:
-Hi! My name is Shiv.
-\end{Verbatim}
-
+\\\\\texttt{\textbf{Hi! My name is Shiv.}\\
+You entered:\\
+Hi! My name is Shiv.\\\\}
 What if you want to filter a string based on certain patterns. For example, a
 charcater string does not contain more that a single space, English alphabets,
 period and digits. To scan such a string you can define a pttern as program
@@ -347,12 +331,8 @@ int main()
 \end{Verbatim}
 
 and the output is:
-
-\begin{Verbatim}[frame=single]
-Hi! My name is Shiv! My phone no. is 1234. %^$&*
-Hi! My name is Shiv! My phone no. is 1234.
-\end{Verbatim}
-
+\\\\\texttt{\textbf{Hi! My name is Shiv! My phone no. is 1234. \%\^\$\&\*\\}
+Hi! My name is Shiv! My phone no. is 1234.\\\\}
 There is also a major problem associated with input and that comes when you
 have characters involved. Consider the following program:
 
@@ -387,19 +367,15 @@ int main()
 \end{Verbatim}
 
 and the output is:
-
-\begin{Verbatim}[frame=single]
-2
-3.4
-s
-You entered
-2
-3.400000
-
-
-s
-\end{Verbatim}
-
+\\\\\texttt{\textbf{2\\
+3.4\\
+s\\}
+You entered\\
+2\\
+3.400000\\
+\\
+\\
+s\\\\}
 What is happening here is that newline entered by our RET key is getting
 assigned to \texttt{c1} and \texttt{c3}. That is why the program accepted only
 second character. The enter after \texttt{float f;} was assigned to \texttt{c1}
@@ -441,7 +417,7 @@ character string without filtering and print it to screen without
 filtering. What I am going to discuss are \texttt{gets(), fgets(), puts()} and
 \texttt{fputs()}.
 
-All the following function's reference is present in \S(7.21) which deals with
+All the following function's reference is present in \S(iso.7.21) which deals with
 header `stdio.h`.
 
 \section{Sting I/O Functions}
@@ -473,14 +449,10 @@ int main()
 \end{Verbatim}
 
 and the output is:
-
-\begin{Verbatim}[frame=single]
-Hi!
-Hi!
-Hello!
-Hello!
-\end{Verbatim}
-
+\\\\\texttt{\textbf{Hi!\\}
+Hi!\\
+\textbf{Hello!\\}
+Hello!\\\\}
 First \texttt{``Hi!''} and \texttt{``Hello!''} are keyboard inputs. Do not
 worry about array and pointer syntax at the moment. Just see the difference
 between function calls. Their is a problem with \texttt{gets()} that it can
@@ -523,16 +495,12 @@ int main()
 \end{Verbatim}
 
 and the output is:
-
-\begin{Verbatim}[frame=single]
-4
-4
-5
-5
-6
-6
-\end{Verbatim}
-
+\\\\\texttt{\textbf{4\\}
+4\\
+\textbf{5\\}
+5\\
+\textbf{6\\}
+6\\\\}
 The first 4, 5 and 6 were keyboard inputs. Note the use of extra
 \texttt{getchar()} and \texttt{putchar()} to handle the situation we faced
 during \texttt{scanf()}.

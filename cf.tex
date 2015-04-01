@@ -1,0 +1,147 @@
+\chapter{Flow Control}
+There are four things you will learn in this chapter. Switching the path of 
+execution in program depending upon program variables or states using control 
+statements, repeating a set of instructions using loops, bypassing certain set
+of instructions in a loop and jump around. Collectively, these elements of C
+allow or enable you to take driver's seat over the control over a C program.
+You will spend much of your programming time even in future using these basic
+elements. It is critical to understand the these topics well as these are basic
+pillars over which rest of chapters will build upon.
+
+Let us start with if-else statement \S(6.8.4.1) which is part of selection
+statements \S(6.8.4).
+
+\section{if else-if else Statements}
+An if statement can be broken into three distinct part. It starts with a
+mandatory single `if` clause which tests an expression and if that expression
+evaluates to boolean true then an associated block of code is executed. The
+`if` part may be followed by zero or more `else if` statements which also test
+an expression and it can have an associated block of code as well. Finally it
+can have an `else` statement which is optional and does not have any expression
+to test against. Rather if all above statements did not match their expressions
+then else block's code will be executed. Note that among all blocks of code of
+`if, else if` and `else` only one block of code will execute and rest will
+not.
+
+Let us see a small program to see these in action:
+
+\begin{Verbatim}[frame=single]
+#include <stdio.h>
+
+int main()
+{
+  int i = 0, j= 0;
+    
+  printf("Please enter two integers i and j:\n");
+  scanf("%d%d", &i , &j);
+  
+  if(i==4)
+    printf("you entered 4 for i.\n");
+
+  if(i==7)
+  {
+    printf("you entered 7 for i.\n");
+    printf("I am happy for you.\n");
+  }
+  else
+  {
+    printf("You did not enter 7 for i.\n");
+  }
+  
+  if(i==7)
+  {
+    printf("you entered 7 for i.\n");
+    printf("I am happy for you.\n");
+  }
+  else if(j==8)
+    printf("You entered 8 for i.\n");
+  
+  if(i==7)
+    printf("you entered my lucky number.\n");
+  else if((i==7) &&(j==8))
+    printf("May god bless you!\n");
+  else
+    printf("You entered bad number.\n");
+  
+  return 0;
+}
+\end{Verbatim}
+
+and the output is:
+
+\begin{Verbatim}[frame=single]
+Please enter two integers i and j:
+4
+6
+you entered 4 for i.
+You did not enter 7 for i.
+You entered bad number.
+\end{Verbatim}
+
+As you can see from first if sttatement that if you enter the value of `i` as 4
+then the `printf` will be executed and you will be able to see it. Note that if
+there are multiple lines below if which you want to execute then you must put
+them in a block using curly braces. If you just want to execute one line then
+these curly braces are optional. Note that how you must use curly braces if you
+have more than one line and you want to execute that block. Also, see the
+syntax for `else` and `else if`. One if-else can be nested inside
+another for example see the following code:
+
+\begin{Verbatim}[frame=single]
+#include <stdio.h>
+#include <string.h>
+ 
+int main()
+{
+  char fName[128]={0}, lName[128]={0};
+ 
+  printf("Enter your first name and last name in that order:\n");
+  gets(fName);
+  gets(lName);
+ 
+  if(strcmp(fName, "Shiv") == 0)
+  {
+    if(strcmp(lName, "Dayal") == 0)
+      printf("Your name is Shiv Dayal.\n");
+  }
+  else
+  {
+    printf("Your name is %s %s.\n", fName, lName);
+  }
+ 
+  return 0;
+}
+\end{Verbatim}
+
+and the output is:
+
+\begin{Verbatim}[frame=single]
+Enter your first name and last name in that order:
+Shiv
+Dayal
+Your name is Shiv Dayal.
+\end{Verbatim}
+
+another run when first `if` fails:
+
+\begin{Verbatim}[frame=single]
+Enter your first name and last name in that order:
+Richard
+Stallman
+Your name is Richard Stallman.
+\end{Verbatim}
+
+when first `if` matches but second `if` does not and this we have no output:
+
+\begin{Verbatim}[frame=single]
+Enter your first name and last name in that order:
+Shiv
+Stallman
+\end{Verbatim}
+
+Note the usage of nested if-else. Also, note how `strcmp` has been used to
+compare two strings and `gets` to read the input. `strcmp` takes two character
+strings as argument and returns 0 if they are equal. It returns non-zero values
+depending on whether one string is lexically greater than the other or not. But
+for now equality is enough for us. `gets` is dangerous but it is simple that is
+why has been used here. It is easy to overflow the buffer of `gets` argument.
