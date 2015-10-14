@@ -13,19 +13,19 @@ statements \S(6.8.4).
 
 \section{if else-if else Statements}
 An if statement can be broken into three distinct part. It starts with a
-mandatory single `if` clause which tests an expression and if that expression
+mandatory single \texttt{if} clause which tests an expression and if that expression
 evaluates to boolean true then an associated block of code is executed. The
-`if` part may be followed by zero or more `else if` statements which also test
+\texttt{if} part may be followed by zero or more `else if` statements which also test
 an expression and it can have an associated block of code as well. Finally it
-can have an `else` statement which is optional and does not have any expression
+can have an \texttt{else} statement which is optional and does not have any expression
 to test against. Rather if all above statements did not match their expressions
 then else block's code will be executed. Note that among all blocks of code of
-`if, else if` and `else` only one block of code will execute and rest will
+\texttt{if, else if} and \texttt{else} only one block of code will execute and rest will
 not.
 
 Let us see a small program to see these in action:
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 #include <stdio.h>
 
 int main()
@@ -65,29 +65,25 @@ int main()
   
   return 0;
 }
-\end{Verbatim}
+\end{minted}
 
 and the output is:
-
-\begin{Verbatim}[frame=single]
-Please enter two integers i and j:
-4
-6
-you entered 4 for i.
-You did not enter 7 for i.
-You entered bad number.
-\end{Verbatim}
-
-As you can see from first if sttatement that if you enter the value of `i` as 4
-then the `printf` will be executed and you will be able to see it. Note that if
+\\\\\texttt{Please enter two integers i and j:\\
+4\\
+6\\
+you entered 4 for i.\\
+You did not enter 7 for i.\\
+You entered bad number.\\\\}
+As you can see from first if sttatement that if you enter the value of \texttt{i} as 4
+then the \texttt{printf} will be executed and you will be able to see it. Note that if
 there are multiple lines below if which you want to execute then you must put
 them in a block using curly braces. If you just want to execute one line then
 these curly braces are optional. Note that how you must use curly braces if you
 have more than one line and you want to execute that block. Also, see the
-syntax for `else` and `else if`. One if-else can be nested inside
+syntax for \texttt{else} and \texttt{else if}. One if-else can be nested inside
 another for example see the following code:
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 #include <stdio.h>
 #include <string.h>
  
@@ -111,37 +107,498 @@ int main()
  
   return 0;
 }
-\end{Verbatim}
+\end{minted}
 
 and the output is:
-
-\begin{Verbatim}[frame=single]
-Enter your first name and last name in that order:
-Shiv
-Dayal
-Your name is Shiv Dayal.
-\end{Verbatim}
-
-another run when first `if` fails:
-
-\begin{Verbatim}[frame=single]
-Enter your first name and last name in that order:
-Richard
-Stallman
-Your name is Richard Stallman.
-\end{Verbatim}
-
-when first `if` matches but second `if` does not and this we have no output:
-
-\begin{Verbatim}[frame=single]
-Enter your first name and last name in that order:
-Shiv
-Stallman
-\end{Verbatim}
-
-Note the usage of nested if-else. Also, note how `strcmp` has been used to
-compare two strings and `gets` to read the input. `strcmp` takes two character
+\\\\\texttt{Enter your first name and last name in that order:\\
+Shiv\\
+Dayal\\
+Your name is Shiv Dayal.\\\\}
+another run when first \texttt{if} fails:
+\\\\\texttt{Enter your first name and last name in that order:\\
+Richard\\
+Stallman\\
+Your name is Richard Stallman.\\\\}
+when first \texttt{if} matches but second \texttt{if} does not and this we have no output:
+\\\\\texttt{Enter your first name and last name in that order:\\
+Shiv\\
+Stallman\\\\}
+Note the usage of nested if-else. Also, note how \texttt{strcmp} has been used to
+compare two strings and \texttt{gets} to read the input. \texttt{strcmp} takes two character
 strings as argument and returns 0 if they are equal. It returns non-zero values
 depending on whether one string is lexically greater than the other or not. But
-for now equality is enough for us. `gets` is dangerous but it is simple that is
-why has been used here. It is easy to overflow the buffer of `gets` argument.
+for now equality is enough for us. \texttt{gets} is dangerous but it is simple that is
+why has been used here. It is easy to overflow the buffer of \texttt{gets} argument.
+
+\color{nicered}
+\dangersign[3ex] \textbf{Assignment in if/else-if}
+Always remember the expression inside if evaluates to a boolean so you should
+never do an ASSIGNMENT inside if and else if as it will always evaluate to what
+is assigned. It can render all your logic meaningless. C is not Python, where
+assignment inside if is not allowed. However, if you assign 0 to some variable
+it will evaluate to \texttt{false}.
+
+\color{black}
+\subsection{Dangling else Problem}
+The \texttt{else} part has a property that it will cling to closest if. So the
+following piece of code may give you surprise:
+
+\begin{minted}[frame=single]{c}
+if(x==1)
+  if(y>2)
+    printf("foo\n");
+else
+  printf("bar\n");
+\end{minted}
+
+Now consider \texttt{x!=1} then you may think that bar will be
+printed. However, that will not be the case. The else part clings to inner
+if. This can be fixed by using curly braces.
+
+\section{\texttt{switch} Statement}
+\texttt{switch} statement is kind of if-else replacement to simplify it. Usage
+of switch statement is to compare one expression with others, and then execute
+a series of sub-statements inside case and default based on the result of the
+comparisons. Note that switch statement takes only integers or integreal type
+as its argument and same is valid for its cases. Consider the following
+example:
+
+\begin{minted}[frame=single]{c}
+//Description : Demo of if-else statements.
+
+#include <stdio.h>
+
+int main()
+{
+  int i  = 65;
+
+  switch(i)
+  {
+    case 'A':
+      printf("Value of i is 'A'.\n");
+      break;
+    case 'B':
+      printf("Value of i is 'B'.\n");
+      break;
+    default:
+      break;
+  }
+
+  return 0;
+}
+\end{minted}
+and the output is:
+\\\\\texttt{Value of i is 'A'.\\\\}
+Notice the usage of \texttt{break}. It is used to terminate execution once a
+match has been found for a particular case else what will happen is shown
+below:
+
+\begin{minted}[frame=single]{c}
+//Description : Demo of switch statement.
+
+#include <stdio.h>
+
+int main()
+{
+  int i  = 65;
+
+  switch(i)
+  {
+    case 'A':
+      printf("Value of i is 'A'.\n");
+    case 'B':
+      printf("Value of i is 'B'.\n");
+    default:
+      printf("Value of i is %c.\n", i);
+      break;
+    }
+
+  return 0;
+}
+\end{minted}
+and the output is:
+\\\\\texttt{Value of i is 'A'.\\
+Value of i is 'B'.\\
+Value of i is A.\\\\}
+This is also known as fall through of a \texttt{switch} statement. Notice, the
+use of \texttt{default} that how it is analogous to else
+statement. \texttt{switch} statements can also be nested inside each
+other. However, node that lots of nesting is not good. At 
+most 2-3 levels are more than enough else you should look at alternative ways
+of writing code.
+
+\section{\texttt{while} Loop}
+Of three loops I am first going to cover \texttt{while} loop. It is simplest of
+three. I will just give an example for you to understand.
+
+\begin{minted}[frame=single]{c}
+//Description : Demo of while statement.
+
+#include <stdio.h>
+
+int main()
+{
+  int i = 0;
+
+  while(i <= 10)
+  {
+    printf("%d * %2d = %4d\n", 2, i, 2*i);
+    i++;
+  }
+
+  return 0;
+}
+\end{minted}
+and the output is:
+\\\\\texttt{2 *  0 =    0\\
+2 *  1 =    2\\
+2 *  2 =    4\\
+2 *  3 =    6\\
+2 *  4 =    8\\
+2 *  5 =   10\\
+2 *  6 =   12\\
+2 *  7 =   14\\
+2 *  8 =   16\\
+2 *  9 =   18\\
+2 * 10 =   20\\\\}
+\texttt{while} loop just has one expression which is its terminating
+condition. We have written \texttt{i<=10} which is terminating condition for
+our loop. The moment i will become greater than that the loop will
+terminated. We are initializing our loop index to 0 and incrementing within
+while loop. Note that you must use curly braces for body of block of loop. If
+you have only one statement as body of loop then braces are optional.
+
+\section{\texttt{do-while} Loop}
+It is very much similar to while loop but with a very subtle
+difference. Consider the following code:
+
+\begin{minted}[frame=single]{c}
+//Description : Demo of do while statement.
+
+#include <stdio.h>
+
+int main()
+{
+  int i = 0;
+
+  do {
+    printf("%d\n", i);
+    i++;
+  }while(i<5);
+
+  return 0;
+}
+\end{minted}
+and the output is:
+\\\\\texttt{0\\
+1\\
+2\\
+3\\
+4\\\\}
+Notice the semicolon at the end of \texttt{while}. Now time for that subtle
+difference:
+
+\begin{minted}[frame=single]{c}
+//Description : Demo of do while statement.
+
+#include <stdio.h>
+
+int main()
+{
+  int i = 10;
+
+  do {
+    printf("2 * %d = 20\n", i);
+    i++;
+  }while(i<5);
+
+  return 0;
+}
+\end{minted}
+and the output is:
+\\\\\texttt{2 * 10 = 20\\\\}
+Notice how \texttt{do while} loop executes once even if the loop index is more
+than the terminating condition in the \texttt{while} part.
+\section{\texttt{for} Loop}
+\texttt{for} loop is the last of loops and most versatile. It has three parts:
+initialization of loop counters, terminating condition, and loop index
+modification. If you declare a variable in the initialization part then that
+variable has just loop scope while for \texttt{while} and \texttt{do while}
+loop indices have at least outer block scope. This makes for loop
+better. Consider the following example for computing squares of numbers:
+
+\begin{minted}[frame=single]{c}
+//Description : Demo of for statement.
+
+#include <stdio.h>
+
+int main()
+{
+  for(int i=1, j=1; (i<=10)||(j<=10); i++, j++)
+    printf("%2d * %2d = %4d\n", i, j, i*j);
+
+  return 0;
+}
+\end{minted}
+and the output is:
+\\\\\texttt{1 *  1 =    1\\
+2 *  2 =    4\\
+3 *  3 =    9\\
+4 *  4 =   16\\
+5 *  5 =   25\\
+6 *  6 =   36\\
+7 *  7 =   49\\
+8 *  8 =   64\\
+9 *  9 =   81\\
+10 * 10 =  100\\\\}
+Notice how various things are coming in picture here: initialization,
+terminating conditions loop counter incrementation and output formatting. Here
+is how you can write an infinite for loop \texttt{for(;;)}. You can write an
+infinite loop anywhere if your loop index counters are not getting
+incremented/decremented properly or your termination condition is
+incorrect. Also, always make sure that loop indices are initialized. As an
+exercise you can try to implement this program using \texttt{while} and
+\texttt{do while} loop.
+
+\section{\texttt{break} and \texttt{continue} Statements}
+\texttt{break} statement breaks out of innermost \texttt{for, do, while} and
+\texttt{switch} statements. It terminates that loop. Consider for example:
+
+\begin{minted}[frame=single]{c}
+//Description : Demo of break statement.
+
+#include <stdio.h>
+
+int main()
+{
+
+  for(int i = 0;;i +=10)
+  {
+    if(i>100)
+      break;
+    printf("%d\n", i);
+  }
+
+  return 0;
+}
+\end{minted}
+and the output is:
+\\\\\texttt{0\\
+10\\
+20\\
+30\\
+40\\
+50\\
+60\\
+70\\
+80\\
+90\\
+100\\\\}
+Notice how the \texttt{for} loop is terminated once \texttt{i} goes beyond 100
+even though there is no terminating condition. Try the same in \texttt{while}
+and \texttt{do-while} loop and produce the same result.
+
+\texttt{continue} statement is slightly different than \texttt{break} in the
+sense that it does not stop the execution of that loop but simply does not
+execute remaining instructions of that block. Consider for example:
+
+\begin{minted}[frame=single]{c}
+//Description : Demo of continue statement.
+
+#include <stdio.h>
+
+int main()
+{
+
+  for(int i = 0;i<=100;i +=10)
+  {
+    if(i==50)
+      continue;
+    printf("%d\n", i);
+  }
+
+  return 0;
+}
+\end{minted}
+and the output is:
+\\\\\texttt{0\\
+10\\
+20\\
+30\\
+40\\
+60\\
+70\\
+80\\
+90\\
+100\\\\}
+Notice how 50 is missing from output.
+
+\section{\texttt{goto} Statement}
+\texttt{goto} statement allows you to jump to a label within a function
+unconditionally. This leads to arbitrary control flow and in a big function you
+can loose track where the code is leading you to. In fact many coding standards
+forbid the usage of \texttt{goto} statement. Sometimes you can use to break out
+of several level of nested loops but you can use certain techniques to come out
+of nested loops to break out of them. Consider the following program:
+
+\begin{minted}[frame=single]{c}
+#include <stdio.h>
+
+int main()
+{
+  int i = 0;
+  
+  goto EXIT;
+
+  printf("Will not be printed\n");
+  
+EXIT:
+  printf("This is where goto will lead you to.\n");
+
+  return 0;
+}
+\end{minted}
+and the output is:
+\\\\\texttt{This is where goto will lead you to.\\\\}
+One of the usage of \texttt{goto} is to simulate the functionality of
+loops. That is easy to understand because a CPU does not have any instructions
+for looping. Rather, loop statements are translated to comparison and jump
+instructions.
+
+Consider we have two nested \texttt{for} loops which run from 0 to 9 and we
+want to break out when outer loop's counter is 5 and inner loop's counter is 7
+the we can use \texttt{goto} as given below:
+
+\begin{minted}[frame=single]{c}
+#include <stdio.h>
+
+int main()
+{
+  for(int i=0; i<10; ++i)
+  {
+    for(int j=0; j<10; ++j)
+    {
+      if((i == 5) && (j == 7))
+      {
+        printf("i = %d and j = %d\n", i, j);
+        goto EXIT;
+      }
+    }
+  }
+
+EXIT:
+
+  return 0;
+}
+\end{minted}
+and the output is:
+\\\\\texttt{i = 5 and j = 7\\\\}
+However, it is possible to break out of such nested loops using a flag variable
+as shown below:
+
+\begin{minted}[frame=single]{c}
+#include <stdio.h>
+#include <stdbool.h>
+
+int main()
+{
+  bool flag = false;
+
+  for(int i=0; i<10; ++i)
+  {
+    for(int j=0; j<10; ++j)
+    {
+      printf("i = %d and j = %d\n", i, j);
+      if((i == 5) && (j == 7))
+      {
+        printf("i = %d and j = %d\n", i, j);
+        flag = true;
+        break;
+      }
+    }
+    if(flag)
+      break;
+  }
+
+  return 0;
+}
+\end{minted}
+and the output is:
+\\\\\texttt{i = 0 and j = 0\\
+i = 0 and j = 1\\
+i = 0 and j = 2\\
+i = 0 and j = 3\\
+i = 0 and j = 4\\
+i = 0 and j = 5\\
+i = 0 and j = 6\\
+i = 0 and j = 7\\
+i = 0 and j = 8\\
+i = 0 and j = 9\\
+i = 1 and j = 0\\
+i = 1 and j = 1\\
+i = 1 and j = 2\\
+...\\
+i = 5 and j = 1\\
+i = 5 and j = 2\\
+i = 5 and j = 3\\
+i = 5 and j = 4\\
+i = 5 and j = 5\\
+i = 5 and j = 6\\
+i = 5 and j = 7\\
+i = 5 and j = 7\\\\}
+This simple technique can be used to break out of several levels of nested
+loops.
+
+\section{Examples}
+Now that we have studied control flow and operators and expressions we can
+write simple but very interesting programs. Given below are few examples.
+
+\subsection{Implementing a Loop Using \texttt{goto} Statement}
+As said above a CPU typically does not have loop instructions but a loop is
+translated into comparison, increment/decrement and jump instructions. Thus, a
+loop can be implemented using \texttt{goto, if} and increment/decrement
+statements and operators. Consider the following program which prints 1 to 10.
+
+\begin{minted}[frame=single]{c}
+#include <stdio.h>
+
+int main()
+{
+  for(int i=1; i<11; ++i)
+    printf("%d\n", i);
+
+  return 0;
+}
+\end{minted}
+and the output is:
+\\\\\texttt{1\\
+2\\
+3\\
+4\\
+5\\
+6\\
+7\\
+8\\
+9\\
+10\\\\}
+and the equivalent simulation using \texttt{goto} is:
+
+\begin{minted}[frame=single]{c}
+#include <stdio.h>
+
+int main()
+{
+  int i = 1;
+
+LOOP:
+  printf("%d\n", i);
+  ++i;
+  if(i!= 11)
+    goto LOOP;
+
+  return 0;
+}
+\end{minted}
+and the output is same as above which you can easily verify.
+
+

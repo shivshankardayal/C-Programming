@@ -93,9 +93,9 @@ begin with our familiar friends; printf and scanf.
 \section{printf}
 The prototype of \texttt{printf} is given by
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 int printf(const char* fmt, ...);
-\end{Verbatim}
+\end{minted}
 
 Let us take a minute to understand this as we have not yet covered
 functions. The first word is \texttt{int} which denotes the return type of the
@@ -121,7 +121,7 @@ type-safety. In general compiler will warn you about it and you, the
 programmer, are responsible for giving correct format string, correct no. of
 correct type of arguments. Consider the following program for example:
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 #include <stdio.h>
 
 int main()
@@ -146,7 +146,7 @@ int main()
 
   return 0;
 }
-\end{Verbatim}
+\end{minted}
 
 now that if you give the command like \texttt{gcc -Wall printf.c} where
 \texttt{printf.c} is the name of the file then you will be shown following
@@ -198,7 +198,7 @@ A full detail of all conversion specification is given in specification at \S(is
 In real-world most of the time the conversion specifiers are kept simple. Given
 below is a sample program showing some of the things given above:
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 #include<stdio.h>
 
 int main()
@@ -226,7 +226,7 @@ int main()
 
   return 0;
 }
-\end{Verbatim}
+\end{minted}
 
 The output of the above program is:
 \\\\\texttt{ 343456\\
@@ -249,6 +249,12 @@ We will keep seeing more conversion specifiers being used as we progress
 through this book.
 
 \section{scanf}
+The prototype of \texttt{scanf} is given below which is very similar to
+\texttt{printf}.
+
+\begin{minted}[frame=single]{c}
+int scanf(const char * restrict format, ...);
+\end{minted}
 It scans \texttt{stdin} or keyboard for input. Its signature is same as that of
 \texttt{printf()}. It reads bytes from keyboard input, interprets them
 according to format string. It also expects a set of pointer arguments as
@@ -265,9 +271,13 @@ For now if you do not understand what is a pointer then let us have a simple
 definition for that. A pointer is a variable which stores a memory location
 where the value will be stored.
 
+The full detail of conversion specification can be found at \S(iso.7.12.6.2)
+which lists \texttt{fscanf} function but conversion specifiers are same for
+both.
+
 Now that we have seen this description let us take a look at few examples.
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 #include <stdio.h>
 
 int main()
@@ -279,7 +289,7 @@ int main()
 
   return 0;
 }
-\end{Verbatim}
+\end{minted}
 
 and the output is:
 \\\\\texttt{\textbf{Hi! My name is Shiv.\\}
@@ -293,7 +303,7 @@ format. For characters it is character-by-character so no confusion either. So
 what if you want to have the entire string including white-spaces. Use
 \texttt{[\^{}n]} as given below:
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 #include <stdio.h>
 
 int main()
@@ -305,7 +315,7 @@ int main()
 
   return 0;
 }
-\end{Verbatim}
+\end{minted}
 
 and the output is:
 \\\\\texttt{\textbf{Hi! My name is Shiv.}\\
@@ -316,7 +326,7 @@ character string does not contain more that a single space, English alphabets,
 period and digits. To scan such a string you can define a pattern as program
 given below shows:
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 #include <stdio.h>
 
 int main()
@@ -328,7 +338,7 @@ int main()
 
   return 0;
 }
-\end{Verbatim}
+\end{minted}
 
 and the output is:
 \\\\\texttt{\textbf{Hi! My name is Shiv! My phone no. is 1234. \%\^\$\&\*\\}
@@ -336,7 +346,7 @@ Hi! My name is Shiv! My phone no. is 1234.\\\\}
 There is also a major problem associated with input and that comes when you
 have characters involved. Consider the following program:
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 #include <stdio.h>
 
 int main()
@@ -364,7 +374,7 @@ int main()
 
   return 0;
 }
-\end{Verbatim}
+\end{minted}
 
 and the output is:
 \\\\\texttt{\textbf{2\\
@@ -382,7 +392,7 @@ second character. The enter after \texttt{float f;} was assigned to \texttt{c1}
 and the character entered to \texttt{c2} and then the RET newline to
 \texttt{c3}. There is a very simple way to recover from this:
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 #include <stdio.h>
 
 int main()
@@ -408,7 +418,7 @@ int main()
 
   return 0;
 }
-\end{Verbatim}
+\end{minted}
 
 The whitespace character shown will eat up all the white-space given after the
 previous input. This concludes our discussion on \texttt{printf()} and
@@ -429,7 +439,7 @@ pointer and fill it with input or print it to monitor. Note that
 with \texttt{FILE} streams i.e. other than \texttt{stdin} and \texttt{stdout}
 they can also work with disk based files. Here is a sample program:
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -446,7 +456,7 @@ int main()
 
   return 0;
 }
-\end{Verbatim}
+\end{minted}
 
 and the output is:
 \\\\\texttt{\textbf{Hi!\\}
@@ -468,7 +478,7 @@ There are several functions for single character i/o. They are \texttt{getc(),
 \texttt{getchar()} and \texttt{putchar()} rest can do any FILE stream-based
 i/o. Let us have a simple program as they are mostly trivial.
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 #include<stdio.h>
 
 int main()
@@ -492,7 +502,7 @@ int main()
 
   return 0;
 }
-\end{Verbatim}
+\end{minted}
 
 and the output is:
 \\\\\texttt{\textbf{4\\}

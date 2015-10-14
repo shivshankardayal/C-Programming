@@ -1,23 +1,18 @@
 \chapter{Preface}
-I welcome you to this pdf version of 
-\url{https://10hash.com/books/c/} which is a complete rewrite. That 
-was my first attempt to write at such a large scale and therefore there were 
-many deficiencies in that version which I hope have been countered and
-corrected in this version. In the HTML version I had put a lot of emphasis on 
-specification. However, the feedback which I got from some of my readers is 
-that it has become complicated and is not suitable for beginners. After 
-thinking over it I found that it is the order of chpaters which needs to be 
-corrected and a lot more examples and exercises need to be there.
-
-In this rewrite I will arrange the chapters in a different way. The empahsis on 
-specification will be treated in the last part of book.
-
-\section*{What this book contains?}
 This book is about C programming language. In this book I have explained the
 syntax of C programming language. But it is not only for learning about
 language but how to learn to program using C programming language is also
 there. In this book we will follow latest ISO specification of C which is
-popularly known as C11.
+popularly known as C11. Although, all features of C11 are not implemented
+yet, it is not a problem because we will study what compiler supports and as
+compiler support grows, revisions will be made to this book.
+
+In this book I draw upon my experience of learning a programming language and
+what problems new programmers face. I think that I understand that what is
+important for a new programmer to know. I also believe through my experience
+that I am able to explain complex concepts in simple manner to new
+programmers. The intention behind this book is to be a practical book for new
+as well as experienced programmers.
 
 \section*{Who should read this book?}
 People interested in learning C should read this. Anybody can read this book
@@ -27,7 +22,7 @@ alike. For experts advanced concepts have been presented and also a reference
 to standard library has been given along with its usage.
 
 \section*{How to read this book?}
-Well, learning programming is like learning a new language and then solving
+Learning programming is like learning a new language and then solving
 problems is like Mathematics. So the latter is more important as unless you can
 solve the problem on pen and paper, you cannot solve the problems using
 C. However, the focus of this book is to explain the features and syntax of C
@@ -35,9 +30,7 @@ programming language not on how to solve the problem. To get a good grasp
 on the contents of the book one should read the theory first then look at the
 examples given and try to understand and run them and in the end attempt
 the problems. If you cannot solve the problems then lookup the solution and
-try to understand. In case of any problem please log on to my personal
-question/answer website \url{http://kunjika.libreprogramming.org/} to get
-more help.
+try to understand.
 
 \section*{Acknowledgements}
 I am in great debt of my family and free software community because both of
@@ -52,7 +45,9 @@ book then I realized how difficult it is to put Math on web in HTML format and
 why Donald Knuth wrote \TeX{}. Also, \TeX{} was one of the first softwares to
 be released as a free software. HTML has not yet matured to represent
 mathematical content. MathML is supported by Mozilla. Webskit browsers started
-supporting  then dropped and I would refrain to comment on commercial browser's support which do not even comply to starndard because they think they are the standards tehmselves and others will bend to their will.
+supporting  then dropped and I would refrain to comment on commercial browser's
+support which do not even comply to starndard because they think they are the
+standards tehmselves and others will bend to their will. 
 
 Now as this book is being written using \LaTeX{}~ so obviously Leslie Lamport
 and all the people involved with it have my thanks along with Donald Knuth. I
@@ -63,17 +58,29 @@ I have used TikZ as a tool for drawing all the diagrams. It is a wonderful
 package and works very nicely. I have great appreciation for its author Till
 Tantau.
 
-%For syntax highlighting I have used \texttt{Verbatim} \LaTeX{} package which
-%uses \texttt{pygments} as its backend. You can modify it and make it look
-%different both at \LaTeX{} and \texttt{pygments} level. Thanks to the
-%respective package authors.
+I would like to thank my parents, wife and son for taking out their fair share
+of time and the support which they have extended to me during my bad
+times. After that I would like to pay my most sincere gratitude to my teachers
+particularly H. N. Singh, Yogendra Yadav, Satyanand Satyarthi, Kumar Shailesh
+and Prof. T. K. Basu. Now is the turn of people from software community. I must
+thank the entire free software community for all the resources they have
+developed to make computing better. However, few names I know and here they
+go. Richard Stallman is the first, Donald Knuth, Dennis Ritchie, Ken Thompson,
+Bjarne Stroustrup after that.
 
-For errors and suggestion please email me at
+For syntax highlighting I have used \texttt{minted} \LaTeX{} package which
+uses \texttt{pygments} as its backend. You can modify it and make it look
+different both at \LaTeX{} and \texttt{pygments} level. Thanks to the
+respective package authors.
+
+I am not a native English speaker and this book has just gone through one pair
+of eyes therefore chances are high that it will have lots of errors. At the
+same time it may contain lots of technical errors. Please feel free to drop me
+an email at
 \href{mailto:shivshankar.dayal@gmail.com}{shivshankar.dayal@gmail.com} where I
 will try to respond to each mail as
 much as possible. Please use your real names in email not something like
-coolguy. As an alternative you can report it at
-\url{https://10hash.com} where a question/answer website is maintained.
+coolguy.
 \begin{flushright}
 Shiv Shankar Dayal\\
 Nalanda,\\

@@ -72,6 +72,7 @@ which we can use to explicitly convert values from one type to another which is
 called ``explicit conversion''. We will first see implicit conversion.
 
 \section{Arithmetic Conversions}
+
 \subsection{Booleans, Integers and Characters}
 These are all integral types. They have a rank or priority associated with them
 which controls which value is converted to which one. Following comes from
@@ -185,6 +186,10 @@ When a value of complex type is converted to a real type, the imaginary part of
 the complex value is discarded and the value of the real part is converted
 according to the conversion rules for the corresponding real type.
 
+\section{Primary Expressions}
+An identifier, a constant, a string literal, a parenthesized expression and a
+generic selection are all examples of primary expression.
+
 \subsection{Usual Arithmetic Conversions}
 Many operators that expect operands of arithmetic type(characters, integers and
 floating-point numbers) cause conversions and
@@ -286,7 +291,7 @@ part which forms the remainder for \texttt{\%} in case of both the operands
 being integral type.
 
 Let us see a program to understand these operators clearly.
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 #include <stdio.h>
 
 int main()
@@ -323,7 +328,7 @@ int main()
 
   return 0;
 }
-\end{Verbatim}
+\end{minted}
 
 and the output is:
 
@@ -354,7 +359,7 @@ behavior is undefined.
 
 Consider a different program:
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 #include <stdio.h>
 #include <limits.h>
 
@@ -368,7 +373,7 @@ int main()
 
   return 0;
 }
-\end{Verbatim}
+\end{minted}
 
 and the output is:
 \\\\\texttt{-2\\
@@ -388,7 +393,38 @@ You can implement a linked list or use  a multiple-precision library like
 advisable because sign conversions will end up having values which are not 
 intuitive.
 
-Similarly floating-point arithmetic can also be done.
+You should be careful when using \texttt{*} or \texttt{\/} with \texttt{+} or
+\texttt{-} because \texttt{*} and \texttt{/} have higher 
+priority than \texttt{+} or \texttt{-}. For example, \texttt{2+3*4} will
+evaluate for 14 while you may 
+have intended it for 20. In such cases it is mandatory to override the
+precedence using parentheses like \texttt{(2+3)*4}. \texttt{\/} with two
+integral operands cause 
+integer devision and remainder is lost. To obtain remainder you can use
+\texttt{\%} operator which is also known as modulus or mod operator.
+
+Similarly, floating-point arithmetic can also be done.
+Note that you cannot use modulus operator if either of the operands are
+floating-point numbers as it will make no sense because of data type promotion
+rules. Here data type promotion rule says smaller data types will be converted
+to bigger data types. Also, if there is a data type on left side of assignment
+the result of applying the operator to operands will be converted to the type
+of that. chars are promoted to ints, ints are promoted to floats anf floats to
+double. The point is that conversion will try to keep as much data as
+possible. 
+
+You should be also careful while choosing your data types. For example, if you
+take two short integers and add them then the sum may overflow the range of
+short integers. For example, sum of \texttt{short int si1= 100; short int
+  si2=100;} will fit nicely in short integer range because sum is 200 but then
+if it goes beyond 32,767 then it will overflow and will become either a zero or
+a negative number. In such cases you can cast short integers to a larger data
+type like \texttt{int} and put sum their. You can see it as a disadvantage as
+you have to be very careful about what your data type has to be. In previous
+example if you know that the two short integer's sum is going to fit in a short
+integer then you can use a short integer for sum for sure. But since you may
+not know who will be using your program most of the time and user input can
+never be trusted it is always better to program defensively.
 
 \section{Relational Operators}
 There are four relational operators which are used to compare the value. There 
@@ -396,7 +432,7 @@ are two additional equality operators, which we will see next, are used for
 checking equality between its operands. The four relational operators are 
 \texttt{<, <=, >, >=}. \texttt{<} and \texttt{>} are simple. They mean less 
 than and greater than. \texttt{<=} checks if left operand is less than or equal 
-to the right operand. Similarly \texttt{>=} is used for checking if left 
+to the right operand. Similarly, \texttt{>=} is used for checking if left 
 operand is greater than or equal to right operand. The constraint or condition 
 on operands is both operands will be real types i.e. characters. integers or 
 floating-point numbers or both operands will be pointers to qualified or 
@@ -404,7 +440,7 @@ unqualified versions of compatible types(again we will not worry about pointers
 here). The result of comparison is an \texttt{int} having a value 0 or 1. 
 Consider the following program:
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 #include <stdio.h>
 #include <stdbool.h>
 
@@ -427,7 +463,7 @@ int main()
 
   return 0;
 }
-\end{Verbatim}
+\end{minted}
 
 and the output is::
 \\\\\texttt{1\\
@@ -450,7 +486,7 @@ As you can see 1.0000000000000003 cannot be represented correctly comparing it
 against given values which are at either end may throw up surprises. For 
 example, consider the following program:
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -461,8 +497,7 @@ int main()
 
   return 0;
 }
-
-\end{Verbatim}
+\end{minted}
 
 In this program equality operator is used, which is discussed in next section, 
 along with \texttt{if} statement which is part of next chapter and ideally the  
@@ -470,14 +505,70 @@ string \texttt{Surprise!} should not print but it prints. Therefore, it is not
 suggested to compare two floating point values if you suspect them to be very 
 close to each other.
 
+For example, consider another program:
+\begin{minted}[frame=single]{c}
+#include <stdio.h>
+
+int main()
+{
+  float f1=1.00000199999;
+  float f2=1.000002;
+
+  printf("%.20f %.20f\n", f1, f2);
+  printf("%d\n", f1<f2);
+  printf("%d\n", f1>f2);
+  printf("%d\n", f1==f2);
+
+  return 0;
+}
+\end{minted}
+and the output is:
+\\\\\texttt{1.00000202655792236328 1.00000202655792236328\\
+0\\
+0\\
+1\\\\}
+As you can clearly see the comparison output is definitely wrong and with good
+reason. Since floating point numbers are valid till sixth digit of precision
+the two floating point numbers compare equal when tested using the equality
+operator \texttt{==} which you will see soon. However, two floating point
+numbers can be compared with great degree of accuracy and more so with
+\texttt{double} data type. Consider the program with same data as above but
+with \texttt{double} as data type.
+
+\begin{minted}[frame=single]{c}
+#include <stdio.h>
+
+int main()
+{
+  double d1=1.00000199999;
+  double d2=1.000002;
+
+  printf("%.20f %.20f\n", d1, d2);
+  printf("%d\n", d1<d2);
+  printf("%d\n", d1>d2);
+  printf("%d\n", d1==d2);
+
+  return 0;
+}
+\end{minted}
+and the output is:
+\\\\\texttt{1.00000199999000005668 1.00000200000000005751\\
+1\\
+0\\
+0\\\\}
+As you can see our result is correct. However, if the two doubles would have
+been very-very close it would suffer the same fate as previous program and give
+wrong output.
+
 \section{Equality Operators}
-Equality operators are very much similar to relational operation we have just 
+There are two equlity operators == and !=. Equality operators are very much
+similar to relational operation we have just  
 discussed but their precedence is lower.\footnote{Because of the precedences, 
 \texttt{a<b == c<d} is 1 whenever \texttt{a<b} and \texttt{c<d} have the same 
 truth-value.} There are four constraints on operands 
 of equality operators:
 \begin{itemize}
-	\item[---] both the operands are of arithmetic type.
+  \item[---] both the operands are of arithmetic type.
 	\item[---] both operands are pointers to qualified or unqualified versions 
 	of compatible types;
 	\item[---] one operand is a pointer to an object type and the other is a 
@@ -486,4 +577,499 @@ of equality operators:
 	constant.
 \end{itemize}
 Once again we will not worry about pointers i.e. we can ignore last three 
-constraints.
+constraints. An example program is given below:
+\begin{minted}[frame=single]{c}
+// Description : Demo of equality operator
+
+#include <stdio.h>
+#include <stdbool.h>
+int main()
+{
+  int i = 4, j = 5;
+  _Bool result = 0;
+
+  result = i == j;
+  printf("%d\n", result);
+
+  result = i != j;
+  printf("%d\n", result);
+
+  return 0;
+}
+\end{minted}
+and the output is:
+\\\\\texttt{0\\
+1}\\\\
+The equality operator \texttt{==} test for equality for its two operands and
+\texttt{!=} tests for the operands not being equal. The result of comparison is
+boolean value. For \texttt{==} if the operands are equal then result is
+\texttt{true} else \texttt{false}. For \texttt{!= the} result is \texttt{true}
+if the operands do not compare equal and \texttt{false} if they compare equal.
+
+\section{Increment and Decrement Operators}
+There is one increment and one decrement operator. \texttt{++} and
+\texttt{{-}{-}}. Both come in two forms prefix and postfix. First we will see
+prefix versions then postfix ones. There is only one constraint on prefix
+operators of these and that is the operand of the prefix increment or decrement
+operator will have atomic, qualified or unqualified real or pointer type and
+will be a modifiable lvalue. The prefix operator is usually more efficient as
+compared to postfix operators but that may not be true always. These are
+described in \S(iso.6.5.2.4) and \S(iso.6.5.3.1).
+\begin{minted}[frame=single]{c}
+// Description : Demo of increment decrement operators
+
+#include <stdio.h>
+
+int main()
+{
+  float f = 7.123;
+
+  printf("%f\n", ++f);
+  printf("%f\n", --f);
+  printf("%f\n", f++);
+  printf("%f\n", f--);
+  printf("%f\n", f);
+
+  return 0;
+}
+\end{minted}
+and the output is:
+\\\\\texttt{8.123000\\
+7.123000\\
+7.123000\\
+8.123000\\
+7.123000\\\\}
+As you can see for postfix operations the result does not change immediately
+like its prefix counterpart. The reason lies in the fact that the value
+computation of the result is sequenced before the side effect of updating the
+stored value of the operand. What this means is the computation may not happen
+unless the operand's value is not being updated and is deferred.
+
+\section{Logical Operators}
+There are two such operators. \texttt{\&\&} logical AND and
+and \texttt{||} locical OR. Both the operators have the same constraints and it
+is that both the operands will have scalar type i.e. integral type,
+floating-point types and pointers.
+
+The \texttt{\&\&} operator gives 1 if both the operands are non-zero else
+0. The result type is int. It is different from bitwise \texttt{\&} operator in
+the sense that it guarantess left-to-right evaluation; if the second operand is
+evaluated, there is a sequence point between the evaluations of the first and
+second operands. If the first operand is 0 then the second operand is not
+evaluated. This is known as ``short-circuit evaluation''.
+
+The \texttt{||} operator gives 1 if any of operands are non-zero else it gives
+0. Same as logical AND operator and unlike bitwise \texttt{|} operator it
+guarantees left-to-right evaluation and same goes for sequence points. If first
+operand is non-zero, the second is not evaluated.
+
+\begin{minted}[frame=single]{c}
+// Description : Demo of logical AND & OR operators
+
+#include <stdio.h>
+#include <stdbool.h>
+
+int main()
+{
+  int i = 4, j = 5, k = 0;
+  bool result;
+
+  result = i&&j;
+  printf("%d\n", result);
+
+  result = i||j;
+  printf("%d\n", result);
+
+  result = k&&j;
+  printf("%d\n", result);
+
+  result = k||j;
+  printf("%d\n", result);
+
+  return 0;
+}
+\end{minted}
+and the output is:
+\\\\\texttt{1\\
+1\\
+0\\
+1\\\\}
+note the use of \texttt{bool} here instead of \texttt{\_Bool} which is a macro
+defined in \texttt{stdbool.h}.
+
+\section{Bitwise Operators}
+I will describe bitwise operators in little detiail here as we will study these
+in great detail in their own chapter of bit manipulation
+
+There are three bitwise operators. \texttt{\&, |} and
+\texttt{\textasciicircum{}}. AND, OR and EX-OR respectively. OR is also called
+inclusive OR. These have the same constraints and it is that operands should be
+integer types. The usual arithmetic conversions are performed on the
+operands. It is not hard to understand why it cannot be applied to
+floating-point if you remember the floating point number representation. 
+
+\begin{minted}[frame=single]{c}
+// Description : Demo of bitwise operators
+
+#include &stdio.h>
+#include &stdbool.h>
+
+int main()
+{
+  int i = 4, j = 5;
+  int result;
+
+  result = i&j;
+  printf("%d\n", result);
+
+  result = i|j;
+  printf("%d\n", result);
+
+  result = i^j;
+  printf("%d\n", result);
+
+  return 0;
+}
+\end{minted}
+
+and the output is:
+\\\\\texttt{4\\
+5\\
+1\\\\}
+The bit representation of 4 is 100 and that of 5 is 101. Thus, AND is 100, OR
+is 101 and EX-OR is 001. The values are operated on a bit-by-bit basis.
+
+\section{Bitwise Shift Operators}
+These are \texttt{\textless\textless} and \texttt{\textgreater\textgreater}
+known repsectively as left shift and right shift operators.
+The constraint is same as other bitwise operators that operands should be
+integers. The integer promotions are performed on each of the operands. Left
+shift by \texttt{n} essentialy means multiplication by $2^n$ and right shift
+means ddivision by $2^n$. The division is integer division.
+
+\begin{minted}[frame=single]{c}
+// Description : Demo of shift operators
+
+#include <stdio.h>
+
+int main()
+{
+  int i  = 4;
+  char c ='A';
+  int result;
+
+  result = c<<i;
+  printf("%d\n", result);
+
+  result = c>>i;
+  printf("%d\n", result);
+
+  return 0;
+}
+\end{minted}
+
+and the output is:
+\\\\\texttt{1040\\
+4\\\\}
+ASCII value of 'A' is 65 thus $65*2^4$ is 1040 and $65/2^4$ is 4.
+
+\section{Assignment Operators}
+These are \texttt{=, *=, \/=, \%=, +=, -=, \textless\textless =,
+  \textgreater\textgreater =, \&=,
+  \textasciicircum=} and \texttt{|=}. The constraint is that left operand
+should be modifiable lvalue. An assignment operator stores a value in the
+object designated by the left operand. An assignment expression has the value
+of the left operand after the assignment, but is not an lvalue. The type of an
+assignment expression is the type of the left operand unless the left operand
+has qualified type, in which case it is the unqualified version of the type of
+the left operand. The side effect of updating the stored value of the left
+operand is sequenced after the value computations of the left and right
+operands. The evaluations of the operands are unsequenced.
+
+\begin{minted}[frame=single]{c}
+// Description: Demo of compound assignments.
+
+#include <stdio.h>
+
+int main()
+{
+  int i   = 3;
+  int j   = 3;
+  float f = 4.7;
+  float result=0.0;
+
+  result += i+f;
+  printf("%f\n", result);
+
+  result -= f;
+  printf("%f\n", result);
+
+  j <<= i;
+  printf("%d\n", j);
+
+  return 0;
+}
+\end{minted}
+
+and the output is:
+\\\\\texttt{7.700000\\
+3.000000\\
+24\\\\}
+The compund assignment operators are nothing but a shorthand. Let us say
+\texttt{a, b} are operands and \texttt{o} is an operator then \texttt{a o= b;}
+is a shorthand for \texttt{a = a o b;}.
+
+\section{Conditional Operators}
+A conditional operator has three operands. It consists of three
+expressions i.e. \texttt{expression1? expression2: expression3;} The
+constraints are:
+
+The first operand shall have scalar type.
+
+One of the following shall hold for the second and third operands:
+\begin{itemize}
+\item[---] both operands have arithmetic type;
+\item[---] both operands have the same structure or union type;
+\item[---] both operands have void type;
+\item[---] both operands are pointers to qualified or unqualified versions of
+  compatible types;
+\item[---] one operand is a pointer and the other is a null pointer constant;
+  or
+\item[---] one operand is a pointer to an object type and the other is a
+  pointer to a qualified or unqualified version of \texttt{void}.
+\end{itemize}
+
+If the first expression is \texttt{true} then result is output of second
+expression else it is third expression. Note that conditional operator does not
+yield an lvalue. An example program is given below:
+
+\begin{minted}[frame=single]{c}
+// Description : Demo of conditional operator
+
+#include <stdio.h>
+
+int main()
+{
+  int i = (4 < 5)? 7:10;
+
+  printf("%d\n", i);
+
+  return 0;
+}
+\end{minted}
+and the output is 7 as first expression is true.
+
+\section{Comma Operator}
+It is a very simple operator. The left operand of a comma operator is evaluated
+as a void expression; there is a sequence point between its evaluation and that
+of the right operand. Then the right operand is evaluated; the result has its
+type and value. A comma operator does not give an lvalue. Consider the
+following program:
+
+\begin{minted}[frame=single]{c}
+#include <stdio.h>
+
+int main()
+{
+  int i;
+
+  i = 1, 2;
+  printf("%d\n", i);
+
+  i = (1, 2);
+  printf("%d\n", i);
+  return 0;
+}
+\end{minted}
+
+and the output is:
+\\\\\texttt{1\\
+2\\\\}
+as you can see since command operator has least priority(refer
+\ref{table:paat}) for first assignment the output has value 1 but then we can
+override the priority and the value of comma operator i.e. right-most operand
+gets assigned to \texttt{i}.
+
+A comma operator does not yield lvalue. There are places where comma operator
+cannot be used where comma is used to separate the items in context for example
+arguments of a function or list initializers. However, a parethesized
+expression can still be there which allows comma operators to be used in these
+places.
+
+\section{sizeof Operator}
+You have already see sizeof operator in second chapter when we saw sizes of
+data types. However here is the constraint: the sizeof operator will not be
+applied to an expression that has function type or an incomplete type, to the
+parenthesized name of such a type, or to an expression that designates a
+bit-field member.
+
+The sizeof operator yields the size (in bytes) of its operand, which may be an
+expression or the parenthesized name of a type. The size is determined from the
+type of the operand. The result is an integer. If the type of the operand is a
+variable length array type, the operand is evaluated; otherwise, the operand is
+not evaluated and the result is an integer constant.
+
+When applied to an operand that has type \texttt{char, unsigned char} or
+\texttt{signed char}, (or a qualified version thereof) the result is 1. When
+applied to an operand that has array type, the result is the total number of
+bytes in the array. When applied to an operand that has structure or union
+type, the result is the total number of bytes in such an object, including
+internal and trailing padding.
+
+\section{Unary Operators}
+ We have already seen unary prefix and postfix versions of increment and
+ decrement operators earlier. There are some more unary operators like
+ \texttt{+, -, \~{}} and \texttt{!}.
+
+\texttt{+} and \texttt{-} are applied to arithmetic types. \texttt{+} does not
+change the value of operand but promotions are applied to the type if
+required. For example, an integer can be promoted to long integer. \texttt{-}
+on the other hand negates the value of operand and again promotions are
+applicable.
+
+Operator \texttt{\~{}} results in bitwise complement of the operand. For
+example, consider following program:
+
+\begin{minted}[frame=single]{c}
+#include <stdio.h>
+
+int main()
+{
+  int i = 0;
+
+  printf("%d\n", ~i);
+  printf("%d\n", ~1);
+
+  return 0;
+}
+\end{minted}
+
+and the output is:
+\\\\\texttt{-1\\
+-2\\\\}
+Operator \texttt{!} tests whether a value is \texttt{false} or
+\texttt{true}. If it is \texttt{true} and \texttt{!} is applied then result is
+\texttt{false} and reverse is also applicable. Since all values in C other than
+0 and \texttt{NULL} pointer is considered true thus applying \texttt{!} for
+other than these two results in false boolean value.
+
+Now I am going to tell you
+about operator precedence and associativity and then about grouping
+parenthes. Given below is the table for operator precedence and associativity,
+however, you may not be familiar with few of them but later you will be:
+
+\begin{center}
+  \begin{longtable}{|l|l|}
+    \hline
+    \textbf{Operators}&\textbf{Associativity}\\\hline
+    () [] . -\textgreater~++ {-}{-} (postfix) & left-to-right\\\hline
+    ++ {-}{-} + - (unary) ! \~{} (types) * \& sizeof & right-to-left\\\hline
+    * \/ \% & left-to-right\\\hline
+    + - (Addition\/Subtraction) & left-to-right\\\hline
+    \textless\textless~\textgreater\textgreater & left-to-right\\\hline
+    \textless~\textgreater~\textless=~\textgreater= & left-to-right\\\hline
+    == != & left-to-right\\\hline
+    \& & left-to-right\\\hline
+    \textasciicircum{} & left-to-right\\\hline
+    | & left-to-right\\\hline
+    \&\& & left-to-right\\\hline
+    || & left-to-right\\\hline
+    assignment operators & left-to-right\\\hline
+    , & left-to-right\\\hline
+    \caption{Priority and associativity table}
+    \label{table:paat}
+  \end{longtable}
+\end{center}
+
+\section{Grouping Parentheses}
+Grouping parentheses are used to override operator precedence and group
+expressions. NEVER EVER try to memorize and rely on precedence of
+operators. Always use grouping parentheses. Till now I have shown very simple
+examples of operators; here are some complex ones:
+
+\begin{minted}[frame=single]{c}
+// Description: Demo of grouping parentheses
+
+#include <stdio.h>
+
+int main()
+{
+  printf("%f\n", 5.2*(3.7+2.3));
+  printf("%d\n", ((4<5)||(7^5)));
+
+  return 0;
+}
+\end{minted}
+
+This small program shows you what can go wrong if you rely on memory. It allows
+you do addition first and then multiplcation. Inner parentheses are evaluated
+first then outer ones. This concludes our chapter on operators and
+expressions.
+
+Another simple example which I am giving again for comma operator to
+explain comma operator and parentheses in conjunction is given below:
+
+\begin{minted}[frame=single]{c}
+#include <stdio.h>
+
+int main()
+{
+  int i;
+
+  i = 1, 2;
+  printf("%d\n", i);
+
+  i = (1, 2);
+  printf("%d\n", i);
+
+  return 0;
+}
+\end{minted}
+
+Now as we know from precedence table given above that comma operator has least
+priority thus for \texttt{i = 1, 2;} even though it evaluates to 2 the
+assignment will happen first and 1 is stored in \texttt{i}. However, when we
+use parentheses to override the precedence the comma operator gets higher
+precedence and we get 2 as value of \texttt{i}.
+
+\section{Cast Operators}
+You can specifically convert a type to another type. For example, an integer
+can be converted to floating-point explicitly. The constraints are follwoing:\\
+Unless the type name specifies a void type, the type name shall specify atomic,
+qualified, or unqualified scalar type, and the operand shall have scalar
+type.\\
+Conversions that involve pointers, other than where permitted by the
+constraints of \S(iso.6.5.16.1), shall be specified by means of an explicit
+cast.\\
+A pointer type shall not be converted to any floating type. A floating type
+shall not be converted to any pointer type.
+
+If an expression is preceded by parenthesized type then the value of that
+expression is converted to that type and it is a cast construct. A cast does
+not yield lvalue. Cast can promote and demote the range as needed by the
+conversion. An example is given below:
+
+\begin{minted}[frame=single]{c}
+// Description : Demo of cast operators
+
+#include <stdio.h>
+#include <limits.h>
+
+int main()
+{
+  int i=INT_MAX, j=INT_MAX;
+
+  printf("%d\n", i+j);
+  printf("%ld\n", (long)(i+j));
+  printf("%ld\n", (long)i + (long)j);
+  return 0;
+}
+\end{minted}
+
+and the output is:
+\\\\\texttt{-2\\
+-2\\
+4294967294\\\\}
+As you can see if sum does not fit the type it will rotate and will give
+unexpected value. Also, casting the sum does not work because prentheses will
+override the priority. But casting individual variables does work.

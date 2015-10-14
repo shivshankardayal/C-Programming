@@ -1,508 +1,5 @@
 \chapter{Basics of C}
-C is a compiled programming language developed by Dennis Ritchie. It is a
-small, fast, portable, succint  and relatively low-level language. It was
-originally meant to replace assembly language for system programming and it has
-been successful at that. It may be dirty but is quick. It may have its quirks
-but it is a success. C is really so simple yet so deceptive(we will see later
-how). C and Unix were born almost together in early 1970s at AT\&T Bell
-Labs. Then Unix was ported in C and the notion that operating systems can be
-only written in assembly language, because it has to do time critical things,
-was destroyed. After that Unix became very popular and since C compiler used to
-come with it C also became very popular because people found it much easier to
-program in compared to assembly language. Other proprietary operting systems
-were also written using C. So, essentially what happened that there is a lot of
-code base which is there in C. Also, C++’s backward compatibility is one of the
-reasons why C++ is so popular. When C was invented there was no structured
-programming language and code was mostly written in assembly. With C it gave
-the power of assembly and benefits of structured language like code reuse,
-modularity, and portability among others. Because of these reasons C became
-immensely popular and is still popular.
-
-\section{History}
-\index{Dennis Ritchie}
-\index{Ken Thompson}
-\index{Martin Richards}
-C was formally delivered to this world in 1972 and conceived by Dennis
-MacAlistair Ritchie in 1968. What happened was there was a project for
-development of a text processor and GE-645 was bought by AT\&T Bell Labs. At
-that time Ken Thompson had developed a game called ``Space Travel''. Then they
-had another machine PDP-11. Before that they had PDP-7. Now all the time the
-code for ``Space Travel'' had to be rewritten and also the Unix had to be
-ported. So when C was invented it was used to write Unix code in C. And then
-``Space Travel''. I do not know what was the real motivation the language, the
-OS or the game. In 1972 C was formally announced. C takes its features from
-BCPL a language by Martin Richard and B by Ken Thompson. AT\&T Bells labs gave
-Unix and a C compiler to many universities at a normal fees and it grew with
-leaps and bounds from there and became a ubiquitous language. For many years
-``The C Programming Language'' served as a reference of C. Later it was
-standardized by ANSI and then by ISO standards.
-
-\section{Why C?}
-Because it is the most common denominator. Any language be it C++, Java, Perl,
-Python etc have got bindings in C. Whenever you are willing to extend these
-languages you need to know C. Also, if by any chance you are going towards
-system programming you need to C. C is everywhere. There is no escape from
-learning it; it does not matter whether you like it or not.
-
-There is one more important point worth noting here is that C++ is far more
-complex compared to C. Also, the runtime calculations of C++ make it slightly
-slower than C. The library of C is much smaller than C. Therefore wherever
-there is a memory constraint or extreme high performance is needed C is
-preferred. The simple syntax of C means its code is very verbose for programmer
-in the sense that if you read code then you can very easily see what
-instructions the code is going to translate into.
-
-It is very easy to write interfaces to other languages because other languages
-expose there objects in terms of C structures not the other way around. The
-reason for this is huge popularity of C and large code base perhaps.
-
-One more important feature is portability. Note that if you want your program
-to have high degree of portability then you should not use C99 features but
-rather ANSI C because ANSI C compilers are available on most platforms. Even
-though Java claims to be portable or other interpreted languages they are
-limited by the fact that the interpreters or VMs(JVM in case of Java) is not
-available on all the platforms. Therefore, C is the MOST portable language. :-)
-
-\section{Comparison with Other Pogramming Languages}
-C is a structured, statically typed, somewhat low-level, high-performance
-compiled language. It does not support object-oriented programming like most
-modern programming including C++, Java, Perl, Python, Ruby etc. However, that
-does not mean you cannot do object-oriented programming in C. It is just that C
-does not have support at the language level and it is painful to do so. C is
-low level because it allows you to handle memory contents directly. You have
-something called void which is raw representation of memory content. C also
-does not support functional or generic programming but again it is possible to
-do so with painful hacks. One of the coveted features is C programs deliver
-very high performance if written correctly as it does not have reunite
-penalties of virtual functions of OOP (object-oriented programming) languages.
-While C is not meant for functional programming it is nonetheless possible to
-do functional programming to some extent. We will implement some object oriented
-features and functional programming features later in the book.
-
-\section{What is a Computer Program?}
-You may know a computer consists of many components and one of the
-most or rather most important part is processor often named as CPU (central
-processing unit). The logic gates in CPUs are formed and instructions like ADD
-(addition), SUB (subtraction), MUL (multiplication), DIV (division) etc are
-implemented in hardware of CPU. When we write a program say C program the
-instructions(code) given in our program is translated to a format which
-operating  ystem can understand. In our case that is GNU/Linux this executable
-format is known as ELF (executable and linkable format). For the curious you
-can read \url{http://en.wikipedia.org/wiki/Executable_and_Linkable_Format} and
-there are lots of specification for different CPUs. Then operating system
-interprets these files and ask CPU to perform action. So a C program does not
-directly talk to processor but it rather talks to operating system or rather
-kernel of the operating system and in turn the operating system or kernel
-provides services to your program. There is a typical life cycle in development
-of a program. It has been given as a flowchart in figure \ref{fig:lifecycle}.
-
-\begin{figure}
-\begin{center}
-\begin{tikzpicture}[node distance=1.8cm]
-  \node (start) [startstop] {Start};
-  \node (enterprogram) [process, below of=start] {Enter Program};
-  \node (programcode) [process, left of=enterprogram, xshift=-2cm] {Program Code};
-  \node (editprogram) [process, below of=enterprogram] {Edit Source File};
-  \node (compileprogram) [process, below of=editprogram] {Compile Program};
-  \node (ccompiler) [process, left of=compileprogram, xshift=-2cm] {C Compiler};
-  \node (syntaxerrors) [decision, below of=compileprogram, yshift=1.2cm] {Syntax Errors};
-  \draw [arrow] (syntaxerrors.east) -- +(1cm, 0) |- ([yshift=-0.1cm]editprogram.east);
-  \node (link) [process, below of=syntaxerrors, align=center] {Link with\\System Library};
-  \node (systemlibrary) [process, left of=link, xshift=-2cm] {System Library};
-  \node (executecode) [process, below of=link] {Execute program};
-  \node (input) [io, left of=executecode, xshift=-2cm] {Input Data};
-  \node (error) [decision, below of=executecode, align=center, yshift=1.2cm] {Logic and data errors};
-  \node (success) [process, below of=error] {Correct output};
-  \node (stop) [startstop, below of=success] {Stop};
-  \draw [arrow] (start) -- (enterprogram);
-  \draw [arrow] (programcode) -- (enterprogram);
-  \draw [arrow] (enterprogram) -- (editprogram);
-  \draw [arrow] (editprogram) -- (compileprogram);
-  \draw [arrow] (ccompiler) -- (compileprogram);
-  \draw [arrow] (compileprogram) -- (syntaxerrors);
-  \draw [arrow] (syntaxerrors) -- (link);
-  \draw [arrow] (systemlibrary) -- (link);
-  \draw [arrow] (link) -- (executecode);
-  \draw [arrow] (input) -- (executecode);
-  \draw [arrow] (executecode) -- (error);
-  \draw [arrow] (error) -| (input);
-  \draw [arrow] (error.east) -- +(1.5cm, 0) |- ([yshift=0.1cm]editprogram.east);
-  \draw [arrow] (error) -- (success);
-  \draw [arrow] (success) -- (stop);
-  \node [above] at ([xshift=1cm]editprogram.north east) {\textbf{Source Program}};
-  \node [above] at ([xshift=0.3cm, yshift=0.2cm]syntaxerrors.east) {\textbf{Yes}};
-  \node [below] at ([xshift=0.7cm, yshift=0.3cm]syntaxerrors.south) {\textbf{No}};
-  \node [above] at ([xshift=1.35cm, yshift=0.2cm]error.east) {\textbf{Logical error}};
-    \node [above] at ([xshift=-1cm, yshift=0.2cm]error.west) {\textbf{Input error}};
-\end{tikzpicture}
-\end{center}
-\caption{Life cycle of a program}
-\label{fig:lifecycle}
-\end{figure}
-
-As you can see in the figure first we need to edit a source file which is done
-by using a text editor. The C source code files have the extension \texttt{.c}
-while C header files have the extension \texttt{.h} which are then compiled to
-give us a executable binary if no compilation errors occur. The output of
-compilation can be a library which is linked to other executables. For now, we
-will focus only on executables. In case of compilation errors we need to edit
-the code again so that no compilation errors/warnings are there. Then we can
-run the code which can lead to two different types of errors. One is input
-error and second is logical error in our program. Both will cause the program
-to not give desired output. Input error is easy to fix most of the time but
-logical errors can be nasty and many times you will need to use a debugger like
-GDB.
-
-\section{Attributes of a Program}
-Any program cannot be considered a good program unless it satisfies following
-requirements or possess following attributes(Note: These are generic
-attributes and not specific to C programming language):
-\begin{enumerate}
-  \item \textbf{Correctness:} Correctness means that a program satisfies its
-    requirement specification. It means that for a specified input the
-    specified output should be produced. This particular attribute is of most
-    significance. It does not matter whether other attributes are present or
-    not but this one is a must. If a program behavior is not correct then it is
-    of no use.
-
-  \item \textbf{Efficiency:} Efficiency is second to correctness only. Say you
-    are developing a text editor and you take 5 seconds to load a 10KB text
-    file then by no means you can persuade a user to use you text editor. A
-    program/software must be as efficient as possible. Sometimes it clashes
-    with other attributes and also depend on the problem domain that how strict
-    are the requirements.
-
-  \item \textbf{Security:} A very highly desirable feature in programs which
-    deal with more than one computer and also for desktop applications. It is
-    very bad if someone can take advantage of buffer overflow, stack overflow,
-    integer overflow etc. in your program and you must guard against these at
-    all times. Note that to provide security you must put extra checks which
-    will go against efficiency.
-
-\item \textbf{Robustness:} Sometimes users will not give correct inputs. For
-  example they may enter a character when an integer is asked for or they can
-  give input beyond range. In such cases you must handle the erroneous
-  input. This is just one example. Sometimes your memory allocation may
-  fail. The rule is program defensively. All such input validations and checks
-  on memory do take a toll on our second attribute but that does not mean that
-  we can neglect it. This is especially true for software running on multiple
-  computers(known as distributed systems) and critical systems like health care
-  machines.
-
-\item \textbf{Maintainability:} Even a one line program has to be maintained if
-  it is worth it! Typically the life of a program far exceeds the development
-  time. In almost all the cases the original programmer is not
-  maintainer. Because of these reasons you must strive for maintainability. You
-  should follow some coding standards like I highly recommend
-  \url{http://www.gnu.org/prep/standards/}. Clear documentation is one of the
-  prerequisites of maintainability.
-
-\item \textbf{Extensibility:} Let us take our example of text editor and say
-  our editor is complete. Now someone else would like to provide a plugin which
-  will enable syntax highlighting and project management for this editor. So,
-  in order to do so you can choose a plugin-based extensible architecture or
-  you can allow them to extend the editor using scripting languages like Guile,
-  Python, Lua etc.This features allows user to collaborate and make your
-  program better. Remember the rule is the more the merrier here.
-
-\item \textbf{Portability:} It is an elusive and painful goal. Let us say we
-  write our text editor GUI using something like Xlib directly then we will
-  have to port the entire GUI for other non X-based OSes. So we can choose some
-  cross-platform GUI libraries like GTK+, Qt, WxWidgets etc. Even then when
-  system calls come in your software you can do not much but either write
-  wrappers and do conditional compilation.
-\end{enumerate}
-
-\section{Tools of Trade}
-To program in C we need an editor, a C compiler, a debugger and possibly a
-memory leak checker. Since this books is focused on GNU/Linux you can choose
-from several excellent options like VI, Emacs, Kate, Kwrite, Gedit and many
-more. For compiler I am going to use GCC. As debugger GDB is the tool of
-choice. For memory leak, memory corruption etc we will use Valgrind. We will
-learn these as we go along in the book.
-
-\section{Bits and Bytes}
-The smallest unit a computer can understand is called a bit. The values for a
-bit is either 0 or 1. Consider a voltage. It can be 0V or 1.5V or whatever the
-core CPU voltage is. CPU does not understand numbers but voltages. You
-cannot expect an electronics hardware to understand the same semantics of 0 and
-1 which we know. 0 and 1 are abstraction of CPUs voltages in programming. Four
-bits form a nibble and eight(on most computers) form a byte. A byte is the area
-of memory which can be addressed by CPU and its content manipulated. To address
-a memory a CPU has say 4 or 8 or up to 256 pins. For example, in a common
-32-bit CPU there are 32 pins whose voltages may represent 0 or 1. Consider all
-pins are low i.e. 0 then the memory location pointed to is
-00000000000000000000000000000000 i.e. a 8 bit memory at location 0 can be
-accessed. This memory is also called primary memory or RAM. So computing this
-way we can see that a 32-bit processor can access 
-$2^{32}$ bytes or 4,294,967,296 bytes. You can arrive at 
-this number by 4*1024*1024*1024. This is equivalent to 4GB of RAM. However,
-modern Intel 32-bit processors have 36 physical pins to address up to 64GB of
-memory. That does not mean that all 64-bit CPUs have 64 pins for addressing
-memory as 16 Exabytes(approximately $16*10^{18}$) is really, really huge amount
-of memory which is not needed by any single monolithic system practically and
-will be very expensive, thus it is not practical. 
-
-Since a byte has 8 bits, its value may range from 0 to 255 as $2^8$ is 256. For
-unsigned data type this will be the range. When all bits are 0 value is zero
-and when all are high it is 255. Computers use two’s complement form to
-represent binary number. So if these 8-bits represent signed number the range
-will be from $−2^7$ to $2^7−1$ that is -128 to 127. As you will see later at
-lowest levels C allows you to access even one bit using something called
-bit-fields.
-
-If you read specification it will signify the range of one 8-bit byte as -127
-to 127 because it also takes in to consideration of 1's complement computers in
-which positive and negative zeroes are different.
-
-\section{Notes on Number System}
-A number system is a system which determines the rules and symbols for numbers
-on how we are going to use them.  A number system consists of symbols for
-representing numbers and a dot for representing fractional numbers. Minus sign
-is used to represent negative numbers. A number system ranges from $-\infty$
-to $+infty$ . It is best represented by a straight line given below:
-
-\begin{figure}[H]
-\begin{center}
-\includegraphics{figs/ns.pdf}
-\end{center}
-\caption{Number Axis}
-\end{figure}
-
-Each point on this axis represents a number. It may be integer or fractional
-number. An integer is a whole number like -1, -2, 0, 5, 7 etc. Floating-point
-numbers have fractional parts like 1.234. The important fact to note is that
-between any two points there exists infinite numbers. In other words between
-any two numbers there exists infinite numbers. For example, between 1.2 and 1.3
-there are 1.21, 1.22, 1.23..., 1.29. Moreover between 1.21 and 1.22 there are
-1.211, 1.212, 1.213 and so on. It enables us to represent a point on this
-axis. The numbers I have written are supposedly in decimal number system. Base
-of decimal number system is 10. Why because it consists of 10 distinct symbols
-0 through 9. Similarly we can have any other number system. Popular number
-systems in computers are binary, octal and hexadecimal not to mention decimal
-of course.
-
-A number in a generic number system is given below:
-\begin{equation}
-(.. c_mb^{m-1} + c_{m-1}b^{m-2}+ ... + c_2b^1 + c1_b^0 + c_{-1}b^{-1} +
-... + c_{-m}b^{-m} ) \\ = (... c_mc_{m-1}...c_2c_1.c_{-1}...c_{-m})_b
-\end{equation}
-
-All the terms with $c$  are called digits. The leftmost or leading digit is
-called \textit{most significant digit} and the rightmost or trailing digit is
-called \textit{least significant digit}. The . is called a point which
-separates the integral part which is towards its left from the fractional part
-which is towards its right. $b$  is known as radix or base of the number
-system. Note that all digits will be between $0$ to $b-1$. So in our decimal
-system $b$  is 10 therefore we have digits from 0 to 9. In binary number system
-it is 2 therefore digits permitted are 0 and 1.
-
-\subsection{Binary Number System}
-As the name suggests binary number system has base of 2. Therefore it has only
-two symbols. 0 and 1. This is the most popular system for computers because TTL
-NAND and NOR gates which are the most basic logic gates using which other gates
-are implemented in processor has only two voltage output levels because of
-their operation in cut-off and saturation zones. These terms are better
-understood with the help of a book on electronics which is out of scope of this
-book. All binary numbers consist of 0 and 1. So the count is like 0, 1, 10, 11,
-100, 101, 110, 111, 1000 and so on.
-
-\subsubsection{Conversion of Unsigned Decimals and Binaries}
-Consider a decimal number. Let us say 53 then how would be convert it to
-binary. The technique is that of division. Please examine following carefully:
-
-\hspace*{2cm}
-\begin{Verbatim}[frame=single]
-  2 | 53 | 1
-  ----------
-  2 | 26 | 0
-  ----------
-  2 | 13 | 1
-  ----------
-  2 | 6  | 0
-  ----------
-  2 | 3  | 1
-  ----------
-    | 1  |
-\end{Verbatim}
-
-So the binary is $110101_2$. First we divide 53 by 2 and write the
-remainder. Then quotient is 26. We repeat the process for 26 therefore
-remainder is 0 and quotient is 13. This we go on repeating till we have 1 as
-quotient. Note that all the remainders will be 0 or 1 because divisor is
-2. Similarly, final quotient is always 1. Now we take final quotient and start
-writing remainders from top to bottom.
-
-To convert binary to decimal let us examine following:
-
-$1*2^5 +1*2^4 +0*2^3 +1*2^2 +0*2^1 +1*2^0 =53_{10}$
-
-The power is to 2 because 2 is the base of source. It starts from 0 for unit's
-position and increases to 1 and 2 for ten's and hundred's position and so
-on. 1's and 0's are the values of that place. If you note carefully powers of 2
-grow like 1, 2, 4, 8, 16, 32, 64, 128 and so on. Any number can be written by
-using these powers at most one time. For example consider 100. I know it is
-less than 128 so I will use 64. Then 36 remains. So I will use 32 and then
-4. This means 100=64+32+4  which means power 6, 5 and 2 have been
-used. Therefore, I can quickly write down number as $1100100_2$.
-
-\label{fractional binary numbers}
-Fractional numbers are slightly more complicated. Let us consider $1.1_2$  . In
-decimal it will be $1+\frac{1}{2}$. This is 1.5 in decimal. Note that when you
-convert a fractional part of binary to decimal denominator will always be power
-of 2. For that matter when you convert from any base to decimal denominator
-will be powers of that base. \textbf{Important:} Therefore, when you convert
-from decimal to some base n then denominator of that decimal number can have
-only those prime factors which are available in the set of prime factors of
-$n$.
-
-Let us say we have a fractional number in decimal .59 then to convert it to
-decimal we multiply it with 2 which yields 1.018 which is greater than 1 so our
-equivalent binary number is .1. Now we subtract 1 from 1.18 to get .18 which
-is less than 1 so we multiply it with 2 again to get .36. Now since this is
-less than 1 our equivalent binary number is .10. Repeating the process we get
-.72 and .100 then 1.44 and .1001. We put 1 in binary part because decimal part
-has become greater than 1. Now again we subtract 1 from decimal part to get .44
-and repeat the process.
-
-Operations such as addition, subtraction, multiplication and division are
-similar in all number systems.
-
-\subsection{2's Complement and 1's Complement}
-2's complement and 1's complement are used to convert binary numbers to decimal
-values. In 1's complement the number is obtained by inverting bits i.e. making
-0 bit to 1 bit and 1 bit to 0 bit of the binary number in question.
-
-Consider the following table which contains some numbers for 1's complement
-of some 8-bit numbers.
-
-The 2's complement of an $N$-bit number is defined as the complement with
-respect to $2^N$; i.e. it is the result of subtracting the number
-from $2^N$, which in binary is one followed by $N$ zeroes. This is also
-equivalent to taking the 1's complement and then adding one, since the sum of
-a number and its 1's complement is all 1 bits.
-
-
-
-\begin{table}[H]
- \begin{center}
- \caption{8-bit 1's complement integers}
-\begin{tabular}{|c|r|r|}
-\hline
-\textbf{Bits}&\textbf{Unsigned Value}&\textbf{1's Complement Value}\\
-\hline
-0111 1111&127&127\\
-\hline
-0111 1110&126&126\\
-\hline
-0000 0010&2&2\\
-\hline
-0000 0001&1&1\\
-\hline
-0000 0000&0&0\\
-\hline
-1111 1111&255&-0\\
-\hline
-1111 1110&254&-1\\
-\hline
-1000 0010&130&-125\\
-\hline
-1000 0001&129&-126\\
-\hline
-1000 0000&128&-127\\
-\hline
-\end{tabular}
-\end{center}
-\end{table}
-
-For signed numbers MSB(most significant bit) decides sign in both 1's
-complement as well as 2's complement. 1's complement has two zeroes. Positive
-and negative. As you see in table that 1111 1111 is -0 because MSB is 1 so it
-is a negative number and then if you invert all remaining bits then it turns
-out to be 0. In a 1's complement system negative numbers are represented by the
-arithmetic negative of the value. An $N$-bit 1's complement number system can
-represent integers in the range $-2^{N-1} - 1$ to $-2^{N-1} - 1$.
-
-Now it is easy to do addition, subtraction, multiplication, division and other
-arithmetic operations. Subtraction for 1's complement is a bit
-different. Consider the following:
-
-\begin{Verbatim}[frame=single]
-  0000 0110       6
-- 0001 0011      19
-  ===========   ====
-1 1111 0011     -12    -An end-around borrow is produced, and the sign bit
-                        of the intermediate result is 1.
-- 0000 0001       1    -Subtract the end-around borrow from the result.
-  ===========   ====
-  1111 0010     -13    -The correct result (6 - 19 = -13)
-\end{Verbatim}
-
-Borrows are propagated to the left. If the borrow extends past the end then it
-is said to have ``wrapped around'', a condition called an ``end-around
-borrow''. When this occurs, the bit must be subtracted from the right-most bit
-or least significant bit(LSB). This does not occur in 2's complement arithmetic.
-
-As you see in table and also you can verify the value becomes negative if its
-1's complement is computed. However, 2's complement is used on most of
-computers because of two zeroes in 1's complement, borrowing being complicated
-etc. 
-
-Consider following table of 2's complement 3-bit binary numbers:
-
-\begin{table}[H]
-  \begin{center}
-    \caption{3-bit 2's complement integers}
-    \begin{tabular}{|c|r|r|}
-      \hline
-      \textbf{Bits}&\textbf{Unsigned value}&\textbf{2's complement value}\\
-      \hline
-      011&3&3\\
-      \hline
-      010&2&2\\
-      \hline
-      001&1&1\\
-      \hline
-      000&0&0\\
-      \hline
-      111&7&-1\\
-      \hline
-      110&6&-2\\
-      \hline
-      101&5&-3\\
-      \hline
-      100&4&-4\\
-      \hline
-    \end{tabular}
-  \end{center}
-\end{table}
-
-Clearly, since $N$-bit 1's complement can represent numbers in range
-$-2^{N-1}-1$ to $2^{N-1} + 1$ 2's complement of $N$-bit can represent
-$-2^{N-1}$ to $2^{N-1} - 1$ as it does not have negative 0 i.e. its range is
-more by 1 number.
-
-The 2' complement system has the advantage that operations of addition,
-subtraction, and multiplication are same as unsigned binary numbers (as long as
-the inputs are represented in the same number of bits and any overflow beyond
-those bits is discarded from the result). This property makes the system both
-simpler to implement and capable of easily handling higher precision
-arithmetic. Also, as mentioned above zero has only a single 
-representation, avoiding the subtleties associated with negative zero, which
-exists in 1's complement systems.
-
-The value $v$ of an $N$-bit integer $b_{N-1} b_{N-2} \dots b_0 $is given by the
-following formula:
-
-\begin{equation}
-v=-b_{N-1} 2^{N-1} + \sum_{i=0}^{N-2} b_i 2^i
-\end{equation}
-
-I will leave it up to you, the reader, to perform basic operations like
-addition, subtraction, multiplication, division etc.
-
-Now we can proceed to discuss technical details of C programming
-language. There are certain rules in every language, certain grammar which
+There are certain rules in every language, certain grammar which
 dictates the
 way language will be spoken and written. It has a script to write
 using. Similarly, programming languages have BNF (Backus-Naur Form)
@@ -518,15 +15,6 @@ is context-free. Compilers or interpreters cannot deduce your intent by reading
 code. They are not intelligent. You make a mistake and it will refuse to listen
 to you no matter what you do. Therefore, it is very essential to understand
 these rules very clearly and correctly.
-
-Note that C language is governed by ISO specification \textbf{ISO/IEC
-  9899:2011}. As much as I would like to refer to specification there are
-financial reasons why I will not because it is expensive and I do not expect
-all of readers to buy this. Therefore, I will be referring to final draft
-version which you can download from
-\url{http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1570.pdf}. It will be
-almost same as final revision and costs nothing. Sections of this document will
-be referred like \S(iso.section number).
 
 \section{The C Character Set}
 The following form the C character set you are allowed to use in it which is
@@ -593,8 +81,8 @@ allows to use other than what they are meant for:
  \end{center}
 \end{table}
 
-These keywords are special in C as said and cannot be used for variable names 
-or function names or otherwise other than in strings and comments.
+These keywords serve specific purpose. You will come to know about all of them
+as you progress through the book.
 
 \section{Identifiers}
 The names which we give to our variables are known as identifiers
@@ -629,7 +117,7 @@ guaranteed across all platforms.
 \section{Programming}
 Let us see our first program and try to understand what it does.
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 // My first program
 /* Description: This program does nothing.*/
 
@@ -639,7 +127,7 @@ int main(int argc, char* argv[])
 {
   return 0;
 }
-\end{Verbatim}
+\end{minted}
 
 You can now issue a command as \texttt{\$gcc nothing.c} where 
 \texttt{nothing.c} is the filename by which you saved the source code. Note 
@@ -724,7 +212,7 @@ some more functionality and we can explore more of C. So here is a program
 which takes two integers as input from users and presents their sum as
 output. Here is the program:
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 // My second program
 // Author: Shiv S. Dayal
 // Description: It adds two numbers
@@ -747,7 +235,7 @@ int main()
 
   return 0;
 }
-\end{Verbatim}
+\end{minted}
 and the output is:
 \\\\\texttt{shiv@shiv:\textasciitilde/book/code\$ \textbf{./addition}\\
 Please enter an integer:\\
@@ -764,7 +252,7 @@ there values set to 0. Note that how the variables are separated by commas and
 terminated by semicolon(as we saw in last program also). We could have also
 written it like this:
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 int x;
 int y;
 int z;
@@ -772,15 +260,15 @@ int z;
 x = 0;
 y = 0;
 z = 0;
-\end{Verbatim}
+\end{minted}
 
 or
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 int x, y, z;
 
 x = y = z = 0;
-\end{Verbatim}
+\end{minted}
 
 However, the first method is best and most preferred as it prevents use before
 definition. \texttt{int} is a data-type in C. \texttt{x, y,} and \texttt{z} are
@@ -793,9 +281,9 @@ systems but 2 bytes on 16-bit systems.
 Let us learn a bit about \texttt{printf}. This function is declared in
 stdio.h. The prototype of \texttt{printf()} is
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 int printf(const char *restrict format, ...);
-\end{Verbatim}
+\end{minted}
 
 The first argument format is what we have in first two function calls. The
 second is a \texttt{...} which means it can take variable number of arguments
@@ -856,7 +344,7 @@ also buy it from IEEE's website. I will describe it later.
 
 Let us write a program to find out ranges for integral data types:
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 // Description: It gives ranges of integral data types
 
 #include <stdio.h>
@@ -875,7 +363,7 @@ int main()
 
   return 0;
 }
-\end{Verbatim}
+\end{minted}
 
 Here \texttt{sizeof} is a compile time operator which computes size of any type
 passed to it as an argument. So it is computing sizes of all the data types as
@@ -949,7 +437,7 @@ ASCII value. A full table of ASCII values is given in the appendix A.
 A simple program which takes input for few characters and then prints them on
 console along with their ascii values is given below:
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 #include <stdio.h>
 
 int main()
@@ -976,7 +464,7 @@ values are %d and %d respectively.\n", c1, c2, c1, c2);
 
   return 0;
 }
-\end{Verbatim}
+\end{minted}
 
 A sample run may have following output:
 \\\\\texttt{Enter a character on your keyboard and then press ENTER:\\
@@ -1134,7 +622,7 @@ There is also four rounding modes which we will see later.
 Now let us see a program to see how we can take input and print the floating
 point numbers.
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 #include <stdio.h>
 
 int main()
@@ -1150,7 +638,7 @@ int main()
 
   return 0;
 }
-\end{Verbatim}
+\end{minted}
 
 If you run this you might have following output:
 \\\\\texttt{Enter a float, double and long double separated by space:\\
@@ -1169,7 +657,7 @@ which are defined in \texttt{<stdbool.h>} and they expand to 1 and 0
 respectively. The type \texttt{bool} is a macro which expands to
 \texttt{\_Bool}. Let us see a small program with booleans:
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 #include <stdio.h>
 #include <stdbool.h>
 
@@ -1186,7 +674,7 @@ int main()
 
   return 0;
 }
-\end{Verbatim}
+\end{minted}
 
 and the output is:
 \\\\\texttt{1 1 1 0 1 1\\\\}
@@ -1201,7 +689,7 @@ or \texttt{long double}. The header \texttt{<complex.h>} deals with complex
 numbers and there are lots of useful functions to use and manipulate complex
 numbers which are detailed in the reference. Let us see a simple example:
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 #include <stdio.h>
 #include <complex.h>
 
@@ -1216,7 +704,7 @@ int main()
 
   return 0;
 }
-\end{Verbatim}
+\end{minted}
 
 Since we have used \texttt{<complex.h>} we need to link math library to compile
 this program so the compilation command would look like \texttt{\$gcc -o complex
@@ -1250,7 +738,7 @@ enumeration member which you can do on an integer. It starts from zero by
 default and increments by one unless specifically specified. Given below is an
 example of \texttt{enum} type.
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 #include <stdio.h>
 
 int main()
@@ -1264,7 +752,7 @@ int main()
 
   return 0;
 }
-\end{Verbatim}
+\end{minted}
 
 and the output is:
 \\\\\texttt{zero = 0, one = 1, two=2\\
@@ -1279,7 +767,7 @@ can have a leading (-)minus sign.
 
 Given below is an example of integer constants:
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 #include <stdio.h>
 
 int main()
@@ -1292,7 +780,7 @@ int main()
 
   return 0;
 }
-\end{Verbatim}
+\end{minted}
 
 and the output is:
 \\\\\texttt{7 6 b\\\\}
@@ -1310,7 +798,7 @@ A floating-point constant is a base-10 number that contains either decimal
 point or exponent or both. Given below is an example of floating-point
 constants:
 
-\begin{Verbatim}[frame=single]
+\begin{minted}[frame=single]{c}
 #include <stdio.h>
 
 int main()
@@ -1323,7 +811,7 @@ int main()
 
   return 0;
 }
-\end{Verbatim}
+\end{minted}
 
 and the output is:
 \\\\\texttt{7.538459 13.894579 759.826348\\\\}
@@ -1337,6 +825,39 @@ and blanks are allowed as character constants in apostrophes. The character
 constants are fundamentally integers and all arithmetic operations can be
 performed over them. These values depend on the character set of the computer
 in use. However, in this book we are concerned about ASCII character set.
+
+\begin{minted}[frame=single]{c}
+// Character constants
+// Description: Demo of character constants
+
+#include <stdio.h>
+
+int main()
+{
+  char c = 'S';
+  char* str ="Shiv S. Dayal";
+
+  printf("%c %s\n", c, str);
+
+  return 0;
+}
+\end{minted}
+
+and the output is:
+\\\\\texttt{S Shiv S. Dayal\\\\}
+Also, the string is a character pointer that is it can point to memory location
+where a character is stored. In this case the string is stored in an area of
+memory called stack. When memory is allocated the compiler knows how much has
+been allocated. For string there is something called null character represented
+by \texttt{\textbackslash{} 0} which is used to terminate string. By using this mechanism
+the program knows where the string is terminating. It is treated in next
+section as well.A very interesting thing to be noted is char is considered to
+be an integral type. It is allowed to perform addition etc on char type. Till
+now you have learnt many format specifiers and have seen they all start with
+\texttt{\%}. Think how will you print \texttt{\%} on stdout. It is printed like
+\texttt{\%\%}.  C program have got something called ASCII table which is a
+7-bit character table values ranging from0 to 127. There is also something
+called escape sequences and it is worth to have a look at them.
 
 \section{Escape Sequences}
 There are certain characters which are not on keyboard and are not displayed in
@@ -1366,6 +887,90 @@ null&$\backslash$0&000
 \end{center}
 \end{table}
 
-There are other types which I have not discussed here like arrays, pointers,
-structures and unions. All these will be discussed later in their respective
-chapters.
+Now we will talk about all these one by one. \texttt{\textbackslash{} 0} which
+is also known as \texttt{NULL} is the string terminating character, as said
+previously, and must be present in string for it to terminate. For example, in
+our character constant program the str string is \texttt{"Shiv S. Dayal"}. So
+how many characters are there 13? Wrong 14! The NULL character is hidden. Even
+if we say \texttt{str="";} then it will contain one character and that is this
+\texttt{NULL}. Most string related C functions rely on this presence of
+\texttt{NULL} and causes a lot of mess because of this if missing. The bell
+escape sequence if for a bell from CPU. Let us write a program and see it in
+effect.
+
+\begin{minted}[frame=single]{c}
+// Bell Program
+// Description: Demo of bell escape sequence
+
+#include <stdio.h>
+
+int main()
+{
+  printf("hello\a");
+
+  getchar();
+
+  return 0;
+}
+\end{minted}
+
+The output of this program will be \texttt{hello} on \texttt{stdout} and an
+audible or visible bell as per settings of your shell. Notice the
+\texttt{getchar()} function which waits for input and reads a character from
+\texttt{stdin}. Next is backspace escape sequence. Let us see a program for its
+demo as well:
+
+\begin{minted}[frame=single]{c}
+// Backspace Program
+// Description: Demo of backspace escape sequence
+
+#include <stdio.h>
+
+int main()
+{
+  printf("h\b*e\b*l\b*l\b*o\b*\n");
+  printf("\b");
+
+  getchar();
+
+  return 0;
+}
+\end{minted}
+
+and the output is:
+\\\\\texttt{*****}\\\\
+It is \texttt{hello} replaced by \texttt{*}s. A minor modification in this
+program to replace the character as soon as key is pressed by some other
+character will turn it into a password program. Backspace escape sequence means
+when it is encountered the cursor moves to the previous position on the line in
+context. If active position of cursor is initial position then C99 standard
+does not specify the behavior of display device. However, the behavior on my
+system is that cursor remains at initial position. Check out on yours. The
+second \texttt{printf} function determines this behavior.
+
+Next we are going to deal with newline and horizontal tab escape sequences
+together as combined together they are used to format output in a beautiful
+fashion. The program is listed below:
+
+\begin{minted}[frame=single]{c}
+// Newline and Horizontal tab program Program
+// Description: Demo of newline and horizontal tab escape sequence
+
+#include <stdio.h>
+
+int main()
+{
+  printf("Before tab\tAftertab\n");
+  printf("\nAfter newline\n");
+
+  getchar();
+
+  return 0;
+}
+\end{minted}
+
+and the output is:
+\\\\\texttt{Before tab~~~~Aftertab}\\\\
+\texttt{After newline}\\\\
+Here I leave you to experiment with other escape sequences. Feel free to
+explore them. Try various combinations; let your creative juices flow.
