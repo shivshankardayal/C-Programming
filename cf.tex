@@ -601,4 +601,312 @@ LOOP:
 \end{minted}
 and the output is same as above which you can easily verify.
 
+\subsection{Printing Various Patterns}
+Consider we want to print following pattern:
+and the output is:
+\begin{verbatim}
+    *
+   ***
+  *****
+ *******
+*********
+\end{verbatim}
+ 
+then how would you print it. It is a very easy program and I will just give you
+the solution. First try to do it yourself and use the solution if you cannot do
+it to learn from it.
 
+\begin{minted}[frame=single]{c}
+#include <stdio.h>
+ 
+int main()
+{
+  unsigned int c = 0, n = 0, temp = 0;
+ 
+  printf("Enter the number of rows in the pattern: ");
+  scanf("%u",&n);
+ 
+  temp = n;
+ 
+  for (int row = 1; row <= n; row++)
+  {
+    for (c = 1; c < temp; c++)
+      printf(" ");
+ 
+    temp--;
+ 
+    for ( c = 1 ; c <= 2*row - 1 ; c++ )
+      printf("*");
+ 
+    printf("\n");
+  }
+ 
+   return 0;
+}
+\end{minted}
+and the output is:
+
+\begin{verbatim}
+Enter the number of rows in the pattern: 10
+         *
+        ***
+       *****
+      *******
+     *********
+    ***********
+   *************
+  ***************
+ *****************
+*******************
+\end{verbatim}
+Another simple pattern may look like:
+
+\begin{verbatim}
+*
+**
+***
+****
+*****
+******
+\end{verbatim}
+This is even easier than previous one. Try to do it on your own before seeing
+the solution given below:
+
+\begin{minted}[frame=single]{c}
+#include <stdio.h>
+ 
+int main()
+{
+  int n=0;
+ 
+  printf("Enter number of rows\n");
+  scanf("%d",&n);
+ 
+  for(int c=1 ; c<=n; c++)
+  {
+    for(int k=1 ; k<=c ; k++ )
+      printf("*");
+ 
+    printf("\n");
+  }
+  
+  return 0;
+}
+\end{minted}
+and the output is:
+\\\\\texttt{Enter number of rows\\
+10\\
+*\\
+**\\
+***\\
+****\\
+*****\\
+******\\
+*******\\
+********\\
+*********\\
+**********\\\\}
+
+\subsection{Printing Pascal's Triangle}
+Pascal's triangle is discussed in great detail at
+\url{https://en.wikipedia.org/?title=Pascal\%27s\_triangle}. To start with let
+us look at a small Pascal triangle.
+
+\begin{verbatim}
+   1
+  1 1
+ 1 2 1
+1 3 3 1
+\end{verbatim}
+
+The rows in Pascal's triangle start at 0(say we use $n$ to denote it) and
+columns start at 0 as well. We can pick either left end or right end that does
+not matter because it is symmetric at the center. Since we are used to writing
+left-to-right in English let us pick the first column is at left most end is
+say $k$ starting from 0. Now the number at any position is ${}_{}^nC_k^{}$ in
+Pascal's triangle. However, it is not necessary to compute each and every
+element. As we know, ${}_{}^nC_0^{}$ and ${}_{}^nC_n^{}$ are 1 each thus both
+the edges will always be 1. So for 0th row ${}_{}^0C_0^{}$ is the only element
+while for the first row it is ${}_{}^1C_0^{}$ and ${}_{}^1C_1^{}$ which both
+evaluates to 1 thus 1st row is 1 1. Now from basics of permutation and
+combination it follows that ${}_{}^nC_k^{} = {}_{}^{n-1}C_{k-1}^{} +
+{}_{}^{n-1}C_k^{}$. Thus, new elements of a new line except for the edges can
+be figured from the previous line. For example, 2nd row will contain 3 elements
+with two edge-elements being 1. Now the middle element is ${}_{}^2C_1^{}$ which
+can be simply presented as sum of ${}_{}^1C_0^{} + {}_{}^1C_1^{}$ which are two
+elements of 1st row. Now to computer 3rd row elements we can follow the same
+process. The edge elements will be 1 each while the other two elements are
+${}_{}^3C_1^{}$ and ${}_{}^3C_2^{}$. Now, ${}_{}^3C_1^{}$ can be obtained by
+adding ${}_{}^2C_0^{}$ and ${}_{}^2C_1^{}$ i.e. 1 and 2 respectively, which
+result in 3. Similarly, the next element will also result in 3. Thus 3rd row is
+1 3 3 1. Similarly, we can computer the next row with ease which will be 1 4 6
+4 1 and next row to that will be 1 5 10 10 5 1. Let us write a simple program
+to print Pascal's triangle based on these observations:
+
+\begin{minted}[frame=single]{c}
+#include <stdio.h>
+ 
+int main()
+{
+  unsigned int n = 0;
+ 
+  printf("Enter the number of rows in the Pascal's triangle: ");
+  scanf("%u",&n);
+ 
+  unsigned long a[n], b[n];
+  
+  a[0] = b[0] = b[1] = 1;
+
+  printf("%lu\n", a[0]);
+  printf("%lu %lu\n", b[0], b[1]);
+
+  unsigned long *x = a, *y = b;
+  unsigned long *temp;
+  
+  for(unsigned long i = 2; i<n; ++i) {
+    // set edge values
+    x[0] = 1;
+    x[i] = 1;
+    printf("%lu ", x[0]);
+    for(unsigned long j = 1; j<i; ++j) {
+      x[j] = y[j - 1] + y[j];
+      printf("%lu ", x[j]);
+    }
+    printf("%lu\n", x[i]);
+
+    // swap pointers for arrays
+    temp = x;
+    x = y;
+    y = temp;
+  }
+  return 0;
+}
+\end{minted}
+I have not tried to make the output beautiful because with changing input the
+output has to adjusted. Thus the formatting changes will destroy the beauty of
+this simple program. The output may look like below:
+\\\\\texttt{1\\
+1 1\\
+1 2 1\\
+1 3 3 1\\
+1 4 6 4 1\\
+1 5 10 10 5 1\\
+1 6 15 20 15 6 1\\
+1 7 21 35 35 21 7 1\\
+1 8 28 56 70 56 28 8 1\\
+1 9 36 84 126 126 84 36 9 1\\\\}
+
+\section{Converting Decimal Numbers to Binary Numbers}
+Since we deal mostly with binary at least at a lower level if not in
+applications thus it is essential that we understand how to convert decimal to
+binary. We have already seen how to convert decimal to binary in
+\autoref{bns} \nameref{bns} so
+let us see how to convert a number to binary. Since C does not have a data type
+for binaries neither you can use a conversion-specifier to print numbers in
+binary I have used C style strings discussed later in the book to convert
+source number which is accepted as string in program. Since the input number is
+a string it is slightly complicated to convert but then it allows you to deal
+with much larger number than supported by \texttt{unsigned long long} data
+type. This program uses arrays and functions discussed elsewhere in book so if
+you do not understand then skip it and come back later. Here is the program:
+
+\begin{minted}[frame=single]{c}
+#include <stdio.h>
+#include <string.h>
+
+const unsigned short int MAX = 128;
+
+int main()
+{
+  char input[MAX];
+  char temp[MAX];
+  char output[4*MAX]; // A single digit 9 is 4 bits while 99 is 7 bits so 
+                      // 4*MAX should fit the converted decimal in bits
+
+  memset(input, 0, MAX);
+  memset(temp, 0, MAX);
+  memset(output, 0, 4*MAX);
+
+  // read input as string
+  printf("Enter a decimal number to be converted to integer:\n");
+  fgets(input, 128, stdin);
+
+  // substitute last '\n' from keyboard input with '\0'
+  unsigned short int length = strlen(input) - 1;
+  input[length] = 0;
+  
+  // input validation. in ASCII '0' to '9' occur in sequence.
+  for(unsigned short int i=0, j=0; i<length; ++i, ++j)
+  {
+    temp[j] = 0;
+
+    if((input[i]<'0') || (input[i]>'9'))
+    {
+      printf("Invalid input.\n");
+      return -1;
+    }
+  }
+
+  unsigned short int rem = 0;
+  unsigned short int quo = 0;  
+  unsigned short int j = 0;
+
+  if((strcmp(input, "0") == 0) || strcmp(input, "1") == 0)
+  {
+    puts(input);
+    return 0;
+  }
+
+  while(strcmp(input, "1") != 0)
+  {
+    // division by 2.
+    for(unsigned short int i=0, k=0; i<length; ++i, ++k)
+    {
+      // 48 is decimal value of '0' so we subtract 48
+      // from characters to get numbers
+      unsigned short int si = input[i] - 48;
+    
+      if(rem != 0)
+        si += 10*rem;
+    
+      if(si == 1 && (i+1)<length) {
+        si = 10;
+        si += input[i + 1] - 48;
+        i = i + 1;
+        if(k != 0) {
+          temp[k] = 48;
+          k += 1;
+        }
+      }
+
+      rem = si%2;
+      quo = si/2;
+
+      temp[k] = quo + 48;
+    }
+    strcpy(input, temp);
+    memset(temp, 0, MAX);
+
+    length = strlen(input);
+    output[j++] = rem + 48;
+    rem = 0;
+  }
+
+  output[j] = quo + 48;
+  length = strlen(output);
+
+  // reverse output
+  for(unsigned short int i=0; i<(length/2); ++i)
+  {
+    output[i] ^= output[length - i - 1];
+    output[length - i - 1] ^= output[i];
+    output[i] ^= output[length - i -1];
+  }
+  
+  puts(output);
+
+  return 0;
+}
+\end{minted}
+
+ The program is commented so as to simplify the understanding. Try to run it and see the output. 

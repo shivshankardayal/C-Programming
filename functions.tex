@@ -1,0 +1,440 @@
+\chapter{Functions}
+I know that you will readily agree with me if I say that humans get bored if
+they have to do same things again and again. I know you get bored too and I too
+get bored. We all. We as humans have this built-in nature that repititive
+things are just not fit for us. Also, as a human being our capacity to
+understand large things at once is difficult. We understand small-small things
+and build large chunk based on those small things. Dennis Ritchie perhaps had
+known this. I am saying because C has got something called functions. C
+functions allow you to split a big logic into small ones and therefore
+facilitating modular programming. They also form the basis of strutctured
+programming the very base which made C popular. There is also something called
+recursion which is a very poewrful tool. In this chapter we will also see how
+to do multifile programming. I cannot emphasize much that how important it is
+that you master the technique of functions well and not to mention function
+pointers which can do the magic. I will show you the very glimpse only. I can
+show you the way but walking on that is your job. It is upto you to do the
+actual work. I have kept things simple and minimal with a pupose. I do not want
+you to get bogged down with a thick and heavy book. All my examples are toy
+examples but you have seen things can get somehwat complex.
+
+We have already seen the special \texttt{main()} function.
+
+Given below are typical code for a function:
+
+\begin{Verbatim}[frame=single]
+//function prototype
+return-type function-name(argument list); //here varible names may be ommitted
+
+//function body
+return-type function-name(argument list) //variable names cannot be ommitted``
+{
+  //your code here
+
+  //call some other function
+  function-name(arugment-list-without-type);
+
+  return value-of-return-type;
+}
+\end{Verbatim}
+This might be a bit abstract but please bear it a bit.
+
+\section{Pass by Value}
+
+Consider a program which adds two numbers and let us say that you may need to
+add lots of them.
+
+\begin{minted}[frame=single]{c}
+#include <stdio.h>
+
+void add(int first_integer, int second_integer)
+{
+  printf("%d+%d=%d\n", first_integer, second_integer, first_integer + second_integer);
+}
+
+int main()
+{
+  int a=5, b=7;
+
+  add(a, b);
+
+  return 0;
+}
+\end{minted}
+Note that you need function body before its use else you need at least a
+function prototype before use. If you do not do so you will get a compiler
+warnign. An example is given below:
+
+\begin{minted}[frame=single]{c}
+#include <stdio.h>
+
+//not how argument names are not required
+void add(int, int);
+
+int main()
+{
+  int a=5, b=7;
+
+  add(a, b);
+
+  return 0;
+}
+
+void add(int first_integer, int second_integer)
+{
+  printf("%d+%d=%d\n", first_integer, second_integer, first_integer + second_integer);
+}
+\end{minted}
+output is same as above.
+
+When a function is called a stack frame is created for that function. The
+control is passed to that function. When a return statement is encountered or
+end of that function is reached, the function returns. The local variables of
+the caller function are saved on stack and thus their value is restored from
+that value unless the address of those variables are passed.
+
+What you have seen just above is known as pass-by-value. In this case a copy of
+parameters is made and passed on to called function by caller function. So, if
+called function makes a change to values then those are not reflected back in
+the caller function. As an example I will use famous example of swapping values
+of two variables. First, I will show how pass-by-value works. So here is the
+code:
+
+\begin{minted}[frame=single]{c}
+#include <stdio.h>
+
+void swap(int, int);
+
+int main()
+{
+  int a=5, b=7;
+
+  printf("Before swap a=%d and b=%d\n", a, b);
+  swap(a, b);
+  printf("After swap a=%d and b=%d\n", a, b);
+
+  return 0;
+}
+
+void swap(int first_integer, int second_integer)
+{
+  int temp=first_integer;
+  first_integer=second_integer;
+  second_integer=temp;
+}
+\end{minted}
+and the output is:
+\\\\\texttt{Before swap a=5 and b=7\\
+After swap a=5 and b=7}
+
+\section{Pass by Address}
+\label{section:Pass by address}
+The output of previous program was not exactly what we wanted. The solution is
+to pass-by-address. When you the address to a called function, it receives
+address in a pointer variable. Then if it modifies the value stored at that
+address then it is reflected back in the caller. Let us see an example to
+understand:
+
+\begin{minted}[frame=single]{c}
+#include <stdio.h>
+
+void swap(int*, int*);
+
+int main()
+{
+  int a=5, b=7;
+
+  printf("Before swap a=%d and b=%d\n", a, b);
+  swap(&a, &b);
+  printf("After swap a=%d and b=%d\n", a, b);
+
+  return 0;
+}
+
+void swap(int* first_int, int* second_int)
+{
+  int temp=*first_int;
+  *first_int=*second_int;
+  *second_int=temp;
+}
+\end{minted}
+and the output is:
+\\\\\texttt{Before swap a=5 and b=7\\
+After swap a=7 and b=5\\\\}
+When you pass address of a variable the change is maintained at that address
+and thus when the control is returned the values are changed.
+
+\section{Passing Arrays}
+Arrays are always passed by address because if they are passed by value then
+they will eat upprevious real-estate of little stack memory. Now since they
+are passed by address by default base address of the array is passed. This
+also implied that changes made to the array by the called function will be
+reflected in caller after the call is complete. Passing arrays around various
+functions is easy but requires extra piece of information to be sent to the
+called function from column because the when an array is passed it is always
+passed as a pointer or in other words the array becomes a pointer. Thus you
+need to pass the length of array if you want the
+called function to iterate or traverse over the array. Given below is a simple
+example demonstrating this:
+
+\begin{minted}[frame=single]{c}
+#include <stdio.h>
+
+void f(int *a, int n)
+{
+  for(size_t i=0; i<n; ++i)
+    printf("%d\n", a[i]);
+}
+
+int main()
+{
+  int a[10]={0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+ 
+  f(a, 10);
+  
+  return 0;
+}
+\end{minted}
+
+and the output is easy to guess. The program prints 0 through 9, each on a
+separate line.
+
+However, this is not the only way to send an array to function. The other
+solution could be to send start and end element as pointer. Since we are
+already sending first element as pointer if we have end element's address we
+can iterate over the array with ease. This is demonstrated in the next
+program:
+
+\begin{minted}[frame=single]{c}
+#include <stdio.h>
+
+void f(int *a, int *end )
+{
+  for(int *p=a; p!=end; ++p)
+    printf("%d\n", *p);
+  printf("%d\n", *end);
+}
+
+int main()
+{
+  int a[10]={0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+ 
+  f(a, &a[9]);
+  
+  return 0;
+}
+\end{minted}
+Note that we need to print last element separately because loop will not
+execute its code for the last element. This is cumbersome but does equivalent
+work as the previous program.
+
+However, passing two dimensional array is different. If you want to pass an
+array of the form \texttt{a[m][n]} then it would be passed as \texttt{int
+  (*)[n]}. Thus passing is not that you will pass \texttt{int **}. Following
+code shows how to pass and print a two dimensional array:
+
+\begin{minted}[frame=single]{c}
+void f(int a[][2], unsigned int fd, unsigned int sd)
+{
+  for(unsigned int i=0; i<fd; ++i)
+  {
+    for(unsigned int j=0; j<sd; ++j)
+    {
+      printf("%d ", a[i][j]);
+    }
+    printf("\n");
+  }
+}
+
+int main()
+{
+  int a[5][2]={{0, 1}, {2, 3}, {4, 5}, {6, 7}, {8, 9}};
+ 
+  f(a, 5, 2);
+  
+  return 0;
+}
+\end{minted}
+and the output is:
+\\\\\texttt{0 1\\
+2 3\\
+4 5\\
+6 7\\
+8 9\\
+\\\\}
+Note that array type changes to \texttt{int (*)[2]}, similarly an array of form
+\texttt{a[l][m][n]} will change its type to \texttt{int (*)[m][n]}.
+
+We have already seen pass by address but what if we want to pass to pointers
+and change the pointer itself. In the example shown in the
+\autoref{section:Pass by address} \nameref{section:Pass by address} we have two
+variables on stack whose addresses were passed and the values were swapped
+which was contained on those addresses. Can we extrapolate this to change
+addresses themselves. Let us see an example:
+
+\begin{minted}[frame=single]{c}
+#include <stdio.h>
+
+void f(int *p, int *q)
+{
+  int *temp = p;
+
+  p = q;
+  q = temp;
+}
+
+int main()
+{
+  int i=5, j=10;
+  int *p=&i, *q=&j;
+
+  f(p, q);
+
+  printf("%d %d\n", *p, *q);
+  return 0;
+}
+\end{minted}
+and the output is:
+\\\\\texttt{5 10\\\\}
+Now as we say the pointers are still pointing to original values. The reason is
+because when we call function \texttt{f} and pass addresses of \texttt{i} and
+\texttt{j} then a copy of those addresses are sent. If we want to swap the
+values by swapping pointers then we have to send addresses of pointers. The
+program is shown below:
+
+\begin{minted}[frame=single]{c}
+#include <stdio.h>
+
+void f(int **p, int **q)
+{
+  int *temp = *p;
+
+  *p = *q;
+  *q = temp;
+}
+
+int main()
+{
+  int i=5, j=10;
+  int *p=&i, *q=&j;
+
+  f(&p, &q);
+
+  printf("%d %d\n", *p, *q);
+  return 0;
+}
+\end{minted}
+
+Now since the pointers themselves are swapped it is easy to guess the output
+and it is \texttt{10 5}. Notice since we are sending addresses of pointers we
+have to receive them using pointer to pointer syntax.
+
+\section{Recursion}
+In C recusion is the concept of a function calling itself. When a repeated
+operation has to be preformed over a variable, recursion can be used. Recursion
+simplifies the code a lot. Typically there is always a more effective iterative
+solutions are available but there are certain cases where recursion is always
+better than iteration. For example, traversal of trees where iteration is not
+so effective as compared to recursion. For beginners it is hard to understand
+recursion but once you understand it then it is not that hard to
+understand. The first example I am going to give is that of factorials. The
+formula for factorial is given by $n!=\prod_{k=1}^{n}i$  and recursive
+definition of factorial is given by:
+
+$$\begin{array}{rl}n!=\left\{\begin{array}{ll}1&\hspace{1em}\text{if
+    n=0}\\[4pt](n-1)!\ast n&\hspace{1em}\text{if
+    n>0}\end{array}\right.\end{array}$$
+
+Note that every recursion has to be written carefully in thse sense that it
+must have a termination condition and that in all the cases the termination
+condition must be reached. If a recursion is too deep or infinite there will be
+a stack overlow and the program will terminate. First, I will show you an
+iterative version with a function. Let us try to compute factorial of an
+integer:
+
+\begin{minted}[frame=single]{c}
+#include <stdio.h>
+
+long long fact(int input);
+
+int main()
+{
+  int input=0;
+
+  printf("Enter a number whose input has to be computed:\n");
+  scanf("%d", &input);
+
+  printf("Factorial of %d is %lld.\n", input, fact(input));
+
+  return 0;
+}
+
+long long fact(int input)
+{
+  long long output=1;
+  while(input!=0)
+  {
+    output*=input;
+    input--;
+  }
+
+  return output;
+}
+\end{minted}
+and the output is:
+\\\\\texttt{Enter a number whose factorial has to be computed:\\
+17\\
+Factorial of 17 is 355687428096000.\\\\}
+Now we will see the recursive version:
+
+\begin{minted}[frame=single]{c}
+#include <stdio.h>
+
+long long fact(int input);
+
+int main()
+{
+  int input=0;
+
+  printf("Enter a number whose factorial has to be computed:\n");
+  scanf("%d", &input);
+
+  printf("Factorial of %d is %lld.\n", input, fact(input));
+
+  return 0;
+}
+
+long long fact(int input)
+{
+  if(input==0)
+    return 1;
+  else
+    return fact(input-1)*input;
+}
+\end{minted}
+and the output is:
+\\\\\texttt{Enter a number whose factorial has to be computed:\\
+16\\
+Factorial of 16 is 20922789888000.\\\\}
+Recursion is very simple yet may be very deceptive to understand for
+beginners. Let us dissect the code. Our input was 16 so \texttt{input} will not
+match and \texttt{return fact(15)*16;} will be executed. Here, before
+\texttt{fact(16)} can return \texttt{fact(15)} has to return. And, similarly
+before \texttt{fact(15)} can return \texttt{fact(14)} has to return. Now, note
+that for \texttt{fact(0)} there is no such condition and it can return 1 making
+it possible for \texttt{fact(1)} to return, which, in turn will make it posible
+for \texttt{fact(2)} to return and so on. So, what is happening is function is
+calling itself by creating more and more function frames and when the
+termination condition reaches the stack unwinds.
+
+Let us consider one more famous example for recursive function, that is of
+computing Fibonacci numbers. The Fibonacci series is given by:
+
+$$F_n = F_{n-1} + F_{n-2}$$
+
+where first two numebrs are given by:
+
+$$ F_0 = 0 \text{~and~} F_1 = 1$$ or
+$$ F_0 = 1 \text{~and~} F_1 = 1$$
+
+First, consider the iterative version:
